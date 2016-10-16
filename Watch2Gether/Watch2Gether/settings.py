@@ -31,12 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'videochat.apps.VideochatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party apps
+    'social.apps.django_app.default',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +66,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # Python Social Auth Context Processors
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -98,6 +106,33 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# OAuth backends
+# http://python-social-auth.readthedocs.io/en/latest/configuration/django.html#authentication-backends
+
+AUTHENTICATION_BACKENDS = (
+    # Social OAuth
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+# OAuth keys
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '705222363656-5ng8t00km43m9autga4sdc4jrn5sjm0q.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YktK-5yt8HRlmwUe0acfBXDz'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1798770117036103'
+SOCIAL_AUTH_FACEBOOK_SECRET = '8292bc09a6835e8d328cfcfbbf5706b8'
+
+SOCIAL_AUTH_TWITTER_KEY = '6rNAfPUpjGgJZkkWswOFWM2vR'
+SOCIAL_AUTH_TWITTER_SECRET = '8jAgdx8NArfD0w63Y7cehP880PEyxhbmbS1lpWK2vcgCkoYDYp'
+
+# OAuth globals
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 
 
 # Internationalization

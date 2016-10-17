@@ -4,5 +4,5 @@ def index(request):
     user = None
 
     if not request.user.is_authenticated:
-        HttpResponse("Please first login.")
+        return HttpResponse("Please first login.")
 

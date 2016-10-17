@@ -1,8 +1,13 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
+from . import models
+
+@login_required(login_url='/login/')
 def index(request):
-    user = None
+    if request.user.friendship is None:
+        models.Friendship(user=request.user).save()
 
-    if not request.user.is_authenticated:
-        return HttpResponse("Please first login.")
-
+    friendship_requests_list = request.user.friendship.getFriendshipRequests()
+    context = {'friendship_requests_list': friendship_requests_list}
+    return render(request, 'user/index.html', context)

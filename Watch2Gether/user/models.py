@@ -1,16 +1,14 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-class User(models.Model):
-    username = models.CharField(max_length = 200)
+class Friendship(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     friends = models.ManyToManyField("self")
 
-    def __str__(self):
-        return self.username
-
     def sendFriendshipRequest(self, user):
-        request = FriendshipRequest(sender=self, receiver=user)
+        request = FriendshipRequest(sender = self, receiver = user)
         request.save()
 
     def getFriendshipRequests(self):
@@ -25,12 +23,12 @@ class User(models.Model):
 
 class FriendshipRequest(models.Model):
     receiver = models.ForeignKey(
-        User, related_name='receiver', on_delete=models.CASCADE)
+        Friendship, related_name='receiver', on_delete=models.CASCADE)
 
     sender = models.ForeignKey(
-        User, related_name='sender', on_delete=models.CASCADE)
+        Friendship, related_name='sender', on_delete=models.CASCADE)
 
-    sent_date = models.DateTimeField('date sent', default=timezone.now())
+    sent_date = models.DateTimeField('date sent', default=timezone.now)
     accepted = models.BooleanField(default = False)
     rejected = models.BooleanField(default = False)
 

@@ -1,0 +1,9 @@
+{% if friendship_requests_list %}
+    <ul>
+    {% for request in friendship_requests_list %}
+        <li><a href="/user/{{ request.sender.username }}/">{{ request.sender.username }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You don't have any Friendship Requests yet.</p>
+{% endif %}

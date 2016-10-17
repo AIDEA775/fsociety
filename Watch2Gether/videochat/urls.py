@@ -4,7 +4,7 @@ from django.contrib.auth.views import logout
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.index, name='index'),
 
     # Python Social Auth URLs
     url('', include('social.apps.django_app.urls', namespace='social')),

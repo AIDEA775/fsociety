@@ -4,16 +4,32 @@
   <head>
     <meta charset="UTF-8" />
     <title>Sign-Up/Login Form</title>
-    <link rel="stylesheet" href="{% static 'videochat/css/normalize.css' %}" />
     <link rel='stylesheet' href="{% static 'videochat/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'videochat/css/bootstrap_social.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
   </head>
 
   <body>
     <div class="form">
+      <center>
+        <img src="{% static 'videochat/image/watch2gether.png' %}" alt="Mountain View" style="width:100px;height:100px;">
+        <br><br>
+        <form class="form-signin">
+          <a class="btn btn-block btn-social btn-google" href="{% url "social:begin" 'google-oauth2' %}" role="button">
+            <span class="fa fa-google"></span> Google</a>
+          <a class="btn btn-block btn-social btn-facebook" href="{% url "social:begin" 'facebook' %}" role="button">
+            <span class="fa fa-facebook"></span> Facebook</a>
+          <a class="btn btn-block btn-social btn-twitter" href="{% url "social:begin" 'twitter' %}" role="button">
+            <span class="fa fa-twitter"></span> Twitter</a>
+        </form>
+      </center>
+
+      <br>
       <ul class="tab-group">
         <li class="tab active"><a href="#login">Log In</a></li>
         <li class="tab"><a href="#signup">Sign Up</a></li>
       </ul>
+
 
       <div class="tab-content">
         <div id="login">
@@ -44,21 +60,7 @@
         </div>
 
         <div id="signup">
-          <h1>Sign Up or Select a SocialNetwork</h1>
-
-          <form class="form-signin">
-
-            <a class="col-md-2 btn btn-default" href="{% url "social:begin" 'google' %}" role="button">
-              <i class="fa fa-google fa-lg"></i><strong>Google</strong>
-            </a>
-            <a class="col-md-2 btn btn-default" href="{% url "social:begin" 'facebook' %}" role="button">
-              <i class="fa fa-facebook fa-lg"></i><strong>Facebook</strong>
-            </a>
-            <a class="col-md-2 btn btn-default" href="{% url "social:begin" 'twitter' %}" role="button">
-              <i class="fa fa-twitter fa-lg"></i><strong>Twitter</strong>
-            </a>
-
-          </form>
+          <h1>Sign Up</h1>
 
           <form action="/" method="post">
 

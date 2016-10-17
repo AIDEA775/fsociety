@@ -1,6 +1,8 @@
-# Ingeniería del Software I 2016 - FaMAF
-## Laboratorio
-##### Fsociety Team. Autores:
+# Software engineering I 2016 - FaMAF, UNC
+
+## Project: Video Chat
+
+##### Fsociety Team. Members:
 * Barraco, Ramiro
 * Curto, Agustín
 * Guignard, Mauricio
@@ -8,26 +10,25 @@
 
 ---
 ### Sprints:
-##### Usuarios
-* Crear un cuenta
-* Iniciar sesión
-* Añadir un amigo
-* Responder a una solicitud de amistad
+##### Users
+* Create an account
+* Login
+* Add a friend
+* Respond to friend request
 
-##### Subir video
-* Subir un video
-* Buscar un video
-* Eliminar un video
+##### Upload video
+* Upload a video
+* Search a video
+* Delete a video
 
-##### Ver videos
-* Ver un video (usuario sin amigos). Videos más vistos
-* Ver video de un amigo
-* Enviar un mensaje
+##### Watch videos
+* Watch a video (user without relationship requests accepted). Most viewed videos
+* Watch a friend's video
+* Post a comment
+
+#### Development process:
 
 
-#### Proceso de desarrollo:
-
-
-### Dependencias
+### Dependencies
 * Python 3
 * Django 1.10

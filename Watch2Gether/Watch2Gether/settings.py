@@ -107,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # OAuth backends
 # http://python-social-auth.readthedocs.io/en/latest/configuration/django.html#authentication-backends
 
@@ -116,12 +117,19 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.twitter.TwitterOAuth',
 
-    # Django
-    'django.contrib.auth.backends.ModelBackend',
+    # Our backend
+    'videochat.models.EmailBackend',
 )
 
 
+# Auth settings
+# https://docs.djangoproject.com/en/1.10/ref/settings/#login-url
+LOGIN_URL = 'index'
+AUTH_USER_MODEL = 'videochat.CustomUser'
+
+
 # OAuth keys
+# https://python-social-auth.readthedocs.io/en/latest/backends/index.html
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '705222363656-5ng8t00km43m9autga4sdc4jrn5sjm0q.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YktK-5yt8HRlmwUe0acfBXDz'
 
@@ -132,7 +140,8 @@ SOCIAL_AUTH_TWITTER_KEY = '6rNAfPUpjGgJZkkWswOFWM2vR'
 SOCIAL_AUTH_TWITTER_SECRET = '8jAgdx8NArfD0w63Y7cehP880PEyxhbmbS1lpWK2vcgCkoYDYp'
 
 # OAuth globals
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+# https://python-social-auth.readthedocs.io/en/latest/configuration/settings.html
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/home"
 
 
 # Internationalization
@@ -151,7 +160,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_ROOT = '/static/'
 
 STATIC_URL = '/static/'

@@ -7,11 +7,7 @@ from .models import Friendship, FriendshipRequest
 
 @login_required
 def index(request):
-    try:
-        user_friendship = request.user.friendship
-    except Friendship.DoesNotExist:
-        user_friendship = Friendship(user=request.user)
-        user_friendship.save()
+    user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
 
     friendship_requests_list = user_friendship.getFriendshipRequests()
     context = {'friendship_requests_list': friendship_requests_list}
@@ -19,11 +15,7 @@ def index(request):
 
 @login_required
 def friends(request):
-    try:
-        user_friendship = request.user.friendship
-    except Friendship.DoesNotExist:
-        user_friendship = Friendship(user=request.user)
-        user_friendship.save()
+    user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
 
     friendship_list = user_friendship.friends.all()
     context = {'friendship_list': friendship_list}
@@ -31,10 +23,11 @@ def friends(request):
 
 @login_required
 def friendship_accept(request):
+    user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
+
     try:
-        user_friendship = request.user.friendship
         friendship_request = user_friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
-    except (KeyError, FriendshipRequest.DoesNotExist):
+    except (KeyError, IndexError):
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.accept()
@@ -43,9 +36,11 @@ def friendship_accept(request):
 
 @login_required
 def friendship_reject(request):
+    user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
+
     try:
-        friendship_request = request.user.friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
-    except (KeyError, FriendshipRequest.DoesNotExist):
+        friendship_request = user_friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
+    except (KeyError, IndexError):
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.reject()

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Amigos de {{ request.user.username }}</title>
+        <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    </head>
+    <body>
+    {% if friendship_list %}
+        <h1>Relaciones de amistad</h1>
+
+        <table class="uk-table">
+        <tr>
+          <td><strong>Usuario</strong></td>
+        </tr>
+        {% for friend in friendship_list %}
+            <tr>
+              <td><a href="/user/{{ friend.user.username }}/">{{ friend.user.username }}</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No tienes ninguna relación de amistad. <a href="/user/list/">¿Te gustaría enviar una solicitud de amistad?</a></p>
+    {% endif %}
+    </body>
+</html>

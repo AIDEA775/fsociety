@@ -35,7 +35,8 @@ class FriendshipRequest(models.Model):
     rejected = models.BooleanField(default = False)
 
     def __str__(self):
-        return "<SENDER:{} RECEIVER:{}>".format(self.sender.username, self.receiver.username)
+        return "<SENDER:{} RECEIVER:{}>".format(self.sender.user.username,
+                                                self.receiver.user.username)
 
     def accept(self):
         self.accepted = True

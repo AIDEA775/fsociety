@@ -4,8 +4,8 @@ from django.conf import settings
 
 
 class Friendship(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    friends = models.ManyToManyField("self")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    friends = models.ManyToManyField("self", symmetrical = True)
 
     def sendFriendshipRequest(self, user):
         request = FriendshipRequest(sender = self, receiver = user)
@@ -18,7 +18,6 @@ class Friendship(models.Model):
 
     def addFriend(self, user):
         self.friends.add(user)
-        user.friends.add(self)
 
     def __str__(self):
         return "Friendship data from {}.".format(self.user.username)
@@ -26,12 +25,12 @@ class Friendship(models.Model):
 
 class FriendshipRequest(models.Model):
     receiver = models.ForeignKey(
-        Friendship, related_name='receiver', on_delete=models.CASCADE)
+        Friendship, related_name='receiver', on_delete = models.CASCADE)
 
     sender = models.ForeignKey(
-        Friendship, related_name='sender', on_delete=models.CASCADE)
+        Friendship, related_name='sender', on_delete = models.CASCADE)
 
-    sent_date = models.DateTimeField('date sent', default=timezone.now)
+    sent_date = models.DateTimeField('date sent', default = timezone.now)
     accepted = models.BooleanField(default = False)
     rejected = models.BooleanField(default = False)
 

@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Perfil de {{ request.user.username }}</title>
+        <title>Perfil de {{ request.user.first_name }} {{ request.user.last_name }}</title>
         <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
     </head>
     <body>
@@ -19,10 +19,10 @@
         </tr>
         {% for request in friendship_requests_list %}
             <tr>
-              <td><a href="/user/{{ request.sender.user.username }}/">{{ request.sender.user.username }}</a></td>
+              <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.first_name }} {{ request.sender.user.last_name }}</a></td>
               <td>{{ request.sent_date|date:"M d, Y f" }}</td>
-              <td><a href="{% url 'user:friendship_accept' %}?id={{ forloop.counter }}">Aceptar</td>
-              <td><a href="{% url 'user:friendship_reject' %}?id={{ forloop.counter }}">Rechazar</td>
+              <td><a href="{% url 'user:friendship_accept' %}?id={{ request.sender.user.id }}">Aceptar</a></td>
+              <td><a href="{% url 'user:friendship_reject' %}?id={{ request.sender.user.id }}">Rechazar</a></td>
             </tr>
         {% endfor %}
         </table>

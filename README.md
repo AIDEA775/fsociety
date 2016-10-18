@@ -31,4 +31,5 @@
 
 ### Dependencies
 * Python 3
+* python3-social-auth
 * Django 1.10

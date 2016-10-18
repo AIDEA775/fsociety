@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
-from .models import Friendship
+from .models import Friendship, FriendshipRequest
 
 @login_required
 def index(request):
@@ -26,3 +28,24 @@ def friends(request):
     friendship_list = user_friendship.friends.all()
     context = {'friendship_list': friendship_list}
     return render(request, 'user/friends.html', context)
+
+@login_required
+def friendship_accept(request):
+    try:
+        friendship_request = request.user.friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
+    except (KeyError, FriendshipRequest.DoesNotExist):
+        print("ERROR")
+        return HttpResponseRedirect(reverse('user:index'))
+
+    friendship_request.accept()
+    return HttpResponseRedirect(reverse('user:index'))
+
+@login_required
+def friendship_reject(request):
+    try:
+        friendship_request = request.user.friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
+    except (KeyError, FriendshipRequest.DoesNotExist):
+        return HttpResponseRedirect(reverse('user:index'))
+
+    friendship_request.reject()
+    return HttpResponseRedirect(reverse('user:index'))

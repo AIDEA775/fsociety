@@ -1,0 +1,47 @@
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+class Friendship(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    friends = models.ManyToManyField("self")
+
+    def sendFriendshipRequest(self, user):
+        request = FriendshipRequest(sender = self, receiver = user)
+        request.save()
+
+    def getFriendshipRequests(self):
+        requests = FriendshipRequest.objects.filter(
+            receiver = self, accepted = False, rejected = False)
+        return requests
+
+    def addFriend(self, user):
+        self.friends.add(user)
+        user.friends.add(self)
+
+    def __str__(self):
+        return "Friendship data from {}.".format(self.user.username)
+
+
+class FriendshipRequest(models.Model):
+    receiver = models.ForeignKey(
+        Friendship, related_name='receiver', on_delete=models.CASCADE)
+
+    sender = models.ForeignKey(
+        Friendship, related_name='sender', on_delete=models.CASCADE)
+
+    sent_date = models.DateTimeField('date sent', default=timezone.now)
+    accepted = models.BooleanField(default = False)
+    rejected = models.BooleanField(default = False)
+
+    def __str__(self):
+        return "<SENDER:{} RECEIVER:{}>".format(self.sender.username, self.receiver.username)
+
+    def accept(self):
+        self.accepted = True
+        self.save()
+
+    def reject(self):
+        self.rejected = True
+        self.save()

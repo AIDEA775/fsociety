@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Perfil de {{ request.user.username }}</title>
+        <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    </head>
+    <body>
+    {% if friendship_requests_list %}
+        <h1>Solicitudes de amistad</h1>
+
+        <table class="uk-table">
+        <tr>
+          <td><strong>Usuario</strong></td>
+          <td><strong>Fecha de envío de la solicitud</strong></td>
+          <td><strong>Aceptar solicitud</strong></td>
+          <td><strong>Rechazar solicitud</strong></td>
+        </tr>
+        {% for request in friendship_requests_list %}
+            <tr>
+              <td><a href="/user/{{ request.sender.user.username }}/">{{ request.sender.user.username }}</a></td>
+              <td>{{ request.sent_date|date:"M d, Y f" }}</td>
+              <td><a href="{% url 'user:friendship_accept' %}?id={{ forloop.counter }}">Aceptar</td>
+              <td><a href="{% url 'user:friendship_reject' %}?id={{ forloop.counter }}">Rechazar</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No tienes ninguna solicitud de amistad. <a href="/user/list/">¿Te gustaría enviar una?</a></p>
+    {% endif %}
+    <br/>
+    <p><a href="{% url 'user:friends' %}">Ver relaciones de amistad</a></p>
+    </body>
+</html>

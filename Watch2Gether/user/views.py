@@ -32,12 +32,13 @@ def friends(request):
 @login_required
 def friendship_accept(request):
     try:
-        friendship_request = request.user.friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
+        user_friendship = request.user.friendship
+        friendship_request = user_friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
     except (KeyError, FriendshipRequest.DoesNotExist):
-        print("ERROR")
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.accept()
+    user_friendship.addFriend(friendship_request.sender)
     return HttpResponseRedirect(reverse('user:index'))
 
 @login_required

@@ -20,6 +20,9 @@ class Friendship(models.Model):
         self.friends.add(user)
         user.friends.add(self)
 
+    def __str__(self):
+        return "Friendship data from {}.".format(self.user.username)
+
 
 class FriendshipRequest(models.Model):
     receiver = models.ForeignKey(
@@ -33,7 +36,7 @@ class FriendshipRequest(models.Model):
     rejected = models.BooleanField(default = False)
 
     def __str__(self):
-        return "<SENDER:{} RECEIVER:{}>".format(self.sender, self.receiver)
+        return "<SENDER:{} RECEIVER:{}>".format(self.sender.username, self.receiver.username)
 
     def accept(self):
         self.accepted = True

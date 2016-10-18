@@ -43,9 +43,7 @@ class FriendshipRequest(models.Model):
 
     sent_date = models.DateTimeField('date sent', default=timezone.now)
 
-    status = models.IntegerField(max_length=1,
-                                 choices=STATUS,
-                                 default=NEUTRAL)
+    status = models.IntegerField(choices=STATUS, default=NEUTRAL)
 
     def __str__(self):
         return "<SENDER:{} RECEIVER:{}>".format(self.sender.user.username,

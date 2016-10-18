@@ -13,7 +13,7 @@ class Friendship(models.Model):
 
     def getFriendshipRequests(self):
         requests = FriendshipRequest.objects.filter(
-            receiver = self, accepted = False, rejected = False)
+            receiver = self, status = FriendshipRequest.NEUTRAL)
         return requests
 
     def addFriend(self, user):
@@ -24,6 +24,16 @@ class Friendship(models.Model):
 
 
 class FriendshipRequest(models.Model):
+    NEUTRAL = 0
+    ACCEPTED = 1
+    REJECTED = 2
+
+    STATUS = (
+        (NEUTRAL, 'Neutral'),
+        (ACCEPTED, 'Accepted'),
+        (REJECTED, 'Rejected'),
+    )
+
     receiver = models.ForeignKey(
         Friendship, related_name='receiver', on_delete = models.CASCADE)
 
@@ -31,8 +41,10 @@ class FriendshipRequest(models.Model):
         Friendship, related_name='sender', on_delete = models.CASCADE)
 
     sent_date = models.DateTimeField('date sent', default = timezone.now)
-    accepted = models.BooleanField(default = False)
-    rejected = models.BooleanField(default = False)
+
+    status = models.CharField(max_length = 1,
+                              choices = STATUS,
+                              default = NEUTRAL)
 
     def __str__(self):
         return "<SENDER:{} RECEIVER:{}>".format(self.sender.user.username,
@@ -40,9 +52,9 @@ class FriendshipRequest(models.Model):
 
     def accept(self):
         self.receiver.addFriend(self.sender)
-        self.accepted = True
+        self.status = self.ACCEPTED
         self.save()
 
     def reject(self):
-        self.rejected = True
+        self.status = self.REJECTED
         self.save()

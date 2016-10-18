@@ -13,12 +13,14 @@
         <table class="uk-table">
         <tr>
           <td><strong>Usuario</strong></td>
+          <td><strong>Fecha de envío de la solicitud</strong></td>
           <td><strong>Aceptar solicitud</strong></td>
           <td><strong>Rechazar solicitud</strong></td>
         </tr>
         {% for request in friendship_requests_list %}
             <tr>
               <td><a href="/user/{{ request.sender.user.username }}/">{{ request.sender.user.username }}</a></td>
+              <td>{{ request.sent_date|date:"M d, Y f" }}</td>
               <td><a href="{% url 'user:friendship_accept' %}?id={{ forloop.counter }}">Aceptar</td>
               <td><a href="{% url 'user:friendship_reject' %}?id={{ forloop.counter }}">Rechazar</td>
             </tr>

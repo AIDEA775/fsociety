@@ -26,8 +26,8 @@ def friendship_accept(request):
     user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
 
     try:
-        friendship_request = user_friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
-    except (KeyError, IndexError):
+        friendship_request = user_friendship.getFriendshipRequests().get(id=request.GET['id'])
+    except (KeyError, FriendshipRequest.DoesNotExist):
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.accept()
@@ -39,8 +39,8 @@ def friendship_reject(request):
     user_friendship, _ = Friendship.objects.get_or_create(user=request.user)
 
     try:
-        friendship_request = user_friendship.getFriendshipRequests()[int(request.GET['id']) - 1]
-    except (KeyError, IndexError):
+        friendship_request = user_friendship.getFriendshipRequests().get(id=request.GET['id'])
+    except (KeyError, FriendshipRequest.DoesNotExist):
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.reject()

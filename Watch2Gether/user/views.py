@@ -31,7 +31,6 @@ def friendship_accept(request):
         return HttpResponseRedirect(reverse('user:index'))
 
     friendship_request.accept()
-    user_friendship.addFriend(friendship_request.sender)
     return HttpResponseRedirect(reverse('user:index'))
 
 @login_required

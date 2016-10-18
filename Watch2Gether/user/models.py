@@ -39,6 +39,7 @@ class FriendshipRequest(models.Model):
                                                 self.receiver.user.username)
 
     def accept(self):
+        self.receiver.addFriend(self.sender)
         self.accepted = True
         self.save()
 

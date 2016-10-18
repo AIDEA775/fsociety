@@ -5,7 +5,7 @@ from django.conf import settings
 
 class Friendship(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    friends = models.ManyToManyField("self", symmetrical = True)
+    friends = models.ManyToManyField("self")
 
     def sendFriendshipRequest(self, user):
         request = FriendshipRequest(sender = self, receiver = user)

@@ -27,5 +27,7 @@
     {% else %}
         <p>No tienes ninguna solicitud de amistad. <a href="/user/list/">¿Te gustaría enviar una?</a></p>
     {% endif %}
+    <br/>
+    <p><a href="{% url 'user:friends' %}">Ver relaciones de amistad</a></p>
     </body>
 </html>

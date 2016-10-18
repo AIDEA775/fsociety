@@ -4,17 +4,18 @@ from django.conf import settings
 
 
 class Friendship(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+
+    # ManyToManyField is assumed to be symmetrical
     friends = models.ManyToManyField("self")
 
     def sendFriendshipRequest(self, user):
-        request = FriendshipRequest(sender = self, receiver = user)
-        request.save()
+        FriendshipRequest.objects.create(sender=self, receiver=user)
 
     def getFriendshipRequests(self):
-        requests = FriendshipRequest.objects.filter(
-            receiver = self, status = FriendshipRequest.NEUTRAL)
-        return requests
+        return FriendshipRequest.objects.filter(
+            receiver=self, status=FriendshipRequest.NEUTRAL)
 
     def addFriend(self, user):
         self.friends.add(user)
@@ -35,16 +36,16 @@ class FriendshipRequest(models.Model):
     )
 
     receiver = models.ForeignKey(
-        Friendship, related_name='receiver', on_delete = models.CASCADE)
+        Friendship, related_name='receiver', on_delete=models.CASCADE)
 
     sender = models.ForeignKey(
-        Friendship, related_name='sender', on_delete = models.CASCADE)
+        Friendship, related_name='sender', on_delete=models.CASCADE)
 
-    sent_date = models.DateTimeField('date sent', default = timezone.now)
+    sent_date = models.DateTimeField('date sent', default=timezone.now)
 
-    status = models.CharField(max_length = 1,
-                              choices = STATUS,
-                              default = NEUTRAL)
+    status = models.IntegerField(max_length=1,
+                                 choices=STATUS,
+                                 default=NEUTRAL)
 
     def __str__(self):
         return "<SENDER:{} RECEIVER:{}>".format(self.sender.user.username,

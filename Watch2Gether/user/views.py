@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth import get_user_model
 
 from .models import FriendshipRequest
 
@@ -51,9 +50,9 @@ def friendship_reject(request):
 
 @login_required
 def list(request):
-    user_list = get_user_model().objects.exclude(username = request.user.username)
-    
-    context = {'user_list' : user_list}
+    users_list = get_user_model().objects.exclude(username=request.user.username)
+
+    context = {'users_list' : users_list}
     return render(request, 'user/list.html', context)
 
 

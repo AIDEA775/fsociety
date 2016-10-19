@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^friends/$', views.friends, name='friends'),
     url(r'^requests/accept$', views.friendship_accept, name='friendship_accept'),
     url(r'^requests/reject$', views.friendship_reject, name='friendship_reject'),
+    url(r'^list/$', views.list, name='list'),
 ]

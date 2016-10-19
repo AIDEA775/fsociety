@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Usuarios</title>
+        <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    </head>
+    <body>
+    {% if users_list %}
+
+        <table class="uk-table">
+        <tr>
+          <td><strong>Usuario</strong></td>
+        </tr>
+        {% for user in users_list %}
+            <tr>
+              <td><a href="/user/{{user.username }}/">{{ user.username }}</a></td>
+              <td><a href="{% url 'user:send_friendship_request' %}?id={{ forloop.counter }}">Enviar solicitud</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay usuarios registrados</p>
+    {% endif %}
+    </body>
+</html>

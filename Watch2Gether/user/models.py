@@ -9,7 +9,10 @@ class Friendship(models.Model):
 
     # ManyToManyField is assumed to be symmetrical
     friends = models.ManyToManyField("self")
-
+    
+    def getFriends(self):
+        return self.friends.all()    
+    
     def sendFriendshipRequest(self, user):
         FriendshipRequest.objects.create(sender=self, receiver=user)
 

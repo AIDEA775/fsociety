@@ -58,5 +58,9 @@ def list(request):
 
 @login_required
 def request_send(request):
-    request.user.friendship.sendFriendshipRequest()
+    try:
+        user = get_user_model().objects.get(id=request.GET['id'])
+        request.user.friendship.sendFriendshipRequest(user.friendship)
+    except (KeyError, FriendshipRequest.DoesNotExist):
+        return HttpResponseRedirect(reverse('user:list'))
     return HttpResponseRedirect(reverse('user:list'))

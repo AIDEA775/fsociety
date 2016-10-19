@@ -12,11 +12,12 @@
         <table class="uk-table">
         <tr>
           <td><strong>Usuario</strong></td>
+          <td></td>
         </tr>
         {% for user in users_list %}
             <tr>
-              <td><a href="/user/{{user.username }}/">{{ user.username }}</a></td>
-              <td><a href="{% url 'user:send_friendship_request' %}?id={{ forloop.counter }}">Enviar solicitud</a></td>
+              <td><a href="/user/{{ user.id }}/">{{ user.first_name }} {{ user.last_name }}</a></td>
+              <td><a href="{% url 'user:request_send' %}?id={{ user.id }}">Enviar solicitud</a></td>
             </tr>
         {% endfor %}
         </table>

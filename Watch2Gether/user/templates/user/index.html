@@ -21,8 +21,8 @@
             <tr>
               <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.first_name }} {{ request.sender.user.last_name }}</a></td>
               <td>{{ request.sent_date|date:"M d, Y f" }}</td>
-              <td><a href="{% url 'user:friendship_accept' %}?id={{ request.id }}">Aceptar</a></td>
-              <td><a href="{% url 'user:friendship_reject' %}?id={{ request.id }}">Rechazar</a></td>
+              <td><a href="{% url 'user:request_accept' %}?id={{ request.id }}">Aceptar</a></td>
+              <td><a href="{% url 'user:request_reject' %}?id={{ request.id }}">Rechazar</a></td>
             </tr>
         {% endfor %}
         </table>

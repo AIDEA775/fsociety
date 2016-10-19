@@ -6,7 +6,8 @@ app_name = 'user'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^friends/$', views.friends, name='friends'),
-    url(r'^requests/accept$', views.friendship_accept, name='friendship_accept'),
-    url(r'^requests/reject$', views.friendship_reject, name='friendship_reject'),
+    url(r'^requests/accept$', views.request_accept, name='request_accept'),
+    url(r'^requests/reject$', views.request_reject, name='request_reject'),
+    url(r'^requests/send$', views.request_send, name='request_send'),
     url(r'^list/$', views.list, name='list'),
 ]

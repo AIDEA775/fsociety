@@ -23,7 +23,7 @@ def friends(request):
 
 
 @login_required
-def friendship_accept(request):
+def request_accept(request):
     try:
         user_friendship = request.user.friendship
         friendship_request = \
@@ -36,7 +36,7 @@ def friendship_accept(request):
 
 
 @login_required
-def friendship_reject(request):
+def request_reject(request):
     try:
         user_friendship = request.user.friendship
         friendship_request = \
@@ -57,6 +57,6 @@ def list(request):
 
 
 @login_required
-def send_friendship_request(request):
+def request_send(request):
     request.user.friendship.sendFriendshipRequest()
     return HttpResponseRedirect(reverse('user:list'))

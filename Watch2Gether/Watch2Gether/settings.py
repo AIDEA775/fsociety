@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'videochat.apps.VideochatConfig',
+    'login.apps.LoginConfig',
     'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -119,14 +119,14 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
 
     # Our backend
-    'videochat.models.EmailBackend',
+    'login.models.EmailBackend',
 )
 
 
 # Auth settings
 # https://docs.djangoproject.com/en/1.10/ref/settings/#login-url
 LOGIN_URL = 'index'
-AUTH_USER_MODEL = 'videochat.CustomUser'
+AUTH_USER_MODEL = 'login.CustomUser'
 
 
 # OAuth keys

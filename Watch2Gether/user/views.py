@@ -10,7 +10,7 @@ from .models import FriendshipRequest
 
 @login_required
 def index(request):
-    friendship_requests_list = request.user.friendship.getFriendshipRequests()
+    friendship_requests_list = request.user.friendship.get_pending_requests()
     context = {'friendship_requests_list': friendship_requests_list}
     return render(request, 'user/index.html', context)
 
@@ -27,7 +27,7 @@ def request_accept(request):
     try:
         user_friendship = request.user.friendship
         friendship_request = \
-            user_friendship.getFriendshipRequests().get(id=request.GET['id'])
+            user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
         return HttpResponseRedirect(reverse('user:index'))
 
@@ -40,7 +40,7 @@ def request_reject(request):
     try:
         user_friendship = request.user.friendship
         friendship_request = \
-            user_friendship.getFriendshipRequests().get(id=request.GET['id'])
+            user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
         return HttpResponseRedirect(reverse('user:index'))
 
@@ -50,9 +50,9 @@ def request_reject(request):
 
 @login_required
 def list(request):
-    users_list = get_user_model().objects.exclude(username=request.user.username)
+    users_list = get_user_model().objects.exclude(pk=request.user.pk)
 
-    context = {'users_list' : users_list}
+    context = {'users_list': users_list}
     return render(request, 'user/list.html', context)
 
 
@@ -60,7 +60,7 @@ def list(request):
 def request_send(request):
     try:
         user = get_user_model().objects.get(id=request.GET['id'])
-        request.user.friendship.sendFriendshipRequest(user.friendship)
+        request.user.friendship.send_request(user.friendship)
     except (KeyError, FriendshipRequest.DoesNotExist):
         return HttpResponseRedirect(reverse('user:list'))
     return HttpResponseRedirect(reverse('user:list'))

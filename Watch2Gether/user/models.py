@@ -9,18 +9,18 @@ class Friendship(models.Model):
 
     # ManyToManyField is assumed to be symmetrical
     friends = models.ManyToManyField("self")
-    
-    def getFriends(self):
-        return self.friends.all()    
-    
-    def sendFriendshipRequest(self, user):
+
+    def get_friends(self):
+        return self.friends.all()
+
+    def send_request(self, user):
         FriendshipRequest.objects.create(sender=self, receiver=user)
 
-    def getFriendshipRequests(self):
+    def get_pending_requests(self):
         return FriendshipRequest.objects.filter(
-            receiver=self, status=FriendshipRequest.NEUTRAL)
+            receiver=self, status=FriendshipRequest.PENDING)
 
-    def addFriend(self, user):
+    def add_friend(self, user):
         self.friends.add(user)
 
     def __str__(self):
@@ -28,12 +28,12 @@ class Friendship(models.Model):
 
 
 class FriendshipRequest(models.Model):
-    NEUTRAL = 0
+    PENDING = 0
     ACCEPTED = 1
     REJECTED = 2
 
     STATUS = (
-        (NEUTRAL, 'Neutral'),
+        (PENDING, 'Pending'),
         (ACCEPTED, 'Accepted'),
         (REJECTED, 'Rejected'),
     )
@@ -46,14 +46,14 @@ class FriendshipRequest(models.Model):
 
     sent_date = models.DateTimeField('date sent', default=timezone.now)
 
-    status = models.IntegerField(choices=STATUS, default=NEUTRAL)
+    status = models.IntegerField(choices=STATUS, default=PENDING)
 
     def __str__(self):
         return "<SENDER:{} RECEIVER:{}>".format(self.sender.user.username,
                                                 self.receiver.user.username)
 
     def accept(self):
-        self.receiver.addFriend(self.sender)
+        self.receiver.add_friend(self.sender)
         self.status = self.ACCEPTED
         self.save()
 

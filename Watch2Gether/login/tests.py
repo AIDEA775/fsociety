@@ -4,7 +4,8 @@ from django.db.utils import IntegrityError
 from .models import CustomUser
 
 def signup(username, email, password):
-    CustomUser.objects.create_user(username, email, password)
+    CustomUser.objects.create_user(username, email, password,
+        first_name="first", last_name="last")
 
 class LoginUser(TestCase):
     def test_login_user_and_test_home_page(self):
@@ -37,3 +38,15 @@ class LoginUser(TestCase):
             self.fail('Two user saved!')
         except IntegrityError:
             pass
+
+    def test_count_user_signup(self):
+        """
+        Create many user and check counter.
+        """
+        self.assertEqual(CustomUser.objects.count(), 0)
+        signup("username", "user@user.com", "password")
+        self.assertEqual(CustomUser.objects.count(), 1)
+        signup("username1", "user1@user.com", "password")
+        self.assertEqual(CustomUser.objects.count(), 2)
+        signup("username2", "user2@user.com", "password")
+        self.assertEqual(CustomUser.objects.count(), 3)

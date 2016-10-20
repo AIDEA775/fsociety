@@ -119,7 +119,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
 
     # Our backend
-    'login.models.EmailBackend',
+    'login.backend.UsernameOrEmailBackend',
 )
 
 

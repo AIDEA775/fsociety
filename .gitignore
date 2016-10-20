@@ -93,3 +93,6 @@ ENV/
 
 # SQLite
 db.*
+
+# Videos
+.mp4

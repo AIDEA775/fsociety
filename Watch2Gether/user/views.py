@@ -50,9 +50,19 @@ def request_reject(request):
 
 @login_required
 def list(request):
+    my_friendship = request.user.friendship
     users_list = get_user_model().objects.exclude(pk=request.user.pk)
 
-    context = {'users_list': users_list}
+    user_status = []
+    for user in users_list:
+        if user.friendship in my_friendship.get_friends():
+            user_status.append((user, 'friends'))
+        elif user.friendship.get_pending_requests(from_user=my_friendship):
+            user_status.append((user, 'already_sent_request'))
+        else:
+            user_status.append((user, 'allow_send_request'))
+
+    context = {'user_status': user_status}
     return render(request, 'user/list.html', context)
 
 

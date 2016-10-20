@@ -7,22 +7,30 @@
         <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
     </head>
     <body>
-    {% if users_list %}
+    {% if user_status %}
 
         <table class="uk-table">
         <tr>
           <td><strong>Usuario</strong></td>
           <td></td>
         </tr>
-        {% for user in users_list %}
+        {% for user, status in user_status %}
             <tr>
               <td><a href="/user/{{ user.id }}/">{{ user.get_full_name }}</a></td>
-              <td><a href="{% url 'user:request_send' %}?id={{ user.id }}">Enviar solicitud</a></td>
+              <td>
+                  {% if status == 'friends' %}
+                    Ya son amigos
+                  {% elif status == 'already_sent_request' %}
+                    Solicitud enviada
+                  {% else %}
+                    <a href="{% url 'user:request_send' %}?id={{ user.id }}">Enviar solicitud</a>
+                  {% endif %}
+              </td>
             </tr>
         {% endfor %}
         </table>
     {% else %}
-        <p>No hay usuarios registrados</p>
+        <p>No hay otros usuarios registrados</p>
     {% endif %}
     </body>
 </html>

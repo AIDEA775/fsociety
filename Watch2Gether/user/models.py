@@ -18,7 +18,7 @@ class Friendship(models.Model):
                 receiver=self, status=FriendshipRequest.PENDING)
 
         if from_user:
-            result.filter(sender=from_user)
+            result = result.filter(sender=from_user)
 
         return result
 

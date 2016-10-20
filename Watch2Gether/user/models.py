@@ -13,12 +13,19 @@ class Friendship(models.Model):
     def get_friends(self):
         return self.friends.all()
 
-    def send_request(self, user):
-        FriendshipRequest.objects.create(sender=self, receiver=user)
+    def get_pending_requests(self, from_user=None):
+        result = FriendshipRequest.objects.filter(
+                receiver=self, status=FriendshipRequest.PENDING)
 
-    def get_pending_requests(self):
-        return FriendshipRequest.objects.filter(
-            receiver=self, status=FriendshipRequest.PENDING)
+        if from_user:
+            result.filter(sender=from_user)
+
+        return result
+
+    def send_request(self, user):
+        if user not in self.get_friends() \
+                and not user.get_pending_requests(from_user=self):
+            FriendshipRequest.objects.create(sender=self, receiver=user)
 
     def add_friend(self, user):
         self.friends.add(user)

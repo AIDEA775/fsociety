@@ -1,0 +1,23 @@
+
+
+{% block head %}
+  <title>Results for {{key}}</title>
+{% endblock %}
+
+{% block content %}
+  {% if users_results %}
+      {% for user in users_results %}
+          <p> {{user.get_full_name}} </p>
+      {% endfor %}
+  {% else %}
+      <p> No users found </p>
+  {% endif %}
+
+  {% if videos_results %}
+      {% for video in video_results %}
+          <p> {{video.get_name}} </p>
+      {% endfor %}
+  {% else %}
+      <p> No videos found </p>
+  {% endif %}
+{% endblock %}

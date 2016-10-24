@@ -2,50 +2,46 @@
 {% load static %}
 
 {% block head %}
-<title>Login in Watch2Gether</title>
-<link rel="stylesheet" href="{% static 'login/css/bootstrap_social.css' %}" />
+    <title>Login in Watch2Gether</title>
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}" />
 {% endblock head %}
 
 {% block content %}
 
 <div class="center-flex">
-  <div>
-    <img class="fit" src="{% static 'login/image/coolImage.png' %}" alt="Mountain View">
-  </div>
-  <div class="login-page">
-    <div class="form">
-      <h3>Welcome to Watch2Gether</h3>
-      <br>
+    <img class="bg" src="{% static 'login/image/coolImage.png' %}" alt="Mountain View" />
+    <div id="login-form">
+        <h3>Welcome to Watch2Gether</h3>
 
-      <div class="social-buttons">
-          <a class="btn btn-social btn-sm btn-google" href="{% url "login:social:begin" 'google-oauth2' %}" role="button">
-            <span class="fa fa-google"></span>Sign in with Google</a>
-          <a class="btn btn-social btn-sm btn-facebook" href="{% url "login:social:begin" 'facebook' %}" role="button">
-            <span class="fa fa-facebook"></span>Sign in with Facebook</a>
-          <a class="btn btn-social btn-sm btn-twitter" href="{% url "login:social:begin" 'twitter' %}" role="button">
-            <span class="fa fa-twitter"></span>Sign in with Twitter</a>
-      </div>
-      <div class="strike message"><span>or</span></div>
-      <br>
+        <div class="social-buttons">
+            <a class="btn btn-google" href="{% url "login:social:begin" 'google-oauth2' %}" role="button">
+                <span class="fa fa-google"></span>Sign in with Google</a>
+            <a class="btn btn-facebook" href="{% url "login:social:begin" 'facebook' %}" role="button">
+                <span class="fa fa-facebook"></span>Sign in with Facebook</a>
+            <a class="btn btn-twitter" href="{% url "login:social:begin" 'twitter' %}" role="button">
+                <span class="fa fa-twitter"></span>Sign in with Twitter</a>
+        </div>
 
-      <form class="register-form"action="{% url 'login:signup' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="first_name" placeholder="first name"/>
-        <input type="text" name="last_name" placeholder="last name"/>
-        <input type="text" name="email" placeholder="email address"/>
-        <input type="password" name="password" placeholder="password"/>
-        <button>create</button>
-        <p class="message">Already registered? <a href="#">Sign In</a></p>
-      </form>
-      <form class="login-form"action="{% url 'login:login' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="email or username"/>
-        <input type="password" name="password" placeholder="password"/>
-        <button>login</button>
-        <p class="message">Not registered? <a href="#">Create an account</a></p>
-      </form>
+        <div class="strike-message"><span>or</span></div>
+
+        <form class="register-form" action="{% url 'login:signup' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="First Name"/>
+            <input type="text" name="last_name" placeholder="Last Name"/>
+            <input type="text" name="email" placeholder="Email Address"/>
+            <input type="password" name="password" placeholder="Password"/>
+            <button class="btn">Sign Up</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+
+        <form class="login-form" action="{% url 'login:login' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Email or Username"/>
+            <input type="password" name="password" placeholder="Password"/>
+            <button class="btn">Log in</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
     </div>
-  </div>
 </div>
 
 <script src="{% static 'login/js/index.js' %}"></script>

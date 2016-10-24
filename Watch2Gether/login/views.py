@@ -7,7 +7,7 @@ from login.models import CustomUser
 def index(request):
     """Index view, displays login mechanism"""
     if request.user.is_authenticated:
-        return redirect('user:home')
+        return redirect('user:index')
     else:
         return render(request, "login/index.html")
 
@@ -19,7 +19,7 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         auth_login(request, user)
-        return redirect('user:home')
+        return redirect('user:index')
     else:
         return redirect('login:index')
 
@@ -38,7 +38,7 @@ def signup(request):
             # All okay
             user = authenticate(username=email, password=password)
             auth_login(request, user)
-            return redirect('user:home')
+            return redirect('user:index')
         except IntegrityError:
             # Email is already in use
             return redirect('login:index')

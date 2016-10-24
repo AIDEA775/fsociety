@@ -8,10 +8,10 @@ from .models import FriendshipRequest
 
 
 @login_required
-def home(request):
+def index(request):
     friendship_requests_list = request.user.friendship.get_pending_requests()
     context = {'friendship_requests_list': friendship_requests_list}
-    return render(request, 'user/home.html', context)
+    return render(request, 'user/index.html', context)
 
 
 @login_required

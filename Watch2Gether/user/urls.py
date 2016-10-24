@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'user'
 urlpatterns = [
-    url(r'^home/$', views.home, name='home'),
+    url(r'^$', views.index, name='index'),
     url(r'^friends/$', views.friends, name='friends'),
     url(r'^requests/accept$', views.request_accept, name='request_accept'),
     url(r'^requests/reject$', views.request_reject, name='request_reject'),

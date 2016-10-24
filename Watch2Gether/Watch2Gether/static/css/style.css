@@ -1,213 +1,154 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 body {
-  background: #f9f9f9;
-/*  background: -webkit-linear-gradient(right, #ffebee, #f9f9f9);
-  background: -moz-linear-gradient(right, #ffebee, #f9f9f9);
-  background: -o-linear-gradient(right, #ffebee, #f9f9f9);
-  background: linear-gradient(to left, #ffebee, #f9f9f9);*/
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding: 60px 0 0 0;
-}
-.center-flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width:100%;
-  max-height:100%;
-  overflow:visible;
+    font-family: 'Roboto', sans-serif;
+    color: #444;
+    background: #f9f9f9;
+    padding-top: 60px;
 }
 
-.social-buttons {
-  display: flex;
-  flex-direction: column;
-}
-.btn {
-  flex:  1 1 auto;
-  display: inline-block;
-  padding: 5px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  background-image: none;
-  border-radius: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-/* http://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-hr-like-line */
-.strike {
-  display: block;
-  text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
+#header-container {
+    width:100%;
+    position:fixed;
+    top:0;
+    background: white;
 }
 
-.strike > span {
-  position: relative;
-  display: inline-block;
-}
-
-.strike > span:before,
-.strike > span:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 9999px;
-  height: 1px;
-  background: #808080;
-}
-
-.strike > span:before {
-  right: 100%;
-  margin-right: 15px;
-}
-
-.strike > span:after {
-  left: 100%;
-  margin-left: 15px;
-}
-.fit {
-  max-width: 90%;
-  max-height: 90%;
-}
-.login-page {
-  width: 360px;
-  margin-top: auto;
-  margin-bottom: 40px;
-  margin-left: 10%;
-}
-.form {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
-  padding: 20px 30px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #BA68C8;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: #AB47BC;
-}
-.form .message {
-  margin: 15px 0 0;
-  color: #808080;
-  font-size: 12px;
-}
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
-}
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
-  text-decoration: none;
-}
-.container .info span .fa {
-  color: #EF3B3A;
-}
-
-/* top bar */
 #header {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  padding: 0 10px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 30px;
 }
-#header-wrap {
-  width: 100%;
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:60px;
-  background-color: #ffffff;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+#header-logo {
+    float: left;
+    color: #1D8ACB;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
 }
-.right {
-  float:right;
+
+#header-logo .logo-gether {
+    margin-left: 2px;
+    text-transform: none;
+    display: inline-block;
 }
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+
+#header-user {
+    float: right;
+    margin-left: 10px;
+    height: 30px;
 }
-li {
-  float: left;
+
+#header-upload {
+    float: left;
+    margin-right: 20px;
 }
-li a {
-  display: block;
-  color: #212121;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+
+#notification-container {
+    display: inline-block;
+    margin-right: 10px;
 }
-li a:hover:not(.active) {
-  background-color: #BA68C8;
-  color: white;
+
+#header-notification-bell {
+    float:left;
+    width: 21px;
+    height: 30px;
+    background: no-repeat url('../images/bell.png') 0 0;
+    border: 0;
+    padding: 0;
 }
-.active {
-  background-color: #AB47BC;
+
+#header-notification-bell.active {
+    background-position-x: -21px;
+    position: relative;
+}
+
+#header-notification-bell.active span {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    background: red;
+    padding: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    position: absolute;
+    top: -10%;
+    left: 40%;
+}
+
+#header-account-container {
+    display: inline-block;
+}
+
+#header-account {
+    float: left;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+}
+
+#user-profile-image {
+    display: inline-block;
+}
+
+#header-search-bar {
+    overflow: hidden;
+    max-width: 650px;
+    border: 2px solid #e6e6e6;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+
+#header-search-bar:hover {
+    border-color: #a6a6a6;
+    transition: 0.5s;
+    color: #444 !important;
+}
+
+#search-button {
+    font-size: 16px;
+    color: #a6a6a6;
+    float: right;
+    height: 26px;
+    background: transparent;
+    border: 0;
+    width: 40px;
+}
+
+#search-button:hover, #search-button:active {
+    color: #666666;
+}
+
+#header-search-term-container {
+    overflow: hidden;
+}
+
+#header-search-term {
+    border: 0;
+    height: 24px;
+    background: transparent;
+    padding-left: 15px;
+    width: 100%;
+}
+
+#content-wrapper {
+    padding: 0 20px;
+}
+
+.site-button {
+    font-weight: bold;
+    background: #5a2ca0;
+    padding: 5px;
+    color: white;
+    margin-left: 2px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.site-button:hover, .site-button:active {
+    background: #442178;
+    color: white !important;
+    text-decoration: none !important;
 }

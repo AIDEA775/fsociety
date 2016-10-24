@@ -1,5 +1,6 @@
-from django import forms
+# Not used file
 
+#  from django import forms
 
-class DocumentForm(forms.Form):
-    docfile = forms.FileField(label='Select a file')
+# class DocumentForm(forms.Form):
+#    docfile = forms.FileField(label='Select a file')

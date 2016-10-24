@@ -16,9 +16,9 @@
     <div id="header" class="clear">
         <nav>
           <ul>
-            <li><a href="{% url 'user:index' %}"> {{user.get_full_name}}</a></li>
-            <li><a href="{% url 'home' %}">@Wath2Gether</a></li>
-            <li class="right"><a href="{% url 'user-logout' %}" class="fa fa-sign-out fa-lg" aria-hidden="true"></a></li>
+            <li><a href="{% url 'user:home' %}"> {{user.get_full_name}}</a></li>
+            <li><a href="{% url 'user:home' %}">@Wath2Gether</a></li>
+            <li class="right"><a href="{% url 'login:user-logout' %}" class="fa fa-sign-out fa-lg" aria-hidden="true"></a></li>
             <li class="right"><a class="fa fa-cog fa-lg" aria-hidden="true"></a></li>
             <li class="right"><a class="fa fa-users fa-lg" aria-hidden="true"></a></li>
           </lu>

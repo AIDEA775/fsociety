@@ -11,7 +11,7 @@ from .models import FriendshipRequest
 def home(request):
     friendship_requests_list = request.user.friendship.get_pending_requests()
     context = {'friendship_requests_list': friendship_requests_list}
-    return render(request, 'user/index.html', context)
+    return render(request, 'user/home.html', context)
 
 
 @login_required

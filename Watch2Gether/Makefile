@@ -15,6 +15,9 @@ shell:
 db:
 	$(PY) $(MAN) dbshell
 
+admin:
+	$(PY) $(MAN) createsuperuser
+
 .PHONY: clean
 
 clean:

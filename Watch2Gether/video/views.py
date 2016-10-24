@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 from .models import Document
 from .forms import DocumentForm
-from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -14,9 +14,8 @@ def list(request):
         if form.is_valid():
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
-
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('list'))
+            return HttpResponseRedirect(reverse('video:list'))
     else:
         form = DocumentForm()  # A empty, unbound form
 

@@ -58,7 +58,7 @@ body {
 }
 
 #header-notification-bell.active {
-    background-position-x: -21px;
+    background-position: -21px 0;
     position: relative;
 }
 

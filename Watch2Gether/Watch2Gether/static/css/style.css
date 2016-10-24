@@ -1,6 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
-html, body, .center-flex {
-    height: 100%; /* with 98 the scroll disappears ¿? */
+body {
+  background: #f9f9f9;
+/*  background: -webkit-linear-gradient(right, #ffebee, #f9f9f9);
+  background: -moz-linear-gradient(right, #ffebee, #f9f9f9);
+  background: -o-linear-gradient(right, #ffebee, #f9f9f9);
+  background: linear-gradient(to left, #ffebee, #f9f9f9);*/
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 60px 0 0 0;
 }
 .center-flex {
   display: flex;
@@ -8,7 +16,7 @@ html, body, .center-flex {
   justify-content: center;
   max-width:100%;
   max-height:100%;
-  overflow:auto;
+  overflow:visible;
 }
 
 .social-buttons {
@@ -67,11 +75,14 @@ html, body, .center-flex {
   left: 100%;
   margin-left: 15px;
 }
-
+.fit {
+  max-width: 90%;
+  max-height: 90%;
+}
 .login-page {
   width: 360px;
   margin-top: auto;
-  margin-bottom: auto;
+  margin-bottom: 40px;
   margin-left: 10%;
 }
 .form {
@@ -79,8 +90,7 @@ html, body, .center-flex {
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 40px;
+  padding: 20px 30px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
@@ -156,17 +166,6 @@ html, body, .center-flex {
 }
 .container .info span .fa {
   color: #EF3B3A;
-}
-body {
-  background: #f9f9f9;
-/*  background: -webkit-linear-gradient(right, #ffebee, #f9f9f9);
-  background: -moz-linear-gradient(right, #ffebee, #f9f9f9);
-  background: -o-linear-gradient(right, #ffebee, #f9f9f9);
-  background: linear-gradient(to left, #ffebee, #f9f9f9);*/
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-height: 10000px;
 }
 
 /* top bar */

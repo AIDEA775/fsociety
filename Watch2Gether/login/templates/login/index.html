@@ -18,17 +18,17 @@
       <br>
 
       <div class="social-buttons">
-          <a class="btn btn-social btn-sm btn-google" href="{% url "social:begin" 'google-oauth2' %}" role="button">
+          <a class="btn btn-social btn-sm btn-google" href="{% url "login:social:begin" 'google-oauth2' %}" role="button">
             <span class="fa fa-google"></span>Sign in with Google</a>
-          <a class="btn btn-social btn-sm btn-facebook" href="{% url "social:begin" 'facebook' %}" role="button">
+          <a class="btn btn-social btn-sm btn-facebook" href="{% url "login:social:begin" 'facebook' %}" role="button">
             <span class="fa fa-facebook"></span>Sign in with Facebook</a>
-          <a class="btn btn-social btn-sm btn-twitter" href="{% url "social:begin" 'twitter' %}" role="button">
+          <a class="btn btn-social btn-sm btn-twitter" href="{% url "login:social:begin" 'twitter' %}" role="button">
             <span class="fa fa-twitter"></span>Sign in with Twitter</a>
       </div>
       <div class="strike message"><span>or</span></div>
       <br>
 
-      <form class="register-form"action="{% url 'signup' %}" method="post">
+      <form class="register-form"action="{% url 'login:signup' %}" method="post">
         {% csrf_token %}
         <input type="text" name="first_name" placeholder="first name"/>
         <input type="text" name="last_name" placeholder="last name"/>
@@ -37,7 +37,7 @@
         <button>create</button>
         <p class="message">Already registered? <a href="#">Sign In</a></p>
       </form>
-      <form class="login-form"action="{% url 'login' %}" method="post">
+      <form class="login-form"action="{% url 'login:login' %}" method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="email or username"/>
         <input type="password" name="password" placeholder="password"/>

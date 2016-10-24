@@ -7,14 +7,10 @@ from login.models import CustomUser
 def index(request):
     """Index view, displays login mechanism"""
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('user:home')
     else:
         return render(request, "login/index.html")
 
-
-@login_required
-def home(request):
-    return render(request, 'login/home.html')
 
 def login(request):
     """Loginn user from POST data"""
@@ -23,9 +19,10 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         auth_login(request, user)
-        return redirect('home')
+        return redirect('user:home')
     else:
-        return redirect('index')
+        return redirect('login:index')
+
 
 def signup(request):
     """Register a new user from POST data"""
@@ -41,10 +38,10 @@ def signup(request):
             # All okay
             user = authenticate(username=email, password=password)
             auth_login(request, user)
-            return redirect('home')
+            return redirect('user:home')
         except IntegrityError:
             # Email is already in use
-            return redirect('index')
+            return redirect('login:index')
     else:
         # A field is empty
-        return redirect('index')
+        return redirect('login:index')

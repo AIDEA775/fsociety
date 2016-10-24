@@ -1,7 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from .models import FriendshipRequest
@@ -28,10 +26,10 @@ def request_accept(request):
         friendship_request = \
             user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
-        return HttpResponseRedirect(reverse('user:index'))
+        return redirect('user:index')
 
     friendship_request.accept()
-    return HttpResponseRedirect(reverse('user:index'))
+    return redirect('user:index')
 
 
 @login_required
@@ -41,10 +39,10 @@ def request_reject(request):
         friendship_request = \
             user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
-        return HttpResponseRedirect(reverse('user:index'))
+        return redirect('user:index')
 
     friendship_request.reject()
-    return HttpResponseRedirect(reverse('user:index'))
+    return redirect('user:index')
 
 
 @login_required
@@ -71,5 +69,5 @@ def request_send(request):
         user = get_user_model().objects.get(id=request.GET['id'])
         request.user.friendship.send_request(user.friendship)
     except (KeyError, FriendshipRequest.DoesNotExist):
-        return HttpResponseRedirect(reverse('user:list'))
-    return HttpResponseRedirect(reverse('user:list'))
+        return redirect('user:list')
+    return redirect('user:list')

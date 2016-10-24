@@ -3,12 +3,30 @@
 <html >
   <head>
     <meta charset="UTF-8" />
-    <title>Sign-Up/Login Form</title>
+    {% block head %}{% endblock %}
     <link rel='stylesheet' href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/bootstrap_social.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   </head>
   <body>
+
+{% if user and not user.is_anonymous %}
+  {# Top bar #}
+  <div id="header-wrap">
+    <div id="header" class="clear">
+        <nav>
+          <ul>
+            <li><a href="{% url 'user:index' %}"> {{user.get_full_name}}</a></li>
+            <li><a href="{% url 'home' %}">@Wath2Gether</a></li>
+            <li class="right"><a href="{% url 'user-logout' %}" class="fa fa-sign-out fa-lg" aria-hidden="true"></a></li>
+            <li class="right"><a class="fa fa-cog fa-lg" aria-hidden="true"></a></li>
+            <li class="right"><a class="fa fa-users fa-lg" aria-hidden="true"></a></li>
+          </lu>
+        </nav>
+    </div>
+</div>
+<script src="{% static 'js/topbar.js' %}"></script>
+{% endif %}
 
 {% block content %}
 {% endblock %}

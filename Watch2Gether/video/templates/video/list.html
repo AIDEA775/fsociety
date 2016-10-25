@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title></title>
+    </head>
+    <body>
+        <fieldset>
+        <legend>List of videos:</legend>
+        {% if documents %}
+            <ul>
+                {% for document in documents %}
+                    <li><a href="{{ document.document_file.url }}">{{ document.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No documents.</p>
+        {% endif %}
+        </fieldset>
+
+        <fieldset>
+        <legend>START</legend>
+        <form action="/video/list/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Video Name</p>
+            <input name="title" type="text" required autocomplete="off"/>
+            <br>
+            <p>Description</p>
+            <input name="description" type="text" required autocomplete="off"/>
+            <br>
+            <p>DocumentFile</p>
+            <input name="document_file" type="file" required autocomplete="off"/>
+            <br>
+            <p><input type="submit" value="Upload"/></p>
+        </form>
+        </fieldset>
+    </body>
+</html>

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-  <title>Usuarios</title>
+  <title>Users</title>
   <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
@@ -11,7 +11,7 @@
 
       <table class="uk-table">
       <tr>
-        <td><strong>Usuario</strong></td>
+        <td><strong>User</strong></td>
         <td></td>
       </tr>
       {% for user, status in user_status %}
@@ -19,17 +19,17 @@
             <td><a href="/user/{{ user.id }}/">{{ user.get_full_name }}</a></td>
             <td>
                 {% if status == 'friends' %}
-                  Ya son amigos
+                  You are already friends
                 {% elif status == 'already_sent_request' %}
-                  Solicitud enviada
+                  Request pending
                 {% else %}
-                  <a href="{% url 'user:request_send' %}?id={{ user.id }}">Enviar solicitud</a>
+                  <a href="{% url 'user:request_send' %}?id={{ user.id }}">Send friendship request</a>
                 {% endif %}
             </td>
           </tr>
       {% endfor %}
       </table>
   {% else %}
-      <p>No hay otros usuarios registrados</p>
+      <p>There aren't other registered users.</p>
   {% endif %}
 {% endblock %}

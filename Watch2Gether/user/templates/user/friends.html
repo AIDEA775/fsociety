@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block head %}
-  <title>Amigos de {{ request.user.get_full_name }}</title>
+  <title>{{ request.user.get_full_name }}'s Friends</title>
   <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block content %}
   {% if friendship_list %}
-      <h1>Relaciones de amistad</h1>
+      <h1>Relationships</h1>
 
       <table class="uk-table">
       <tr>
-        <td><strong>Usuario</strong></td>
+        <td><strong>User</strong></td>
       </tr>
       {% for friend in friendship_list %}
           <tr>
@@ -21,6 +21,6 @@
       {% endfor %}
       </table>
   {% else %}
-      <p>No tienes ninguna relación de amistad. <a href="/user/list/">¿Te gustaría enviar una solicitud de amistad?</a></p>
+      <p>You don't have any relationships. <a href="/user/list/">¿Would you like to send one now?</a></p>
   {% endif %}
 {% endblock %}

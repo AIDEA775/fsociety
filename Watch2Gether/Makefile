@@ -22,3 +22,4 @@ admin:
 
 clean:
 	  rm -f db.sqlite3
+	  rm -rf video/migrations search/migrations login/migrations user/migrations 

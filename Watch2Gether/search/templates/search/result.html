@@ -31,9 +31,9 @@
       <tr>
         <td><strong>Video</strong></td>
       </tr>
-      {% for video in video_results %}
+      {% for video in videos_results %}
           <tr>
-            <td><a href="/video/{{ video.pk }}/">{{video.get_name}}</a></td>
+            <td><a href="/video/{{ video.pk }}/">{{ video.title }}</a></td>
           </tr>
       {% endfor %}
       </table>

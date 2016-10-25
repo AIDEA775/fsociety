@@ -1,23 +1,43 @@
-
+{% extends "base.html" %}
+{% load static %}
 
 {% block head %}
   <title>Results for {{key}}</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block content %}
   {% if users_results %}
+      <h1>Users</h1>
+
+      <table class="uk-table">
+      <tr>
+        <td><strong>User</strong></td>
+      </tr>
       {% for user in users_results %}
-          <p> {{user.get_full_name}} </p>
+          <tr>
+            <td><a href="/user/{{ request.sender.user.id }}/">{{ user.get_full_name }}</a></td>
+          </tr>
       {% endfor %}
+      </table>
   {% else %}
-      <p> No users found </p>
+      <p>No users found.</p>
   {% endif %}
 
   {% if videos_results %}
+      <h1>Videos</h1>
+
+      <table class="uk-table">
+      <tr>
+        <td><strong>Video</strong></td>
+      </tr>
       {% for video in video_results %}
-          <p> {{video.get_name}} </p>
+          <tr>
+            <td><a href="/video/{{ video.pk }}/">{{video.get_name}}</a></td>
+          </tr>
       {% endfor %}
+      </table>
   {% else %}
-      <p> No videos found </p>
+      <p>No videos found.</p>
   {% endif %}
 {% endblock %}

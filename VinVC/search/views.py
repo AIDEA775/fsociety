@@ -10,15 +10,17 @@ from video.models import Document
 def search(request):
     if request.method == 'GET':
         key = request.GET['key']
-        users = get_user_model().objects.filter( \
-            Q(username__icontains=key) | \
-            Q(email__icontains=key) |
-            Q(first_name__icontains=key) | \
-            Q(last_name__icontains=key))
+        users = None
         videos = None
-        videos = Document.objects.filter(
-            Q(title__icontains=key) | \
-            Q(description__icontains=key))
+        if key != '':
+            users = get_user_model().objects.filter( \
+                Q(username__icontains=key) | \
+                Q(email__icontains=key) | \
+                Q(first_name__icontains=key) | \
+                Q(last_name__icontains=key))
+            videos = Document.objects.filter(
+                Q(title__icontains=key) | \
+                Q(description__icontains=key))
         context = {'key' : key,
                    'users_results' : users,
                    'videos_results' : videos}

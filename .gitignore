@@ -96,3 +96,6 @@ db.*
 
 # Videos
 *.mp4
+
+# PyCharm extension
+*.idea

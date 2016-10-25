@@ -14,7 +14,7 @@ class LoginUser(TestCase):
         """
         signup("username", "example@example", "password")
         self.client.login(username="username", password="password")
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('user:index'))
         self.assertContains(response, "Bienvenido")
 
     def test_signup_user_with_duplicate_email(self):

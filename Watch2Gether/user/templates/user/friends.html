@@ -1,27 +1,26 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Amigos de {{ request.user.get_full_name }}</title>
-        <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
-    </head>
-    <body>
-    {% if friendship_list %}
-        <h1>Relaciones de amistad</h1>
 
-        <table class="uk-table">
-        <tr>
-          <td><strong>Usuario</strong></td>
-        </tr>
-        {% for friend in friendship_list %}
-            <tr>
-              <td><a href="/user/{{ friend.user.id }}/">{{ friend.user.get_full_name }}</a></td>
-            </tr>
-        {% endfor %}
-        </table>
-    {% else %}
-        <p>No tienes ninguna relación de amistad. <a href="/user/list/">¿Te gustaría enviar una solicitud de amistad?</a></p>
-    {% endif %}
-    </body>
-</html>
+{% block head %}
+  <title>{{ request.user.get_full_name }}'s Friends</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% if friendship_list %}
+      <h1>Relationships</h1>
+
+      <table class="uk-table">
+      <tr>
+        <td><strong>User</strong></td>
+      </tr>
+      {% for friend in friendship_list %}
+          <tr>
+            <td><a href="/user/{{ friend.user.id }}/">{{ friend.user.get_full_name }}</a></td>
+          </tr>
+      {% endfor %}
+      </table>
+  {% else %}
+      <p>You don't have any relationships. <a href="/user/list/">¿Would you like to send one now?</a></p>
+  {% endif %}
+{% endblock %}

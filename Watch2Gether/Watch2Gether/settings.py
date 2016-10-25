@@ -59,7 +59,7 @@ ROOT_URLCONF = 'Watch2Gether.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'Watch2Gether/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,7 +142,7 @@ SOCIAL_AUTH_TWITTER_SECRET = '8jAgdx8NArfD0w63Y7cehP880PEyxhbmbS1lpWK2vcgCkoYDYp
 
 # OAuth globals
 # https://python-social-auth.readthedocs.io/en/latest/configuration/settings.html
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/home"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/user/"
 
 
 # Internationalization
@@ -163,3 +163,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "Watch2Gether/static"),
+]

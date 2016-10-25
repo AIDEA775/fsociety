@@ -1,0 +1,158 @@
+html {
+    background: #f9f9f9 !important;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #444;
+    background: #f9f9f9;
+    padding-top: 60px;
+}
+
+#header-container {
+    width:100%;
+    position:fixed;
+    top:0;
+    background: white;
+}
+
+#header {
+    margin: 0 auto;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 30px;
+}
+
+#header-logo {
+    float: left;
+    color: #1D8ACB;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+#header-logo .logo-gether {
+    margin-left: 2px;
+    text-transform: none;
+    display: inline-block;
+}
+
+#header-user {
+    float: right;
+    margin-left: 10px;
+    height: 30px;
+}
+
+#header-upload {
+    float: left;
+    margin-right: 20px;
+}
+
+#notification-container {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#header-notification-bell {
+    float:left;
+    width: 21px;
+    height: 30px;
+    background: no-repeat url('../images/bell.png') 0 0;
+    border: 0;
+    padding: 0;
+}
+
+#header-notification-bell.active {
+    background-position: -21px 0;
+    position: relative;
+}
+
+#header-notification-bell.active span {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    background: red;
+    padding: 2px;
+    border: 2px solid white;
+    border-radius: 10px;
+    position: absolute;
+    top: -10%;
+    left: 40%;
+}
+
+#header-account-container {
+    display: inline-block;
+}
+
+#header-account {
+    float: left;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+}
+
+#user-profile-image {
+    display: inline-block;
+}
+
+#header-search-bar {
+    overflow: hidden;
+    max-width: 650px;
+    border: 2px solid #e6e6e6;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+
+#header-search-bar:hover {
+    border-color: #a6a6a6;
+    transition: 0.5s;
+    color: #444 !important;
+}
+
+#search-button {
+    font-size: 16px;
+    color: #a6a6a6;
+    float: right;
+    height: 26px;
+    background: transparent;
+    border: 0;
+    width: 40px;
+}
+
+#search-button:hover, #search-button:active {
+    color: #666666;
+}
+
+#header-search-term-container {
+    overflow: hidden;
+}
+
+#header-search-term {
+    border: 0;
+    height: 24px;
+    background: transparent;
+    padding-left: 15px;
+    width: 100%;
+}
+
+#content-wrapper {
+    padding: 0 20px;
+}
+
+.site-button {
+    font-weight: bold;
+    background: #5a2ca0;
+    padding: 5px;
+    color: white;
+    margin-left: 2px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.site-button:hover, .site-button:active {
+    background: #442178;
+    color: white !important;
+    text-decoration: none !important;
+}

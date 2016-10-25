@@ -12,7 +12,7 @@ def search(request):
         key = request.GET['key']
         users = get_user_model().objects.filter( \
             Q(username__icontains=key) | \
-            Q(email__icontains=key) | \
+            Q(email__icontains=key) |
             Q(first_name__icontains=key) | \
             Q(last_name__icontains=key))
         videos = None

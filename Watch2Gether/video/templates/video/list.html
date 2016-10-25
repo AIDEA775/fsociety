@@ -10,7 +10,7 @@
         {% if documents %}
             <ul>
                 {% for document in documents %}
-                    <li><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                    <li><a href="{{ document.document_file.url }}">{{ document.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -23,13 +23,13 @@
         <form action="/video/list/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>Video Name</p>
-            <input name="name" type="text" required autocomplete="off"/>
+            <input name="title" type="text" required autocomplete="off"/>
             <br>
             <p>Description</p>
             <input name="description" type="text" required autocomplete="off"/>
             <br>
             <p>DocumentFile</p>
-            <input name="docfile" type="file" required autocomplete="off"/>
+            <input name="document_file" type="file" required autocomplete="off"/>
             <br>
             <p><input type="submit" value="Upload"/></p>
         </form>

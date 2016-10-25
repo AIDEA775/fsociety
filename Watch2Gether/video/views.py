@@ -30,16 +30,15 @@ import os
 def list(request):
     """Create a new document file"""
     name = request.POST.get('name')
-    docfile = request.POST.get('docfile')
+    docfile = request.FILES.get('docfile')
     description = request.POST.get('description')
-
     if all([name, docfile]):
-        newdoc = Document(name=name,
-                          docfile=documentfile,
-                          description=description)
+        newdoc = Document(name=name, docfile=docfile, description=description)
         newdoc.save()
-    return render(request, "video/list.html")
 
+    documents = Document.objects.all()
+    context = {'documents' : documents}
+    return render(request, "video/list.html", context)
 
 @login_required
 def delete(self, *args, **kwargs):

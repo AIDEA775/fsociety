@@ -11,6 +11,4 @@ class Document(models.Model):
     description = models.CharField(blank=True, max_length=200)
 
     def __str__(self):
-        return "Video: {},{}".format(self.docfile)
-
-
+        return "Video: {}".format(self.docfile.name)

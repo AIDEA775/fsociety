@@ -17,3 +17,4 @@ class Document(models.Model):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}"\
             .format(self.title, self.description, self.author,
                     self.date_upload, self.document_file.name)
+                    

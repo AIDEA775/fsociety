@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Document
@@ -26,6 +26,17 @@ def list(request):
 
 
 @login_required
-def delete(self, *args, **kwargs):
-    os.remove(os.path.join(settings.MEDIA_ROOT, self.document_file.name))
-    super(Document, self).delete(*args, **kwargs)
+def video_delete(request):
+    try:
+        video = Document.objects.get(id=request.GET['id'])
+        video.delete()
+    except(KeyError, Document.DoesNotExist):
+        return redirect('video:my_videos')
+    return redirect('video:my_videos')
+    
+    
+@login_required
+def my_videos(request):
+    videos = Document.objects.filter(author=request.user)
+    context = {'videos': videos}
+    return render(request, "video/my_videos.html", context)

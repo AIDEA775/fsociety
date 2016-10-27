@@ -9,14 +9,14 @@
 {% block content %}
   <fieldset>
     <legend>List of videos:</legend>
-    {% if documents %}
+    {% if videos %}
       <ul>
-        {% for document in documents %}
-          <li><a href="{{ document.document_file.url }}">{{ document.title }}</a></li>
+        {% for video in videos %}
+          <li><a href="{{ video.video_file.url }}">{{ video.title }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
-        <p>No documents.</p>
+        <p>No videos.</p>
     {% endif %}
   </fieldset>
 
@@ -31,7 +31,7 @@
       <input name="description" type="text" required autocomplete="off"/>
       <br>
       <p>DocumentFile</p>
-      <input name="document_file" type="file" required autocomplete="off"/>
+      <input name="video_file" type="file" required autocomplete="off"/>
       <br>
       <p><input type="submit" value="Upload"/></p>
     </form>

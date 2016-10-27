@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from video.models import Document
+from video.models import Video
 
 
 @login_required
@@ -16,7 +16,7 @@ def search(request):
             Q(first_name__icontains=key) | \
             Q(last_name__icontains=key))
         videos = None
-        videos = Document.objects.filter(
+        videos = Video.objects.filter(
             Q(title__icontains=key) | \
             Q(description__icontains=key))
         context = {'key' : key,

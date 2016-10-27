@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+  <title>My videos</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+
+        {% if videos %}
+            <table class="uk-table">
+             <tr>
+                <td><strong>Video</strong></td>
+                <td></td>
+             </tr>
+                {% for video in videos %}
+                  <tr>
+                        <td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
+                        <td><a href="{% url 'video:video_delete' %}?id={{ video.id }}">delete video</a></td>
+                  </tr>
+                {% endfor %}
+        {% else %}
+            <p>you don't have any videos.</p>
+        {% endif %}
+{% endblock %}

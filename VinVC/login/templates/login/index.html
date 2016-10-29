@@ -28,18 +28,18 @@
 
         <form class="register-form" action="{% url 'login:signup' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="first_name" placeholder="First Name"/>
-            <input type="text" name="last_name" placeholder="Last Name"/>
-            <input type="text" name="email" placeholder="Email Address"/>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="text" name="first_name" required placeholder="First Name"/>
+            <input type="text" name="last_name" required placeholder="Last Name"/>
+            <input type="text" name="email" required placeholder="Email Address"/>
+            <input type="password" name="password" required placeholder="Password"/>
             <button class="btn">Sign Up</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>
 
         <form class="login-form" action="{% url 'login:login' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Email or Username"/>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="text" name="username" required placeholder="Email or Username"/>
+            <input type="password" name="password" required placeholder="Password"/>
             <button class="btn">Log in</button>
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>

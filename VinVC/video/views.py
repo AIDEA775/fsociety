@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Video
+from django.core.exceptions import ValidationError
 import os
 
 
@@ -18,6 +19,11 @@ def list(request):
                         video_file=video_file,
                         description=description,
                         author=author)
+        try:
+            Video.clean_fields(new_doc)
+        except(ValidationError):
+            
+            return render(request, 'video/list.html',{'error':'video not supported' })
         new_doc.save()
 
     videos = Video.objects.all()

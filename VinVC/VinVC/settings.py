@@ -134,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Auth settings
 # https://docs.djangoproject.com/en/1.10/ref/settings/#login-url
-LOGIN_URL = 'index'
+LOGIN_URL = 'login:index'
 AUTH_USER_MODEL = 'login.CustomUser'
 
 

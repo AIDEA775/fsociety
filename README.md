@@ -9,6 +9,10 @@
 * Silva, Alejandro
 
 ---
+
+->![VinVC Logo](logo/vinVC.png)<-
+
+
 ### Sprints:
 ##### Users
 * Create an account

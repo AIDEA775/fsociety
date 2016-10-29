@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-<img style="width: 50%;" src="logo/vinVC.png">
+<img width="50%" src="logo/vinVC.png">
 </p>
 
 

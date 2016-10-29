@@ -17,4 +17,4 @@ class Video(models.Model):
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, Views: {}"\
             .format(self.title, self.description, self.author,
-                    self.date_upload, self.video_file.name, self.views)
+                    self.date_upload, self.video_file.name, self.views) + "\n"

@@ -21,7 +21,7 @@
             <div id="header">
                 <a href="/" id="header-logo">Watch<span class="logo-gether site-button">2Gether</span></a>
                 <div id="header-user">
-                    <a href="{% url 'video:list' %}" id="header-upload" class="site-button">Upload</a>
+                    <a href="{% url 'video:upload' %}" id="header-upload" class="site-button">Upload</a>
                     <div id="notification-container" class="dropdown">
                         {% if not request.user.friendship.get_pending_requests %}
                             <button id="header-notification-bell" class="dropdown-toggle" type="button" data-toggle="dropdown">

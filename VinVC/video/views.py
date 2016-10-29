@@ -52,3 +52,11 @@ def my_videos(request):
     videos = Video.objects.filter(author=request.user)
     context = {'videos': videos}
     return render(request, "video/my_videos.html", context)
+
+
+@login_required
+def friends_videos(request):
+    friendship_list = request.user.friendship.get_friends()
+    videos = Video.objects.filter(author__friendship__in=friendship_list)
+    context = {'videos': videos}
+    return render(request, "video/friends_videos.html", context)

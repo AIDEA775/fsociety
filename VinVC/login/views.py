@@ -21,7 +21,8 @@ def login(request):
         auth_login(request, user)
         return redirect('user:index')
     else:
-        return redirect('login:index')
+        return render(request, "login/index.html",
+            {'error_message' : 'Wrong username or password'})
 
 
 def signup(request):
@@ -40,8 +41,8 @@ def signup(request):
             auth_login(request, user)
             return redirect('user:index')
         except IntegrityError:
-            # Email is already in use
-            return redirect('login:index')
+            return render(request, "login/index.html",
+                {'error_message' : 'Email is already in use'})
     else:
-        # A field is empty
-        return redirect('login:index')
+        return render(request, "login/index.html",
+            {'error_message' : 'A field is empty'})

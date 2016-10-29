@@ -137,6 +137,10 @@ body {
     padding: 0 20px;
 }
 
+.error-message {
+    color: red;
+}
+
 .site-button {
     font-weight: bold;
     background: #5a2ca0;

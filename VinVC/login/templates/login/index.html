@@ -40,6 +40,9 @@
             {% csrf_token %}
             <input type="text" name="username" required placeholder="Email or Username"/>
             <input type="password" name="password" required placeholder="Password"/>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
             <button class="btn">Log in</button>
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>

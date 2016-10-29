@@ -131,6 +131,17 @@ AUTHENTICATION_BACKENDS = (
     'login.backend.UsernameOrEmailBackend',
 )
 
+# http://python-social-auth.readthedocs.io/en/latest/pipeline.html
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.user.user_details',
+)
 
 # Auth settings
 # https://docs.djangoproject.com/en/1.10/ref/settings/#login-url

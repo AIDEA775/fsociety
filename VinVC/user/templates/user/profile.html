@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>{{ user.get_full_name }}'s Profile</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    <link rel='stylesheet' href="{% static 'user/css/user.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <div id="profile-header-container">
+        <div id="profile-header">
+            <div id="profile-header-image-container">
+                <div id="profile-header-image">
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+                <span>{{ user.get_full_name }}</span>
+            </div>
+            <div id="profile-header-info-container">
+                <p id="member-since">Member since<br/><span>{{ user.date_joined|date:"d M Y" }}</span></p>
+                <span>
+                    <span class="value">{{ user.friendship.get_friends.count }}</span>
+                    <span class="text">Friends</span>
+                </span>
+                <span>
+                    <span class="value">{{ user.document_set.all.count }}</span>
+                    <span class="text">Videos</span>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+{% endblock %}

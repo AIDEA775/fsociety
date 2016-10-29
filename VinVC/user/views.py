@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -11,6 +11,10 @@ def index(request):
     context = {'friendship_requests_list': friendship_requests_list}
     return render(request, 'user/index.html', context)
 
+@login_required
+def profile(request, user_id):
+    user = get_object_or_404(get_user_model(), pk=user_id)
+    return render(request, 'user/profile.html', {'user': user})
 
 @login_required
 def friends(request):

@@ -7,9 +7,11 @@
 {% endblock head %}
 
 {% block content %}
+<video playsinline autoplay muted loop poster="{% static 'login/video/placeholder.jpg' %}" id="bgvid">
+    <source src="{% static 'login/video/bg.mp4' %}" type="video/mp4">
+</video>
 
-<div class="center-flex">
-    <img class="bg" src="{% static 'login/image/coolImage.png' %}" alt="Mountain View" />
+<div id="content">
     <div id="login-form">
         <h3>Welcome to VinVC</h3>
 
@@ -42,7 +44,22 @@
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>
     </div>
+    <div id="text">
+        <h1>
+            <span id="typed-placeholder"><strong>VinVC</strong> is not</span>
+            <span id="typed"></span><br/>Video Chat</h1>
+    </div>
 </div>
 
 <script src="{% static 'login/js/index.js' %}"></script>
+<script src='{% static 'login/js/typed.js' %}'></script>
+<script>
+$(function() {
+    $("#typed-placeholder").hide();
+    $("#typed").typed({
+        strings: ["^1000<strong>VinVC</strong> is not"],
+        typeSpeed: 0
+    });
+});
+</script>
 {% endblock content %}

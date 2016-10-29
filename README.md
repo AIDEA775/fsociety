@@ -10,7 +10,9 @@
 
 ---
 
-->![VinVC Logo](logo/vinVC.png)<-
+<p align="center">
+<img style="width: 50%;" src="logo/vinVC.png">
+</p>
 
 
 ### Sprints:

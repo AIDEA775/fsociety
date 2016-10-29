@@ -95,7 +95,10 @@ ENV/
 db.*
 
 # Videos
+*.webm
 *.mp4
+*.ogg
+*.mov
 
 # PyCharm extension
 *.idea

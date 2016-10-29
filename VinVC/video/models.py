@@ -12,7 +12,7 @@ class Video(models.Model):
     video_file = models.FileField(upload_to="videos/%Y/%m/%d",
                                   validators=[validate_file_extension])
     description = models.CharField(blank=True, max_length=200, default="")
-    views= models.IntegerField(default = 0)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, Views: {}"\

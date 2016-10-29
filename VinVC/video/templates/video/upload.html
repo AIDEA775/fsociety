@@ -8,21 +8,8 @@
 
 {% block content %}
   <fieldset>
-    <legend>List of videos:</legend>
-    {% if videos %}
-      <ul>
-        {% for video in videos %}
-          <li><a href="{{ video.video_file.url }}">{{ video.title }}</a></li>
-        {% endfor %}
-      </ul>
-    {% else %}
-        <p>No videos.</p>
-    {% endif %}
-  </fieldset>
-
-  <fieldset>
     <legend>START</legend>
-    <form action="/video/list/" method="post" enctype="multipart/form-data">
+    <form action="/video/upload/" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <p>Video Name</p>
       <input name="title" type="text" required autocomplete="off"/>

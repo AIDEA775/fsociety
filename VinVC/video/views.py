@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from .models import Video
 from django.core.exceptions import ValidationError
-import os
 
 
 @login_required
-def list(request):
+def index(request):
+    videos = Video.objects.all()
+    context = {'videos': videos}
+    return render(request, 'video/index.html', context)
+
+
+@login_required
+def upload(request):
     """Create a new video."""
     title = request.POST.get('title')
     video_file = request.FILES.get('video_file')
@@ -19,20 +24,21 @@ def list(request):
                         video_file=video_file,
                         description=description,
                         author=author)
+
         try:
             Video.clean_fields(new_doc)
-        except(ValidationError):
-            
-            return render(request, 'video/list.html',{'error':'video not supported' })
+        except ValidationError:
+            return render(request, 'video/upload.html', {'error': 'Video not supported'})
+
         new_doc.save()
 
     videos = Video.objects.all()
     context = {'videos': videos}
-    return render(request, "video/list.html", context)
+    return render(request, "video/upload.html", context)
 
 
 @login_required
-def video_delete(request):
+def delete(request):
     try:
         video = Video.objects.get(id=request.GET['id'])
         video.delete()

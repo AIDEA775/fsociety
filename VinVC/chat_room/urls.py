@@ -1,13 +1,8 @@
-from django.conf.urls import url
-
+from django.conf.urls import include, url
 from . import views
 
-app_name = 'chat_room'
+app_name='login'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    # url(r'^login/$',views.login,name='login'),
-    # url(r'^logout/$',views.logout,name='logout'),
-    url(r'^api/$',views.chat_api,name='chat_api'),
-    url(r'^api/users/$',views.logged_chat_users,name='logged_chat_users'),
-    url(r'^api/users/update/$',views.update_time,name='update_time'),
+    url(r'^(?P<video_id>[0-9]+)/$', views.index, name='index'),
+    url(r'^(?P<video_id>[0-9]+)/api/$', views.api, name='api'),
 ]

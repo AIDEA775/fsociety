@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'video.apps.VideoConfig',
 
-
     'chat_room.apps.ChatRoomConfig',
 
     'django.contrib.admin',
@@ -133,6 +132,9 @@ AUTHENTICATION_BACKENDS = (
     # Our backend
     'login.backend.UsernameOrEmailBackend',
 )
+
+# Video model reference
+VIDEO_MODEL = 'video.Video'
 
 
 # Auth settings

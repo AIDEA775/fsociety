@@ -1,50 +1,64 @@
-{% extends "chat_room/base.html" %}
-{% block body %}
+{% extends "base.html" %}
+{% load static %}
 
-<!--  chat box area -->
-<section class="chatBox">
+{% block head %}
+  <title>Chat</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
 
-</section>
+{% block content %}
+    <input id="ms" />
+    <button id="btn" onclick='sendMessage()'>Send</button>
 
+    <ul id="comments"></ul>
 
+    <script>
+    var last_seen_id = null;
 
+    function updateChat( data ) {
+        for (var i in data) {
+            $("#comments").append("<li>USER = " + data[i].user +
+                                  " COMMENT = " + data[i].msg +
+                                  " TIME = " + data[i].date + "</li>");
+            last_seen_id = data[i].id;
+        }
+    }
 
+    $(function() {
+        $('#btn').attr('disabled', 'disabled');
+        $('#ms').keyup(function() {
+            $('#ms').each(function() {
+                if ($(this).val().replace(/\s/g, "") .length == 0) {
+                    $('#btn').attr('disabled', 'disabled');
+                } else {
+                    $('#btn').removeAttr('disabled');
+                }
+            });
+        });
 
-<!--  sidebar area -->
-<section class="sidebar">
-	<div class="side">
-	<h2>Online Users</h2>
-	<div class="onlineUsers">
+        function getNewComments() {
+            $.post( "/chat_room/{{ id }}/api/", {
+                last_seen_id: last_seen_id
+            }).done(function( data ) {
+                updateChat( data );
+            });
 
+            setTimeout( getNewComments, 3000 );
+        }
 
+        getNewComments();
 
+    });
 
-	</div>
-	</div>
-</section>
+    function sendMessage() {
+        var msg = $("#ms").val();
 
-
-
-
-
-
-
-
-
-
-
-<!--  input area  -->
-<section class="input-area">
-	<img width="64" height="64" src="{{user.profile.gravatar_url}}" alt="avatar" title="signup at gravatar.com with your email which is resgistered here to change your avatar">
-	<textarea class="input-box"></textarea>
-	<button class="submit">send</button>
-	<p class="clear-both"></p>
-</section>
-
-
-
-
-
-
-
-{% endblock body %}
+        $.post( "/chat_room/{{ id }}/api/", {
+            msg: msg,
+            last_seen_id: last_seen_id
+        }).done(function( data ) {
+            updateChat( data );
+        });
+    }
+    </script>
+{% endblock %}

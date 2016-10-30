@@ -46,6 +46,12 @@ body {
 
 }
 
+#login-form #header-logo {
+    display: inline-block;
+    float: none;
+    margin: 0 0 -5px 5px;
+}
+
 .btn {
     text-transform: uppercase;
 }

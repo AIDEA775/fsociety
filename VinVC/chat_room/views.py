@@ -53,7 +53,7 @@ def api(request, video_id):
                 'user_id': comment.author.id,
                 'user': conditional_escape(comment.author.get_full_name()),
                 'msg': conditional_escape(comment.msg),
-                'date': comment.date_published.strftime('%I:%M:%S %p').lstrip('0')
+                'date': comment.date_published.isoformat()
             }
         )
 

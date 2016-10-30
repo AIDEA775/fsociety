@@ -35,7 +35,7 @@
 
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
-            if (settings.type == "POST" && !this.crossDomain) {
+            if (settings.type === "POST" && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
@@ -43,9 +43,10 @@
 
     function updateChat( data ) {
         for (var i in data) {
+            date = new Date(data[i].date);
             $("#comments").append("<li>USER = " + data[i].user +
                                   " COMMENT = " + data[i].msg +
-                                  " TIME = " + data[i].date + "</li>");
+                                  " TIME = " + date.toLocaleTimeString() + "</li>");
             last_seen_id = data[i].id;
         }
     }

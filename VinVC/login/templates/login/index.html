@@ -15,7 +15,8 @@
     <div id="text">
         <h1>
             <span id="typed-placeholder"><strong>VinVC</strong> is not</span>
-            <span id="typed"></span><br/>Video Chat</h1>
+            <span id="typed"></span>
+        </h1>
     </div>
     <div id="login-form">
         <h3>Welcome to <a id="header-logo"></a></h3>
@@ -60,7 +61,7 @@
 $(function() {
     $("#typed-placeholder").hide();
     $("#typed").typed({
-        strings: ["^1000<strong>VinVC</strong> is not"],
+        strings: ["Video Chat^800", "<strong>VinVC</strong> is not<br/>&nbsp;Video Chat"],
         typeSpeed: 100
     });
 });

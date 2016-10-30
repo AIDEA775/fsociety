@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
+from django.utils.html import conditional_escape
+
 from django.http import HttpResponse
 
 from django.apps import apps
@@ -40,8 +42,8 @@ def api(request, video_id):
         result.append(
             {
                 'id': msg.id,
-                'user': msg.author.username,
-                'msg': msg.msg,
+                'user': conditional_escape(msg.author.username),
+                'msg': conditional_escape(msg.msg),
                 'date': msg.date_published.strftime('%I:%M:%S %p').lstrip('0')
             }
         )

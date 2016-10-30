@@ -1,55 +1,40 @@
 from django.test import TestCase
-from django.urls import reverse
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user, get_user_model
+
 from .models import Friendship, FriendshipRequest
+from login.tests import create_user, login_user
+
+
+def create_two_users():
+    alice = create_user(username="alice", email="alice@example",
+        password="pass")
+    bob = create_user(username="bob", email="bob@example",
+        password="1234")
+    return alice, bob
 
 
 class UserFriendshipTest(TestCase):
     def setUp(self):
         """
-        Create two users, alice and bob.
+        Create two users, Alice and Bob.
         """
-        # Alice id = 1
-        get_user_model().objects.create_user("alice", "alice@example", "pass", \
-            first_name="alice name", last_name="alice last")
-        # Bob id = 2
-        get_user_model().objects.create_user("bob", "bob@example", "pass", \
-            first_name="bob name", last_name="bob last")
+        self.alice, self.bob = create_two_users()
 
     def test_check_empty_friendship(self):
-        self.client.login(username="alice", password="pass")
-        response = self.client.get(reverse('user:friends'))
-        self.assertEqual(len(response.context['friendship_list']), 0)
-
-    def test_check_one_user_list(self):
-        self.client.login(username="alice", password="pass")
-        response = self.client.get(reverse('user:list'))
-        self.assertEqual(len(response.context['user_status']), 1)
+        self.client.login(username=self.alice.username, password="pass")
+        user = get_user(self.client)
+        self.assertEqual(user.friendship.get_friends().count(), 0)
 
     def test_send_friendship_request_and_accept(self):
-        # Login with Alice
-        self.client.login(username="alice", password="pass")
-        # Send request to Bob
-        response = self.client.get(reverse('user:request_send'), {'id' : '2'})
-        self.assertEqual(response.status_code, 302)
-        self.client.logout()
+        self.alice.friendship.send_request(self.bob.friendship)
+        requests = self.bob.friendship.get_pending_requests()
+        self.assertEqual(requests.count(), 1)
+        requests.get().accept()
+        self.assertEqual(self.bob.friendship.get_friends().count(), 1)
+        self.assertEqual(self.alice.friendship.get_friends().count(), 1)
 
-        # Login with Bob
-        self.client.login(username="bob", password="pass")
-        # View Alice request
-        response = self.client.get(reverse('user:index'))
-        request_list = response.context['friendship_requests_list']
-        self.assertEqual(len(request_list), 1)
-        sender_id = request_list[0].sender.id
-        self.assertEqual(sender_id, 1)
-        # Accept request
-        response = self.client.get(reverse('user:request_accept'), {'id' : '1' })
-        # Check new friend
-        response = self.client.get(reverse('user:friends'))
-        self.assertEqual(len(response.context['friendship_list']), 1)
-        self.client.logout()
-
-        # Login with Alice and check new friend
-        self.client.login(username="alice", password="pass")
-        response = self.client.get(reverse('user:friends'))
-        self.assertEqual(len(response.context['friendship_list']), 1)
+    def test_send_friendship_request_and_reject(self):
+        self.alice.friendship.send_request(self.bob.friendship)
+        self.bob.friendship.get_pending_requests().get().reject()
+        self.assertEqual(self.bob.friendship.get_friends().count(), 0)
+        self.assertEqual(self.alice.friendship.get_friends().count(), 0)

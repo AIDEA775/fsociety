@@ -1,6 +1,5 @@
 import json
 from django.shortcuts import get_object_or_404, render
-from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 from django.utils.html import conditional_escape
@@ -22,7 +21,6 @@ def index(request, video_id):
         raise Http404("Chat Room does not exist")
 
 
-@csrf_exempt
 def api(request, video_id):
     app, model = settings.VIDEO_MODEL.split('.')
     video = get_object_or_404(apps.get_model(app, model), pk=video_id)

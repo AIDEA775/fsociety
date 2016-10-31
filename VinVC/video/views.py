@@ -84,3 +84,9 @@ def player(request, video_id):
     video = get_object_or_404(Video, id=video_id)
     context = {'video': video}
     return render(request, "video/player.html", context)
+
+
+@login_required
+def most_viewed_videos():
+    pass
+

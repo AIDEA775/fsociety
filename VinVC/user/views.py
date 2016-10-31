@@ -11,10 +11,14 @@ def index(request):
     context = {'friendship_requests_list': friendship_requests_list}
     return render(request, 'user/index.html', context)
 
+
 @login_required
 def profile(request, user_id):
     user = get_object_or_404(get_user_model(), pk=user_id)
-    return render(request, 'user/profile.html', {'user': user})
+    status = request.user.friendship.get_friendship_status(user)
+    context = {'user' : user, 'status' : status}
+    return render(request, 'user/profile.html', context)
+
 
 @login_required
 def friends(request):
@@ -56,12 +60,7 @@ def list(request):
 
     user_status = []
     for user in users_list:
-        if user.friendship in my_friendship.get_friends():
-            user_status.append((user, 'friends'))
-        elif user.friendship.get_pending_requests(from_user=my_friendship):
-            user_status.append((user, 'already_sent_request'))
-        else:
-            user_status.append((user, 'allow_send_request'))
+        user_status.append((user, my_friendship.get_friendship_status(user)))
 
     context = {'user_status': user_status}
     return render(request, 'user/list.html', context)

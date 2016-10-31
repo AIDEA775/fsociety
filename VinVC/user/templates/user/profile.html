@@ -17,7 +17,7 @@
                 <span>{{ user.get_full_name }}</span>
             </div>
             <div id="profile-header-info-container">
-                <p id="member-since">Member since<br/><span>{{ user.date_joined|date:"d M Y" }}</span></p>
+                <p id="member-status">Member since<br/><span>{{ user.date_joined|date:"d M Y" }}</span></p>
                 <span>
                     <span class="value">{{ user.friendship.get_friends.count }}</span>
                     <span class="text">Friends</span>
@@ -26,6 +26,15 @@
                     <span class="value">{{ user.video_set.all.count }}</span>
                     <span class="text">Videos</span>
                 </span>
+                <p id="member-status">
+                {% if status == 'friends' %}
+                    You are already friends
+                {% elif status == 'already_sent_request' %}
+                    Request pending
+                {% else %}
+                    <a class="site-button" href="{% url 'user:request_send' %}?id={{ user.id }}">Send friendship request</a>
+                {% endif %}
+                </p>
             </div>
             <div class="clearfix"></div>
         </div>

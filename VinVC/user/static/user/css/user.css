@@ -62,13 +62,13 @@
     padding-right: 100px;
 }
 
-#member-since {
+#member-status {
     display: block;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#member-since span {
+#member-status span {
     font-weight: bold;
 }
 
@@ -90,6 +90,16 @@
 #profile-header-info-container .text {
     display: block;
     text-align: center;
+}
+
+#profile-menu {
+    padding:1px;
+    border-radius:7px;
+    background:#D7D7D7;
+    background:url("/templates/yoo_yootheme/images/menu_border.svg") 0 0
+    repeat-x;
+    background-size:100% 100%;
+    float:right;
 }
 
 .clearfix {

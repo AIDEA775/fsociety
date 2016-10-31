@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+}
+
+#content-wrapper {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+#content-wrapper > h3 {
+    flex: 0 1 auto;
+}
+
+#player-container {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+#video-container {
+    align-self: center;
+    width: 65%;
+}
+
+#video-container video {
+    width: 100%;
+}
+
+#chat-room-container {
+    margin: 5px 5px 5px 15px;
+    position: relative;
+    float: right;
+    flex-grow: 1;
+}

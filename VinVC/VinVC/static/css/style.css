@@ -51,12 +51,17 @@ body {
     padding: 0;
 }
 
+#header-notification-bell .notification-count {
+    visibility: hidden;
+}
+
 #header-notification-bell.active {
     background-position: -21px 0;
     position: relative;
 }
 
-#header-notification-bell.active span {
+#header-notification-bell.active .notification-count {
+    visibility: visible;
     color: white;
     font-size: 10px;
     font-weight: bold;
@@ -67,6 +72,15 @@ body {
     position: absolute;
     top: -10%;
     left: 40%;
+}
+
+li.notification {
+    display: flex;
+    padding: 3px 5px;
+}
+
+li.notification button {
+    margin-left: 7px;
 }
 
 #header-account-container {

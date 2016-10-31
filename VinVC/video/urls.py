@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^my_videos/delete/$', views.delete, name='delete'),
     url(r'^friends_videos/$', views.friends_videos, name='friends_videos'),
     url(r'^feed/$', views.feed, name='feed'),
+    url(r'^player/(?P<video_id>[0-9]+)/$', views.player, name='player'),
 ]

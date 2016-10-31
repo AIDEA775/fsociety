@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+  <title>Videos</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+
+    {% if video %}
+    <h3><strong> {{ video.title }} </strong></h3>
+    <table class="uk-table">
+        <tr>
+            <video preload="auto" controls autoplay>
+            <source src="{{ video.video_file.url }}">
+            Your browser does not support HTML5 video.
+            </video>
+        </tr>
+    <blockquote> {{ video.description }} </blockquote>
+    {% else %}
+        <p>Don't exist any videos.</p>
+    </table>
+    {% endif %}
+{% endblock %}

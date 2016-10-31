@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Video, WatchingVideo
 from django.core.exceptions import ValidationError
@@ -77,3 +77,10 @@ def feed(request):
                                             friendship_list)
     context = {'watching': watching}
     return render(request, "video/feed.html", context)
+
+
+@login_required
+def player(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    context = {'video': video}
+    return render(request, "video/player.html", context)

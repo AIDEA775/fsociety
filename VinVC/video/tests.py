@@ -1,5 +1,4 @@
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, Client
 from django.contrib.auth import get_user, get_user_model
 from django.urls import reverse
 
@@ -7,14 +6,15 @@ from user.tests import create_two_users, friends
 from login.tests import create_user, login_user
 
 
-def upload_a_video(client, video='login/static/login/video/bg.mp4'):
+def upload_a_video(client, path='login/static/login/video/bg.mp4',
+    title='My video', description='My description'):
     """
     Upload a video as client and return response
     """
-    with open(video, 'rb') as video:
+    with open(path, 'rb') as video:
         return client.post(reverse('video:upload'),
-            {'title' : 'my video',
-             'description' : 'my description',
+            {'title' : title,
+             'description' : description,
              'video_file' : video})
 
 class VideoTestsBase(TestCase):
@@ -49,8 +49,12 @@ class VideoUploadDeleteTest(VideoTestsBase):
         self.client_b.get(reverse('video:delete'), {'id' : video.id})
         self.assertEqual(self.alice.video_set.all().count(), 1)
 
+    def test_upload_video_without_title(self):
+        upload_a_video(self.client_u, title='')
+        self.assertEqual(self.user.video_set.all().count(), 0)
 
-class VideoViewsTest(VideoTestsBase):
+
+class VideoViewTest(VideoTestsBase):
     def setUp(self):
         """
         Alice have one video uploaded

@@ -6,7 +6,7 @@ class CustomUser(AbstractUser):
     """
     A custom user model with unique email field
     """
-    email = models.CharField(max_length=40, unique=True)
+    email = models.EmailField(max_length=40, unique=True)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
 

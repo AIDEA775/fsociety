@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from login.models import CustomUser
+from .models import CustomUser
+
 
 def index(request):
     """Index view, displays login mechanism"""
@@ -13,7 +15,7 @@ def index(request):
 
 
 def login(request):
-    """Loginn user from POST data"""
+    """Login user from POST data"""
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
@@ -22,7 +24,7 @@ def login(request):
         return redirect('user:index')
     else:
         return render(request, "login/index.html",
-            {'error_message' : 'Wrong username or password'})
+                      {'error_message': 'Wrong username or password'})
 
 
 def signup(request):
@@ -31,6 +33,12 @@ def signup(request):
     password = request.POST.get('password')
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        raise ValidationError(u'%s is not an email address' % email)
+
     if all([first_name, last_name, email, password]):
         try:
             CustomUser.objects.create_user(email, email, password,
@@ -42,7 +50,7 @@ def signup(request):
             return redirect('user:index')
         except IntegrityError:
             return render(request, "login/index.html",
-                {'error_message' : 'Email is already in use'})
+                          {'error_message': 'Email is already in use'})
     else:
         return render(request, "login/index.html",
-            {'error_message' : 'A field is empty'})
+                      {'error_message': 'A field is empty'})

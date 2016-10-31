@@ -132,7 +132,11 @@ body {
 }
 
 .error-message {
-    color: red;
+    color: white;
+    background: #d30a0a;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #b20808;
 }
 
 .site-button {

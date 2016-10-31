@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_protect
 from .models import CustomUser
 
 
@@ -14,6 +15,7 @@ def index(request):
         return render(request, "login/index.html")
 
 
+@csrf_protect
 def login(request):
     """Login user from POST data"""
     username = request.POST.get('username')
@@ -27,6 +29,7 @@ def login(request):
                       {'error_message': 'Wrong username or password'})
 
 
+@csrf_protect
 def signup(request):
     """Register a new user from POST data"""
     email = request.POST.get('email')

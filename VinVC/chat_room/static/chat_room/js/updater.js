@@ -31,21 +31,36 @@ $.ajaxSetup({
 function updateChat( data ) {
     for (var i in data) {
         date = new Date(data[i].date);
-        $("#comments").append("<li>USER = " + data[i].user +
-                              " COMMENT = " + data[i].msg +
-                              " TIME = " + date.toLocaleTimeString() + "</li>");
+
+        var li_class;
+
+        if (data[i].user_id === user_id)
+            li_class = "self";
+        else
+            li_class = "other";
+
+        $("#messages-content").append(
+            "<li class='"+ li_class +"'>"
+                +"<div class='bubble'>"
+                    + "<div class='user'><a href=''>" + data[i].user + "</a></div>"
+                    + "<hr/>"
+                    + "<div class='message-text'>" + data[i].msg + "</div>"
+                    + "<div class='message-date'>" + date.toLocaleTimeString() + "</div>"
+                + "</div>"
+            + "</li>");
+
         last_seen_id = data[i].id;
     }
 }
 
 $(function() {
-    $('#btn').attr('disabled', 'disabled');
-    $('#ms').keyup(function() {
-        $('#ms').each(function() {
+    $('#msg_submit').attr('disabled', 'disabled');
+    $('#chat-input').keyup(function() {
+        $('#chat-input').each(function() {
             if ($(this).val().replace(/\s/g, "") .length == 0) {
-                $('#btn').attr('disabled', 'disabled');
+                $('#msg_submit').attr('disabled', 'disabled');
             } else {
-                $('#btn').removeAttr('disabled');
+                $('#msg_submit').removeAttr('disabled');
             }
         });
     });
@@ -70,7 +85,7 @@ $(function() {
 });
 
 function sendMessage() {
-    var msg = $("#ms").val();
+    var msg = $("#chat-input").val();
 
     $.ajax({
         type: "POST",

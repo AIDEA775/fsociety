@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Video
+from .models import Video, WatchingVideo
 from django.core.exceptions import ValidationError
 
 
@@ -20,17 +20,18 @@ def upload(request):
     author = request.user
 
     if all([title, video_file]):
-        new_doc = Video(title=title,
-                        video_file=video_file,
-                        description=description,
-                        author=author)
+        new_video = Video(title=title,
+                          video_file=video_file,
+                          description=description,
+                          author=author)
 
         try:
-            Video.clean_fields(new_doc)
+            Video.clean_fields(new_video)
         except ValidationError:
-            return render(request, 'video/upload.html', {'error': 'Video not supported'})
+            return render(request, 'video/upload.html',
+                          {'error': 'Video not supported'})
 
-        new_doc.save()
+        new_video.save()
 
     videos = Video.objects.all()
     context = {'videos': videos}
@@ -60,3 +61,19 @@ def friends_videos(request):
     videos = Video.objects.filter(author__friendship__in=friendship_list)
     context = {'videos': videos}
     return render(request, "video/friends_videos.html", context)
+
+
+@login_required
+def add_player(request, video_id):
+    user = request.user
+    video = Video.objects.all()[video_id]
+    WatchingVideo.objects.create(user=user, video=video)
+
+
+@login_required
+def feed(request):
+    friendship_list = request.user.friendship.get_friends()
+    watching = WatchingVideo.objects.filter(user__friendship__in=
+                                            friendship_list)
+    context = {'watching': watching}
+    return render(request, "video/feed.html", context)

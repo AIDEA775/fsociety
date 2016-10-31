@@ -37,7 +37,8 @@ def signup(request):
     try:
         validate_email(email)
     except ValidationError:
-        raise ValidationError(u'%s is not an email address' % email)
+        return render(request, "login/index.html",
+                      {'error_message': 'The email address is not valid'})
 
     if all([first_name, last_name, email, password]):
         try:

@@ -152,6 +152,17 @@
                     }
                 });
             }
+
+            function sendRequest(id) {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'user:requests_api' %}",
+                    data: {
+                        method: 'send',
+                        id: id
+                    }
+                });
+            }
         </script>
     {% endif %}
     </body>

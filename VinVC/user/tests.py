@@ -6,11 +6,13 @@ from login.tests import create_user, login_user
 
 
 def create_two_users():
-    alice = create_user(username="alice", email="alice@example",
-        password="pass")
-    bob = create_user(username="bob", email="bob@example",
-        password="1234")
+    alice = create_user(username="alice", email="alice@example")
+    bob = create_user(username="bob", email="bob@example")
     return alice, bob
+
+def friends(user, other):
+    user.friendship.send_request(other.friendship)
+    other.friendship.get_pending_requests().get().accept()
 
 
 class UserFriendshipTest(TestCase):

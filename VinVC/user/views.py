@@ -14,9 +14,15 @@ def index(request):
 
 @login_required
 def profile(request, user_id):
-    user = get_object_or_404(get_user_model(), pk=user_id)
-    status = request.user.friendship.get_friendship_status(user)
-    context = {'user' : user, 'status' : status}
+    my_friendship = request.user.friendship
+    profile = get_object_or_404(get_user_model(), pk=user_id)
+    status = 'same_user'
+    request_id = None
+    if profile != request.user:
+        status = my_friendship.get_friendship_status(profile)
+        if status == 'need_response':
+            request_id = my_friendship.get_pending_requests(from_user=profile.friendship).get()
+    context = {'profile' : profile, 'status' : status, 'request' : request_id}
     return render(request, 'user/profile.html', context)
 
 

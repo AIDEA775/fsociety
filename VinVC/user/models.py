@@ -27,6 +27,8 @@ class Friendship(models.Model):
             return 'friends'
         elif user.friendship.get_pending_requests(from_user=self):
             return 'already_sent_request'
+        elif self.get_pending_requests(from_user=user.friendship):
+            return 'need_response'
         else:
             return 'allow_send_request'
 

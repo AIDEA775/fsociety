@@ -26,13 +26,16 @@
                     <span class="value">{{ user.video_set.all.count }}</span>
                     <span class="text">Videos</span>
                 </span>
-                <p id="member-status">
+                <p id="user-status">
                 {% if status == 'friends' %}
                     You are already friends
                 {% elif status == 'already_sent_request' %}
                     Request pending
+                {% elif status == 'need_response' %}
+                    <a id="accept-button" class="site-button" href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a>
+                    <a id="reject-button" class="site-button" href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a>
                 {% else %}
-                    <a class="site-button" href="{% url 'user:request_send' %}?id={{ user.id }}">Send friendship request</a>
+                    <a id="request-button" class="site-button" href="{% url 'user:request_send' %}?id={{ user.id }}">Send request</a>
                 {% endif %}
                 </p>
             </div>

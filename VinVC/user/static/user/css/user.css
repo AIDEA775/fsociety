@@ -92,6 +92,25 @@
     text-align: center;
 }
 
+#user-status {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 0px;
+}
+
+#request-button {
+    background: #5392ff;
+}
+
+#accept-button {
+    background: #53ff92;
+}
+
+#reject-button {
+    background: #ff5392;
+}
+
 #profile-menu {
     padding:1px;
     border-radius:7px;

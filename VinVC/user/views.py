@@ -6,10 +6,10 @@ from .models import FriendshipRequest
 
 
 @login_required
-def index(request):
+def requests(request):
     friendship_requests_list = request.user.friendship.get_pending_requests()
     context = {'friendship_requests_list': friendship_requests_list}
-    return render(request, 'user/index.html', context)
+    return render(request, 'user/requests.html', context)
 
 
 @login_required
@@ -22,7 +22,7 @@ def profile(request, user_id):
         status = my_friendship.get_friendship_status(profile)
         if status == 'need_response':
             request_id = my_friendship.get_pending_requests(from_user=profile.friendship).get()
-    context = {'profile' : profile, 'status' : status, 'request' : request_id}
+    context = {'profile': profile, 'status': status, 'request': request_id}
     return render(request, 'user/profile.html', context)
 
 
@@ -40,10 +40,10 @@ def request_accept(request):
         friendship_request = \
             user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
-        return redirect('user:index')
+        return redirect('user:profile')
 
     friendship_request.accept()
-    return redirect('user:index')
+    return redirect('user:profile')
 
 
 @login_required
@@ -53,10 +53,10 @@ def request_reject(request):
         friendship_request = \
             user_friendship.get_pending_requests().get(id=request.GET['id'])
     except (KeyError, FriendshipRequest.DoesNotExist):
-        return redirect('user:index')
+        return redirect('user:profile')
 
     friendship_request.reject()
-    return redirect('user:index')
+    return redirect('user:profile')
 
 
 @login_required

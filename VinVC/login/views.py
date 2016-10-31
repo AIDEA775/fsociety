@@ -9,7 +9,7 @@ from .models import CustomUser
 def index(request):
     """Index view, displays login mechanism"""
     if request.user.is_authenticated:
-        return redirect('user:index')
+        return redirect('video:feed')
     else:
         return render(request, "login/index.html")
 
@@ -21,7 +21,7 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         auth_login(request, user)
-        return redirect('user:index')
+        return redirect('video:feed')
     else:
         return render(request, "login/index.html",
                       {'error_message': 'Wrong username or password'})
@@ -48,7 +48,7 @@ def signup(request):
             # All okay
             user = authenticate(username=email, password=password)
             auth_login(request, user)
-            return redirect('user:index')
+            return redirect('video:feed')
         except IntegrityError:
             return render(request, "login/index.html",
                           {'error_message': 'Email is already in use'})

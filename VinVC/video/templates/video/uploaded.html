@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "user/profile.html" %}
 {% load static %}
-{% block head %}
+
+{% block profile %}
   <title>Videos</title>
   <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
-{% block content %}
+
+{% block profile_list %}
 
         {% if videos %}
             <table class="uk-table">
              <tr>
-                <td><strong>Friends Videos</strong></td>
+                <td><strong>Uploaded Videos</strong></td>
                 <td></td>
              </tr>
                 {% for video in videos %}

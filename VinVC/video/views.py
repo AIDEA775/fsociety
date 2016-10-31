@@ -49,10 +49,10 @@ def delete(request):
     
     
 @login_required
-def my_videos(request):
+def uploaded(request):
     videos = Video.objects.filter(author=request.user)
     context = {'videos': videos}
-    return render(request, "video/my_videos.html", context)
+    return render(request, "video/uploaded.html", context)
 
 
 @login_required
@@ -90,3 +90,7 @@ def player(request, video_id):
 def most_viewed_videos():
     pass
 
+
+@login_required
+def watched(request):
+    pass

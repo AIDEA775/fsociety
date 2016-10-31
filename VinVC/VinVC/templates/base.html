@@ -43,7 +43,7 @@
                             <img id="user-profile-image" src="{% static 'images/profile_picture_placeholder.jpg' %}" />
                         </button>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="header-account">
-                            <li><a role="menuitem" tabindex="-1" href="{% url 'user:index' %}">My Profile</a></li>
+                            <li><a role="menuitem" tabindex="-1" href="{% url 'user:profile' user.id %}">My Profile</a></li>
                             <li><a role="menuitem" tabindex="-1" href="{% url 'user:friends' %}">My Friends</a></li>
                             <li class="divider"></li>
                             <li><a role="menuitem" tabindex="-1" href="{% url 'login:user-logout' %}">Log out</a></li>

@@ -17,7 +17,7 @@ class Video(models.Model):
     watchers = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       through='WatchingVideo',
                                       through_fields=('video', 'user'),
-                                      symmetrical=False)
+                                      symmetrical=True)
 
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, " \

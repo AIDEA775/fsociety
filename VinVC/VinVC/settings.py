@@ -175,7 +175,7 @@ SOCIAL_AUTH_TWITTER_SECRET = '8jAgdx8NArfD0w63Y7cehP880PEyxhbmbS1lpWK2vcgCkoYDYp
 
 # OAuth globals
 # https://python-social-auth.readthedocs.io/en/latest/configuration/settings.html
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/user/"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/video/feed/"
 
 
 # Internationalization

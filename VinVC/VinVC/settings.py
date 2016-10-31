@@ -133,8 +133,8 @@ AUTHENTICATION_BACKENDS = (
     'login.backend.UsernameOrEmailBackend',
 )
 
-# Video model reference
-VIDEO_MODEL = 'video.Video'
+# Topic model reference for Chat Room
+TOPIC_MODEL = 'video.Video'
 
 
 # Auth settings

@@ -12,7 +12,7 @@ from .models import Comment
 
 
 def index(request, video_id):
-    app, model = settings.VIDEO_MODEL.split('.')
+    app, model = settings.TOPIC_MODEL.split('.')
     video_model = apps.get_model(app, model)
 
     if video_model.objects.filter(pk=video_id).exists():
@@ -22,7 +22,7 @@ def index(request, video_id):
 
 
 def api(request, video_id):
-    app, model = settings.VIDEO_MODEL.split('.')
+    app, model = settings.TOPIC_MODEL.split('.')
     video = get_object_or_404(apps.get_model(app, model), pk=video_id)
 
     if request.method != 'POST':
@@ -36,7 +36,7 @@ def api(request, video_id):
         last_seen_id = request.POST.get('last_seen_id', None)
 
     if msg and msg.replace(' ', '') is not "":
-        Comment.objects.create(author=request.user, from_video=video, msg=msg)
+        Comment.objects.create(author=request.user, topic=video, msg=msg)
 
     if last_seen_id:
         last_id_in_db = Comment.objects.latest('pk').pk

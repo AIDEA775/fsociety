@@ -1,7 +1,3 @@
-html {
-    background: #f9f9f9 !important;
-}
-
 body {
     font-family: 'Roboto', sans-serif;
     color: #444;
@@ -24,16 +20,10 @@ body {
 
 #header-logo {
     float: left;
-    color: #1D8ACB;
-    font-weight: bold;
-    text-decoration: none;
     margin-right: 10px;
-}
-
-#header-logo .logo-gether {
-    margin-left: 2px;
-    text-transform: none;
-    display: inline-block;
+    width: 85px;
+    height: 30px;
+    background: url(../images/logo.png);
 }
 
 #header-user {
@@ -95,6 +85,8 @@ body {
 
 #user-profile-image {
     display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 #header-search-bar {
@@ -139,6 +131,14 @@ body {
 
 #content-wrapper {
     padding: 0 20px;
+}
+
+.error-message {
+    color: white;
+    background: #d30a0a;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #b20808;
 }
 
 .site-button {

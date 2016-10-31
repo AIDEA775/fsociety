@@ -7,18 +7,26 @@
 {% endblock head %}
 
 {% block content %}
+<video playsinline autoplay muted loop poster="{% static 'login/video/placeholder.jpg' %}" id="bgvid">
+    <source src="{% static 'login/video/bg.mp4' %}" type="video/mp4">
+</video>
 
-<div class="center-flex">
-    <img class="bg" src="{% static 'login/image/coolImage.png' %}" alt="Mountain View" />
+<div id="content">
+    <div id="text">
+        <h1>
+            <span id="typed-placeholder"><strong>VinVC</strong> is not</span>
+            <span id="typed"></span>
+        </h1>
+    </div>
     <div id="login-form">
-        <h3>Welcome to VinVC</h3>
+        <h3>Welcome to <a id="header-logo"></a></h3>
 
         <div class="social-buttons">
-            <a class="btn btn-google" href="{% url "login:social:begin" 'google-oauth2' %}" role="button">
+            <a class="btn btn-google" href="{% url "social:begin" 'google-oauth2' %}" role="button">
                 <span class="fa fa-google"></span>Sign in with Google</a>
-            <a class="btn btn-facebook" href="{% url "login:social:begin" 'facebook' %}" role="button">
+            <a class="btn btn-facebook" href="{% url "social:begin" 'facebook' %}" role="button">
                 <span class="fa fa-facebook"></span>Sign in with Facebook</a>
-            <a class="btn btn-twitter" href="{% url "login:social:begin" 'twitter' %}" role="button">
+            <a class="btn btn-twitter" href="{% url "social:begin" 'twitter' %}" role="button">
                 <span class="fa fa-twitter"></span>Sign in with Twitter</a>
         </div>
 
@@ -26,18 +34,21 @@
 
         <form class="register-form" action="{% url 'login:signup' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="first_name" placeholder="First Name"/>
-            <input type="text" name="last_name" placeholder="Last Name"/>
-            <input type="text" name="email" placeholder="Email Address"/>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="text" name="first_name" required placeholder="First Name"/>
+            <input type="text" name="last_name" required placeholder="Last Name"/>
+            <input type="text" name="email" required placeholder="Email Address"/>
+            <input type="password" name="password" required placeholder="Password"/>
             <button class="btn">Sign Up</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>
 
         <form class="login-form" action="{% url 'login:login' %}" method="post">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Email or Username"/>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="text" name="username" required placeholder="Email or Username"/>
+            <input type="password" name="password" required placeholder="Password"/>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
             <button class="btn">Log in</button>
             <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>
@@ -45,4 +56,14 @@
 </div>
 
 <script src="{% static 'login/js/index.js' %}"></script>
+<script src='{% static 'login/js/typed.js' %}'></script>
+<script>
+$(function() {
+    $("#typed-placeholder").hide();
+    $("#typed").typed({
+        strings: ["Video Chat^800", "<strong>VinVC</strong> is not<br/>&nbsp;Video Chat"],
+        typeSpeed: 100
+    });
+});
+</script>
 {% endblock content %}

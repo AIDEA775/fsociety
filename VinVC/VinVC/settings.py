@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'video.apps.VideoConfig',
 
+    'chat_room.apps.ChatRoomConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,9 +134,26 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+# http://python-social-auth.readthedocs.io/en/latest/pipeline.html
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.user.user_details',
+)
+
+
+# Topic model reference for Chat Room
+TOPIC_MODEL = 'video.Video'
+
+
 # Auth settings
 # https://docs.djangoproject.com/en/1.10/ref/settings/#login-url
-LOGIN_URL = 'index'
+LOGIN_URL = 'login:index'
 AUTH_USER_MODEL = 'login.CustomUser'
 
 
@@ -145,9 +164,14 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YktK-5yt8HRlmwUe0acfBXDz'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1798770117036103'
 SOCIAL_AUTH_FACEBOOK_SECRET = '8292bc09a6835e8d328cfcfbbf5706b8'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email',
+}
 
 SOCIAL_AUTH_TWITTER_KEY = '6rNAfPUpjGgJZkkWswOFWM2vR'
 SOCIAL_AUTH_TWITTER_SECRET = '8jAgdx8NArfD0w63Y7cehP880PEyxhbmbS1lpWK2vcgCkoYDYp'
+
 
 # OAuth globals
 # https://python-social-auth.readthedocs.io/en/latest/configuration/settings.html

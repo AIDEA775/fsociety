@@ -95,7 +95,17 @@ ENV/
 db.*
 
 # Videos
+*.webm
 *.mp4
+*.ogg
+*.mov
 
 # PyCharm extension
 *.idea
+
+# Migrations
+VinVC/user/migrations/*
+VinVC/login/migrations/*
+VinVC/chat_room/migrations/*
+VinVC/video/migrations/*
+VinVC/search/migrations/*

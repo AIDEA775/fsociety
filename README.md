@@ -8,7 +8,11 @@
 * Guignard, Mauricio
 * Silva, Alejandro
 
----
+<p align="center">
+<img width="50%" src="logo/vinVC.png">
+</p>
+
+
 ### Sprints:
 ##### Users
 * Create an account
@@ -25,9 +29,6 @@
 * Watch a video (user without relationship requests accepted). Most viewed videos
 * Watch a friend's video
 * Post a comment
-
-#### Development process:
-
 
 ### Dependencies
 * Python 3

@@ -7,7 +7,7 @@ class UsernameOrEmailBackend(object):
     """
     def authenticate(self, username=None, password=None, **kwargs):
         UserModel = get_user_model()
-        if '@' in username:
+        if username and '@' in username:
             kwargs = {'email': username}
         else:
             kwargs = {'username': username}

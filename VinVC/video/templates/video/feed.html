@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+  <title>Videos</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+
+        {% if watching %}
+            <table class="uk-table">
+             <tr>
+                <td><strong>Feed</strong></td>
+                <td></td>
+             </tr>
+                {% for watch in watching %}
+                  <tr>
+                      <td> Your friend {{watch.user.username}} is watching</td>
+                        <td><a href="{{ watch.video.video_file.url }}">{{ watch.video.title }}</a></td>
+                  </tr>
+                {% endfor %}
+        {% else %}
+            <p>Don't exist any videos.</p>
+            </table>
+        {% endif %}
+{% endblock %}

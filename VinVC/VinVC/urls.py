@@ -23,5 +23,10 @@ urlpatterns = [
     url(r'^user/', include('user.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^video/', include('video.urls')),
+    url(r'^chat_room/', include('chat_room.urls')),
+
     url(r'^admin/', admin.site.urls),
+
+    # Python Social Auth URLs
+    url('', include('social.apps.django_app.urls', namespace='social')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

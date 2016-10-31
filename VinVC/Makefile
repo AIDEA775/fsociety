@@ -18,6 +18,9 @@ db:
 admin:
 	$(PY) $(MAN) createsuperuser
 
+test:
+	$(PY) $(MAN) test
+
 .PHONY: clean
 
 clean:

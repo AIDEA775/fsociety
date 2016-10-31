@@ -40,3 +40,26 @@
         </div>
     </div>
 {% endblock %}
+
+{% block profile_list %}
+    <nav id="menu">
+        <ul class="menu menu-main">
+            <li class="level1" item1></li>
+                <a class="level1" >
+                    <span>Watched Videos</span>
+                </a>
+            <li class="level1" item5></li>
+                <a class="level1" >
+                    <span>Upload Videos</span>
+                </a>
+            <li class="level1" item2></li>
+                <a class="level1" >
+                    <span>Friendship Request</span>
+                </a>
+            <li class="level1" item3></li>
+                <a class="level1" href="{% url 'user:friends'%}">
+                    <span>Friends</span>
+                </a>
+        </ul>
+    </nav>
+{% endblock %}

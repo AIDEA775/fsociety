@@ -60,3 +60,11 @@ def friends_videos(request):
     videos = Video.objects.filter(author__friendship__in=friendship_list)
     context = {'videos': videos}
     return render(request, "video/friends_videos.html", context)
+    
+@login_required
+def top(request):
+    print (Video.objects.all())
+    videos = Video.objects.order_by('views')[10:]
+    print (videos)
+    context = {'videos':videos}
+    return render(request, "video/top.html", context)

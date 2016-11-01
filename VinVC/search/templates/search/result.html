@@ -2,22 +2,21 @@
 {% load static %}
 
 {% block head %}
-  <title>Results for {{key}}</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    <title>Results for {{key}}</title>
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block content %}
     {% if key %}
         {% if users_results %}
             <h1>Users</h1>
-
             <table class="uk-table">
             <tr>
-              <td><strong>User</strong></td>
+                <td><strong>User</strong></td>
             </tr>
             {% for user in users_results %}
                 <tr>
-                  <td><a href="{% url 'user:profile' user.id %}">{{ user.get_full_name }}</a></td>
+                    <td><a href="{% url 'user:profile' user.id %}">{{ user.get_full_name }}</a></td>
                 </tr>
             {% endfor %}
             </table>
@@ -27,14 +26,13 @@
 
         {% if videos_results %}
             <h1>Videos</h1>
-
             <table class="uk-table">
             <tr>
-              <td><strong>Video</strong></td>
+                <td><strong>Video</strong></td>
             </tr>
             {% for video in videos_results %}
                 <tr>
-                  <td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
+                    <td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
                 </tr>
             {% endfor %}
             </table>

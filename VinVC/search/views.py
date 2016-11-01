@@ -13,15 +13,15 @@ def search(request):
         users = None
         videos = None
         if key != '':
-            users = get_user_model().objects.filter( \
-                Q(username__icontains=key) | \
-                Q(email__icontains=key) | \
-                Q(first_name__icontains=key) | \
+            users = get_user_model().objects.filter(
+                Q(username__icontains=key) |
+                Q(email__icontains=key) |
+                Q(first_name__icontains=key) |
                 Q(last_name__icontains=key))
             videos = Video.objects.filter(
-                Q(title__icontains=key) | \
+                Q(title__icontains=key) |
                 Q(description__icontains=key))
-        context = {'key' : key,
-                   'users_results' : users,
-                   'videos_results' : videos}
+        context = {'key': key,
+                   'users_results': users,
+                   'videos_results': videos}
         return render(request, 'search/result.html', context)

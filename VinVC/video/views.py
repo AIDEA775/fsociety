@@ -89,13 +89,6 @@ def player(request, video_id):
 
 
 @login_required
-def most_viewed_videos(request):
-    videos = Video.objects.order_by('views')[:10]
-    context = {'videos': videos}
-    return render(request, "video/most_viewed_videos.html", context)
-
-
-@login_required
 def watched(request):
     watched_videos = WatchingVideo.objects.filter(user=request.user) \
         .values('video')

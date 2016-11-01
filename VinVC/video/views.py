@@ -87,4 +87,8 @@ def most_viewed_videos():
 
 @login_required
 def watched(request):
-    pass
+    watched_videos = WatchingVideo.objects.filter(user=request.user).values('video')
+    videos = Video.objects.filter(pk__in=watched_videos)
+    context = {'videos': videos}
+    print(videos)
+    return render(request, "video/watched.html", context)

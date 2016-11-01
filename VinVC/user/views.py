@@ -25,7 +25,8 @@ def profile(request, user_id):
     if profile != request.user:
         status = my_friendship.get_friendship_status(profile)
         if status == 'need_response':
-            request_id = my_friendship.get_pending_requests(from_user=profile.friendship)[0].id
+            request_id = my_friendship.get_pending_requests(
+                from_user=profile.friendship)[0].id
     context = {'profile': profile, 'status': status, 'request_id': request_id}
     return render(request, 'user/profile.html', context)
 
@@ -114,7 +115,8 @@ def requests_api(request):
                 {
                     'id': friendship_request.pk,
                     'user_id': friendship_request.sender.user.id,
-                    'user': conditional_escape(friendship_request.sender.user.get_full_name()),
+                    'user': conditional_escape(friendship_request.sender.user.
+                                               get_full_name()),
                 }
             )
 
@@ -123,7 +125,8 @@ def requests_api(request):
     elif api_method == "accept" or api_method == "reject":
         try:
             friendship_request = \
-                user_friendship.get_pending_requests().get(id=request.POST['id'])
+                user_friendship.get_pending_requests().get(id=request.
+                                                           POST['id'])
         except (KeyError, FriendshipRequest.DoesNotExist):
             raise Http404("Friendship Request does not exist")
 
@@ -136,7 +139,8 @@ def requests_api(request):
 
     else:
         try:
-            to_friendship = get_user_model().objects.get(id=request.POST['id']).friendship
+            to_friendship = get_user_model().objects.get(id=request.
+                                                         POST['id']).friendship
             user_friendship.send_request(to_friendship)
         except KeyError:
             return HttpResponseBadRequest('Invalid ID')

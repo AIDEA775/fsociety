@@ -2,33 +2,32 @@
 {% load static %}
 
 {% block profile %}
-  <title>{{ request.user.get_full_name }}'s Profile</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    <title>{{ request.user.get_full_name }}'s Profile</title>
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block profile_list %}
-  {% if friendship_requests_list %}
-      <h1>Friendship Requests</h1>
-
-      <table class="uk-table">
-      <tr>
-        <td><strong>User</strong></td>
-        <td><strong>Friendship request sent date</strong></td>
-        <td><strong>Accept request</strong></td>
-        <td><strong>Reject request</strong></td>
-      </tr>
-      {% for request in friendship_requests_list %}
-          <tr>
-            <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a></td>
-            <td>{{ request.sent_date|date:"M d, Y f" }}</td>
-            <td><a href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a></td>
-            <td><a href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a></td>
-          </tr>
-      {% endfor %}
-      </table>
-  {% else %}
-      <p>You don't have any Friendship Request. <a href="/user/list/">¿Would you like to send one now?</a></p>
-  {% endif %}
-  <br/>
-  <p><a href="{% url 'user:friends' %}">See relationships</a></p>
+    {% if friendship_requests_list %}
+    <h1>Friendship Requests</h1>
+    <table class="uk-table">
+        <tr>
+            <td><strong>User</strong></td>
+            <td><strong>Friendship request sent date</strong></td>
+            <td><strong>Accept request</strong></td>
+            <td><strong>Reject request</strong></td>
+        </tr>
+        {% for request in friendship_requests_list %}
+            <tr>
+                <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a></td>
+                <td>{{ request.sent_date|date:"M d, Y f" }}</td>
+                <td><a href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a></td>
+                <td><a href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>You don't have any Friendship Request. <a href="/user/list/">¿Would you like to send one now?</a></p>
+    {% endif %}
+    <br/>
+    <p><a href="{% url 'user:friends' %}">See relationships</a></p>
 {% endblock %}

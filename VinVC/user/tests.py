@@ -10,6 +10,7 @@ def create_two_users():
     bob = create_user(username="bob", email="bob@example")
     return alice, bob
 
+
 def friends(user, other):
     user.friendship.send_request(other.friendship)
     other.friendship.get_pending_requests().get().accept()

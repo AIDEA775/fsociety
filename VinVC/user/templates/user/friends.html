@@ -2,25 +2,20 @@
 {% load static %}
 
 {% block profile %}
-  <title>{{ request.user.get_full_name }}'s Friends</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    <title>{{ request.user.get_full_name }}'s Friends</title>
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block profile_list %}
-  {% if friendship_list %}
-      <h1>Relationships</h1>
-
-      <table class="uk-table">
-      <tr>
-        <td><strong>User</strong></td>
-      </tr>
-      {% for friend in friendship_list %}
-          <tr>
-            <td><a href="/user/{{ friend.user.id }}/">{{ friend.user.get_full_name }}</a></td>
-          </tr>
-      {% endfor %}
-      </table>
-  {% else %}
-      <p>You don't have any relationships. <a href="/user/list/">¿Would you like to send one now?</a></p>
-  {% endif %}
+    {% if friendship_list %}
+        <h1>Relationships</h1>
+    <table class="uk-table">
+        <tr><td><strong>User</strong></td></tr>
+        {% for friend in friendship_list %}
+            <tr><td><a href="/user/{{ friend.user.id }}/">{{ friend.user.get_full_name }}</a></td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>You don't have any relationships. <a href="/user/list/">¿Would you like to send one now?</a></p>
+    {% endif %}
 {% endblock %}

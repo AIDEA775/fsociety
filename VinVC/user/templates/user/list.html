@@ -2,34 +2,27 @@
 {% load static %}
 
 {% block head %}
-  <title>Users</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+    <title>Users</title>
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block content %}
-  {% if user_status %}
-
-      <table class="uk-table">
-      <tr>
-        <td><strong>User</strong></td>
-        <td></td>
-      </tr>
-      {% for user, status in user_status %}
-          <tr>
-            <td><a href="/user/{{ user.id }}/">{{ user.get_full_name }}</a></td>
-            <td>
+    {% if user_status %}
+    <table class="uk-table">
+        <tr><td><strong>User</strong></td></tr>
+        {% for user, status in user_status %}
+            <tr><td><a href="/user/{{ user.id }}/">{{ user.get_full_name }}</a></td><td>
                 {% if status == 'friends' %}
-                  You are already friends
+                    You are already friends
                 {% elif status == 'already_sent_request' %}
-                  Request pending
+                    Request pending
                 {% else %}
-                  <a href="{% url 'user:request_send' %}?id={{ user.id }}">Send friendship request</a>
+                    <a href="{% url 'user:request_send' %}?id={{ user.id }}">Send friendship request</a>
                 {% endif %}
-            </td>
-          </tr>
-      {% endfor %}
-      </table>
-  {% else %}
-      <p>There aren't other registered users.</p>
-  {% endif %}
+            </td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>There aren't other registered users.</p>
+    {% endif %}
 {% endblock %}

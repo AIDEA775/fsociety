@@ -25,8 +25,8 @@ def profile(request, user_id):
     if profile != request.user:
         status = my_friendship.get_friendship_status(profile)
         if status == 'need_response':
-            request_id = my_friendship.get_pending_requests(from_user=profile.friendship).get()
-    context = {'profile': profile, 'status': status, 'request': request_id}
+            request_id = my_friendship.get_pending_requests(from_user=profile.friendship)[0].id
+    context = {'profile': profile, 'status': status, 'request_id': request_id}
     return render(request, 'user/profile.html', context)
 
 

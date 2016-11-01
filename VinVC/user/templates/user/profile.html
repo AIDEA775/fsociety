@@ -34,10 +34,10 @@
                     {% elif status == 'already_sent_request' %}
                         Request pending
                     {% elif status == 'allow_send_request' %}
-                        <a id="request-button" class="site-button" href="{% url 'user:request_send' %}?id={{ profile.id }}">Send request</a>
+                        <a id="request-button" class="site-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
                     {% elif status == 'need_response' %}
-                        <a id="accept-button" class="site-button" href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a>
-                        <a id="reject-button" class="site-button" href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a>
+                        <a id="accept-button" class="site-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
+                        <a id="reject-button" class="site-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
                     {% endif %}
                 </p>
             </div>
@@ -84,4 +84,9 @@
 {% block profile_list %}
 {% endblock %}
 
+    <script>
+    function updateStatus(elem) {
+        elem.replaceWith("Request Pending");
+    }
+    </script>
 {% endblock %}

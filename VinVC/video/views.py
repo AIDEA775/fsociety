@@ -45,11 +45,11 @@ def delete(request):
     try:
         video = Video.objects.get(id=request.GET['id'])
     except(KeyError, Video.DoesNotExist):
-        return redirect('video:uploaded')
+        return redirect('video:uploaded', user_id=request.user.id)
 
     if video.author == request.user:
         video.delete()
-        return redirect('video:uploaded')
+        return redirect('video:uploaded', user_id=request.user.id)
     else:
         return HttpResponseForbidden("Don't you have permission to delete")
 

@@ -39,11 +39,11 @@ def api(request, video_id):
         Comment.objects.create(author=request.user, topic=video, msg=msg)
 
     if last_seen_id:
-        last_id_in_db = Comment.objects.latest('pk').pk
+        last_id_in_db = Comment.objects.filter(topic=video).latest('pk').pk
         last_seen_id = max(int(last_seen_id), last_id_in_db - 20)
-        query_result = Comment.objects.filter(pk__gt=last_seen_id).order_by('-date_published')
+        query_result = Comment.objects.filter(topic=video, pk__gt=last_seen_id).order_by('-date_published')
     else:
-        query_result = Comment.objects.order_by('-date_published')[:20]
+        query_result = Comment.objects.filter(topic=video).order_by('-date_published')[:20]
 
     result = []
     for comment in reversed(query_result):

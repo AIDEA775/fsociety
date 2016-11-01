@@ -122,4 +122,12 @@
 
         $("#chat-input").val('');
     }
+
+    $('#chat-input').keydown(function (event) {
+        var keypressed = event.keyCode || event.which;
+        if (keypressed == 13) {
+            if ($(this).val().replace(/\s/g, "") .length !== 0)
+                sendMessage();
+    }
+});
 </script>

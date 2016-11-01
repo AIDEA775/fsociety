@@ -28,6 +28,7 @@
 
 #msg_submit {
     float: right;
+    margin-left: 10px;
 }
 
 #chat-input-container {

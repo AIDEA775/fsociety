@@ -64,13 +64,6 @@ def friends_videos(request):
 
 
 @login_required
-def add_player(request, video_id):
-    user = request.user
-    video = Video.objects.all()[video_id]
-    WatchingVideo.objects.create(user=user, video=video)
-
-
-@login_required
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
     watching = WatchingVideo.objects.filter(user__friendship__in=
@@ -82,6 +75,7 @@ def feed(request):
 @login_required
 def player(request, video_id):
     video = get_object_or_404(Video, id=video_id)
+    WatchingVideo.objects.create(user=request.user, video=video)
     context = {'video': video}
     return render(request, "video/player.html", context)
 

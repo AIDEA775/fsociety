@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseForbidden
+from django.contrib.auth import get_user_model
 
 from .models import Video, WatchingVideo
 
@@ -54,8 +55,9 @@ def delete(request):
 
 
 @login_required
-def uploaded(request):
-    videos = Video.objects.filter(author=request.user)
+def uploaded(request, user_id):
+    user = get_object_or_404(get_user_model(), id=user_id)
+    videos = Video.objects.filter(author=user)
     context = {'profile': request.user, 'videos': videos}
     return render(request, "video/uploaded.html", context)
 
@@ -72,7 +74,8 @@ def friends_videos(request):
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
     watched_videos = WatchingVideo.objects.filter(user__friendship__in=
-                                                  friendship_list).values('video')
+                                                  friendship_list).\
+        values('video')
     videos = Video.objects.filter(pk__in=watched_videos)
     must_viewed = Video.objects.order_by('views')[:10]
     watching = videos | must_viewed
@@ -89,9 +92,9 @@ def player(request, video_id):
 
 
 @login_required
-def watched(request):
-    watched_videos = WatchingVideo.objects.filter(user=request.user) \
-        .values('video')
+def watched(request, user_id):
+    user = get_object_or_404(get_user_model(), id=user_id)
+    watched_videos = WatchingVideo.objects.filter(user=user).values('video')
     videos = Video.objects.filter(pk__in=watched_videos)
-    context = {'videos': videos}
+    context = {'videos': videos, 'profile': user}
     return render(request, "video/watched.html", context)

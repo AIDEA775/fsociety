@@ -32,8 +32,9 @@ def profile(request, user_id):
 
 
 @login_required
-def friends(request):
-    friendship_list = request.user.friendship.friends.all()
+def friends(request, user_id):
+    user = get_object_or_404(get_user_model(), id=user_id)
+    friendship_list = user.friendship.friends.all()
     context = {'profile': request.user, 'friendship_list': friendship_list}
     return render(request, 'user/friends.html', context)
 

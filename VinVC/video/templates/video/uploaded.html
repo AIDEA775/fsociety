@@ -1,20 +1,11 @@
-{% extends "user/profile.html" %}
-{% load static %}
-
-{% block profile %}
-  <title>Videos</title>
-{% endblock %}
-
-{% block profile_list %}
-    {% if videos %}
-    <table class="uk-table">
-        <tr><td><strong>Uploaded Videos</strong></td></tr>
-        {% for video in videos %}
-            <tr><td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
-            <td><a href="{% url 'video:delete' %}?id={{ video.id }}">Delete video</a></td></tr>
-        {% endfor %}
-    {% else %}
-        <p>You don't have any videos.</p>
-    </table>
-    {% endif %}
-{% endblock %}
+{% if videos %}
+<table class="uk-table">
+    <tr><td><strong>Uploaded Videos</strong></td></tr>
+    {% for video in videos %}
+        <tr><td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
+        <td><a href="{% url 'video:delete' %}?id={{ video.id }}">Delete video</a></td></tr>
+    {% endfor %}
+{% else %}
+    <p>You don't have any videos.</p>
+</table>
+{% endif %}

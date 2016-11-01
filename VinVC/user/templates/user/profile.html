@@ -48,41 +48,67 @@
     <nav id="menu">
         <ul class="menu">
             {% if status == 'same_user' %}
-                <li><a href="{% url 'video:watched' %}">
+                <li><a id="watched" href=#>
                     <span>Watched Videos</span>
                 </a></li>
-                <li><a href="{% url 'video:uploaded' %}">
+                <li><a id="uploaded" href=#>
                     <span>Uploaded Videos</span>
                 </a></li>
-                <li><a href="{% url 'user:requests'%}">
+                <li><a id="requests" href=#>
                     <span>Friendship Request</span>
                 </a></li>
-                <li><a href="{% url 'user:friends'%}">
+                <li><a id="friends" href=#>
                     <span>Friends</span>
                 </a></li>
             {% elif status == 'friends' %}
-                <li><a href="{% url 'video:watched' %}">
+                <li><a id="watched" href=#>
                     <span>Watched Videos</span>
                 </a></li>
-                <li><a href="{% url 'video:uploaded' %}">
+                <li><a id="uploaded" href=#>
                     <span>Uploaded Videos</span>
                 </a></li>
-                <li><a href="{% url 'user:friends'%}">
+                <li><a id="friends" href=#>
                     <span>Friends</span>
                 </a></li>
             {% else %}
-                <li><a href="{% url 'video:uploaded' %}">
+                <li><a id="uploaded" href=#>
                     <span>Uploaded Videos</span>
                 </a></li>
-                <li><a href="{% url 'user:friends'%}">
+                <li><a id="friends" href=#>
                     <span>Friends</span>
                 </a></li>
             {% endif %}
         </ul>
     </nav>
 
-{% block profile_list %}
-{% endblock %}
+    <script>
+        function toggleContent(html) {
+            $("#profile-content").fadeOut(300, function() {
+                $("#profile-content").empty().append(html);
+                $("#profile-content").fadeIn(300);
+            });
+        }
+        $(document).ready(function(){
+          $('#friends').click(function() {
+            $.get("{% url 'user:friends' profile.id %}", toggleContent);
+            return false;
+          });
+          $('#uploaded').click(function() {
+            $.get("{% url 'video:uploaded' profile.id %}", toggleContent);
+            return false;
+        });
+          $('#watched').click(function() {
+            $.get("{% url 'video:watched' profile.id %}", toggleContent);
+            return false;
+          });
+          $('#requests').click(function() {
+            $.get("{% url 'user:requests' %}", toggleContent);
+            return false;
+          });
+      });
+    </script>
+
+    <div id="profile-content"></div>
 
     <script>
     function updateStatus(elem) {

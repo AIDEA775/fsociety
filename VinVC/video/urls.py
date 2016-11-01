@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^watched/$', views.watched, name='watched'),
     url(r'^friends_videos/$', views.friends_videos, name='friends_videos'),
     url(r'^feed/$', views.feed, name='feed'),
+    url(r'^most_viewed_videos/$', views.most_viewed_videos, name='most_viewed_videos'),
     url(r'^(?P<video_id>[0-9]+)/$', views.player, name='player'),
+
 ]

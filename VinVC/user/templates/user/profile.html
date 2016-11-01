@@ -90,21 +90,32 @@
         }
         $(document).ready(function(){
           $('#friends').click(function() {
+              addActive(this);
             $.get("{% url 'user:friends' profile.id %}", toggleContent);
             return false;
           });
           $('#uploaded').click(function() {
+              addActive(this);
             $.get("{% url 'video:uploaded' profile.id %}", toggleContent);
             return false;
         });
           $('#watched').click(function() {
+              addActive(this);
             $.get("{% url 'video:watched' profile.id %}", toggleContent);
             return false;
           });
           $('#requests').click(function() {
+              addActive(this);
             $.get("{% url 'user:requests' %}", toggleContent);
             return false;
           });
+
+            function addActive(elem) {
+                $(elem).parent().parent().children().each(function() {
+                  $(this).removeClass('active');
+              });
+              $(elem).parent().addClass('active');
+            }
       });
     </script>
 

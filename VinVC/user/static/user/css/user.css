@@ -170,8 +170,13 @@ ul.menu a:hover {
     box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
-ul.menu a:active {
+li.active a, ul.menu a:active {
     box-shadow: inset 0 0px 10px rgba(0, 0, 0, 0.2);
     background: #5a2ca0;
     color: white;
+}
+
+li.active a:hover {
+    color: white;
+    box-shadow: none;
 }

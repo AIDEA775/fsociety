@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "user/profile.html" %}
 {% load static %}
 
-{% block head %}
+{% block profile %}
   <title>{{ request.user.get_full_name }}'s Profile</title>
   <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
-{% block content %}
+{% block profile_list %}
   {% if friendship_requests_list %}
       <h1>Friendship Requests</h1>
 

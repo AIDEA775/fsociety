@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import logout
 from . import views
 
-app_name='login'
+app_name = 'login'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^login$', views.login, name='login'),

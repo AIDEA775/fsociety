@@ -22,6 +22,16 @@ class Friendship(models.Model):
 
         return result
 
+    def get_friendship_status(self, user):
+        if user.friendship in self.get_friends():
+            return 'friends'
+        elif user.friendship.get_pending_requests(from_user=self):
+            return 'already_sent_request'
+        elif self.get_pending_requests(from_user=user.friendship):
+            return 'need_response'
+        else:
+            return 'allow_send_request'
+
     def send_request(self, user):
         if user not in self.get_friends() \
                 and not user.get_pending_requests(from_user=self):

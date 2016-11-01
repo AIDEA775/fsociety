@@ -62,12 +62,12 @@ class VideoViewTest(VideoTestsBase):
         super().setUp()
         upload_a_video(self.client_a)
 
-    def test_view_my_videos(self):
-        response = self.client_a.get(reverse('video:my_videos'))
+    def test_view_uploaded(self):
+        response = self.client_a.get(reverse('video:uploaded'))
         self.assertEqual(response.context['videos'].count(), 1)
 
-    def test_view_my_videos_without_videos(self):
-        response = self.client_u.get(reverse('video:my_videos'))
+    def test_view_uploaded_without_videos(self):
+        response = self.client_u.get(reverse('video:uploaded'))
         self.assertEqual(response.context['videos'].count(), 0)
 
     def test_count_friends_videos(self):

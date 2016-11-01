@@ -1,0 +1,27 @@
+{% extends "user/profile.html" %}
+{% load static %}
+
+{% block profile %}
+  <title>Videos</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+
+{% block profile_list %}
+
+        {% if videos %}
+            <table class="uk-table">
+             <tr>
+                <td><strong>Uploaded Videos</strong></td>
+                <td></td>
+             </tr>
+                {% for video in videos %}
+                  <tr>
+                        <td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
+                  </tr>
+                {% endfor %}
+        {% else %}
+
+            <p>Don't exist any videos.</p>
+            </table>
+        {% endif %}
+{% endblock %}

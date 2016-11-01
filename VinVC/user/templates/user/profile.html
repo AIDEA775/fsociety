@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>{{ user.get_full_name }}'s Profile</title>
+  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+  <link rel='stylesheet' href="{% static 'user/css/user.css' %}" />
+
+{% block profile %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div id="profile-header-container">
+        <div id="profile-header">
+            <div id="profile-header-image-container">
+                <div id="profile-header-image">
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+                <span>{{ profile.get_full_name }}</span>
+            </div>
+            <div id="profile-header-info-container">
+                <p id="member-status">Member since<br/><span>{{ profile.date_joined|date:"d M Y" }}</span></p>
+                <span>
+                    <span class="value">{{ profile.friendship.get_friends.count }}</span>
+                    <span class="text">Friends</span>
+                </span>
+                <span>
+                    <span class="value">{{ profile.video_set.all.count }}</span>
+                    <span class="text">Videos</span>
+                </span>
+                <p id="user-status">
+                    {% if status == 'friends' %}
+                        You are already friends
+                    {% elif status == 'already_sent_request' %}
+                        Request pending
+                    {% elif status == 'allow_send_request' %}
+                        <a id="request-button" class="site-button" href="{% url 'user:request_send' %}?id={{ profile.id }}">Send request</a>
+                    {% elif status == 'need_response' %}
+                        <a id="accept-button" class="site-button" href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a>
+                        <a id="reject-button" class="site-button" href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <nav id="menu">
+        <ul class="menu menu-main">
+            <li class="level1" item1></li>
+                <a class="level1" href="{% url 'video:watched' %}">
+                    <span>Watched Videos</span>
+                </a>
+            <li class="level1"></li>
+                <a class="level1" href="{% url 'video:uploaded' %}">
+                    <span>Uploaded Videos</span>
+                </a>
+            <li class="level1" item3></li>
+                <a class="level1" href="{% url 'user:requests'%}">
+                    <span>Friendship Request</span>
+                </a>
+            <li class="level1" item4></li>
+                <a class="level1" href="{% url 'user:friends'%}">
+                    <span>Friends</span>
+                </a>
+        </ul>
+    </nav>
+
+{% block profile_list %}
+{% endblock %}
+
+{% endblock %}

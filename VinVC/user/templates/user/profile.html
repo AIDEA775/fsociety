@@ -2,12 +2,11 @@
 {% load static %}
 
 {% block head %}
+  {% block profile %}
+  {% endblock %}
   <title>{{ user.get_full_name }}'s Profile</title>
   <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
   <link rel='stylesheet' href="{% static 'user/css/user.css' %}" />
-
-{% block profile %}
-{% endblock %}
 {% endblock %}
 
 {% block content %}

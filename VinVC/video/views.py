@@ -46,12 +46,12 @@ def delete(request):
     except(KeyError, Video.DoesNotExist):
         return redirect('video:my_videos')
     return redirect('video:my_videos')
-    
-    
+
+
 @login_required
 def uploaded(request):
     videos = Video.objects.filter(author=request.user)
-    context = {'videos': videos}
+    context = {'profile': request.user, 'videos': videos}
     return render(request, "video/uploaded.html", context)
 
 

@@ -11,7 +11,8 @@ from .models import FriendshipRequest
 @login_required
 def requests(request):
     friendship_requests_list = request.user.friendship.get_pending_requests()
-    context = {'friendship_requests_list': friendship_requests_list}
+    context = {'profile': request.user,
+               'friendship_requests_list': friendship_requests_list}
     return render(request, 'user/requests.html', context)
 
 
@@ -32,7 +33,7 @@ def profile(request, user_id):
 @login_required
 def friends(request):
     friendship_list = request.user.friendship.friends.all()
-    context = {'friendship_list': friendship_list}
+    context = {'profile': request.user, 'friendship_list': friendship_list}
     return render(request, 'user/friends.html', context)
 
 

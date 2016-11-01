@@ -7,21 +7,14 @@
 {% endblock %}
 
 {% block profile_list %}
-
-        {% if videos %}
-            <table class="uk-table">
-             <tr>
-                <td><strong>Watched Videos</strong></td>
-                <td></td>
-             </tr>
-                {% for video in videos %}
-                  <tr>
-                        <td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
-                  </tr>
-                {% endfor %}
-        {% else %}
-
-            <p>Don't exist any videos.</p>
-            </table>
-        {% endif %}
+    {% if videos %}
+    <table class="uk-table">
+            <tr><td><strong>Watched Videos</strong></td></tr>
+            {% for video in videos %}
+                <tr><td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td></tr>
+            {% endfor %}
+    {% else %}
+        <p>Don't exist any videos.</p>
+    </table>
+    {% endif %}
 {% endblock %}

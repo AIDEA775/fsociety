@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Video, WatchingVideo
 from django.core.exceptions import ValidationError
+from django.http import HttpResponseForbidden
+
+from .models import Video, WatchingVideo
 
 
 @login_required
@@ -13,7 +15,6 @@ def index(request):
 
 @login_required
 def upload(request):
-    """Create a new video."""
     title = request.POST.get('title')
     video_file = request.FILES.get('video_file')
     description = request.POST.get('description')
@@ -42,10 +43,14 @@ def upload(request):
 def delete(request):
     try:
         video = Video.objects.get(id=request.GET['id'])
-        video.delete()
     except(KeyError, Video.DoesNotExist):
-        return redirect('video:my_videos')
-    return redirect('video:my_videos')
+        return redirect('video:uploaded')
+
+    if video.author == request.user:
+        video.delete()
+        return redirect('video:uploaded')
+    else:
+        return HttpResponseForbidden("Don't you have permission to delete")
 
 
 @login_required
@@ -66,8 +71,11 @@ def friends_videos(request):
 @login_required
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
-    watching = WatchingVideo.objects.filter(user__friendship__in=
-                                            friendship_list)
+    watched_videos = WatchingVideo.objects.filter(user__friendship__in=
+                                                  friendship_list).values('video')
+    videos = Video.objects.filter(pk__in=watched_videos)
+    must_viewed = Video.objects.order_by('views')[:10]
+    watching = videos | must_viewed
     context = {'watching': watching}
     return render(request, "video/feed.html", context)
 
@@ -83,15 +91,14 @@ def player(request, video_id):
 @login_required
 def most_viewed_videos(request):
     videos = Video.objects.order_by('views')[:10]
-    context = {'videos':videos}
+    context = {'videos': videos}
     return render(request, "video/most_viewed_videos.html", context)
-
 
 
 @login_required
 def watched(request):
-    watched_videos = WatchingVideo.objects.filter(user=request.user).values('video')
+    watched_videos = WatchingVideo.objects.filter(user=request.user) \
+        .values('video')
     videos = Video.objects.filter(pk__in=watched_videos)
     context = {'videos': videos}
-    print(videos)
     return render(request, "video/watched.html", context)

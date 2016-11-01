@@ -7,15 +7,16 @@ from login.tests import create_user, login_user
 
 
 def upload_a_video(client, path='login/static/login/video/bg.mp4',
-    title='My video', description='My description'):
+                   title='My video', description='My description'):
     """
     Upload a video as client and return response
     """
     with open(path, 'rb') as video:
         return client.post(reverse('video:upload'),
-            {'title' : title,
-             'description' : description,
-             'video_file' : video})
+                           {'title': title,
+                            'description': description,
+                            'video_file': video})
+
 
 class VideoTestsBase(TestCase):
     def setUp(self):
@@ -40,13 +41,13 @@ class VideoUploadDeleteTest(VideoTestsBase):
     def test_delete_video(self):
         upload_a_video(self.client_u)
         video = self.user.video_set.all().get()
-        self.client_u.get(reverse('video:delete'), {'id' : video.id})
+        self.client_u.get(reverse('video:delete'), {'id': video.id})
         self.assertEqual(self.user.video_set.all().count(), 0)
 
     def test_delete_video_of_other_user(self):
         upload_a_video(self.client_a)
         video = self.alice.video_set.all().get()
-        self.client_b.get(reverse('video:delete'), {'id' : video.id})
+        self.client_b.get(reverse('video:delete'), {'id': video.id})
         self.assertEqual(self.alice.video_set.all().count(), 1)
 
     def test_upload_video_without_title(self):

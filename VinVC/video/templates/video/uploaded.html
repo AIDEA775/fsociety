@@ -6,21 +6,15 @@
 {% endblock %}
 
 {% block profile_list %}
-
-        {% if videos %}
-            <table class="uk-table">
-             <tr>
-                <td><strong>Uploaded Videos</strong></td>
-                <td></td>
-             </tr>
-                {% for video in videos %}
-                  <tr>
-                        <td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
-                  </tr>
-                {% endfor %}
-        {% else %}
-
-            <p>Don't exist any videos.</p>
-            </table>
-        {% endif %}
+    {% if videos %}
+    <table class="uk-table">
+        <tr><td><strong>Uploaded Videos</strong></td></tr>
+        {% for video in videos %}
+            <tr><td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
+            <td><a href="{% url 'video:delete' %}?id={{ video.id }}">Delete video</a></td></tr>
+        {% endfor %}
+    {% else %}
+        <p>You don't have any videos.</p>
+    </table>
+    {% endif %}
 {% endblock %}

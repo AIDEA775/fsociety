@@ -1,25 +1,20 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-  <title>Videos</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
-{% endblock %}
-{% block content %}
 
-        {% if videos %}
-            <table class="uk-table">
-             <tr>
-                <td><strong>All videos</strong></td>
-                <td></td>
-             </tr>
-                {% for video in videos %}
-                  <tr>
-                        <td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
-                  </tr>
-                {% endfor %}
-        {% else %}
-            <p>Don't exist any videos.</p>
-            </table>
-        {% endif %}
+{% block head %}
+    <title>Videos</title>
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+    {% if videos %}
+    <table class="uk-table">
+        <tr><td><strong>All videos</strong></td></tr>
+        {% for video in videos %}
+            <tr><td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td></tr>
+        {% endfor %}
+    {% else %}
+        <p>Don't exist any videos.</p>
+    </table>
+    {% endif %}
 {% endblock %}

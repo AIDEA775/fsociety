@@ -3,27 +3,22 @@
 {% load static chat_room_tags %}
 {% block head %}
   <title>Videos</title>
-  <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
+  <link rel='stylesheet' href="{% static 'video/css/style.css' %}" />
+  <link rel='stylesheet' href="{% static 'video/css/player.css' %}" />
 {% chat_room_headers %}
 {% endblock %}
 {% block content %}
-
-    {% if video %}
     <h3><strong> {{ video.title }} </strong></h3>
-    <table class="uk-table">
-        <tr>
-            <td>
+    <div id="player-container">
+        <div id="video-container">
             <video preload="auto" controls autoplay>
             <source src="{{ video.video_file.url }}">
             Your browser does not support HTML5 video.
             </video>
-            </td>
-        <td><div id="chat_room">{% show_chat_room video.pk %}</div></td>
-        </tr>
-
-    <blockquote> {{ video.description }} </blockquote>
-    {% else %}
-        <p>Don't exist any videos.</p>
-    </table>
-    {% endif %}
+            <blockquote> {{ video.description }} </blockquote>
+        </div>
+        <div id="chat-room-container">
+            {% show_chat_room video.pk %}
+        </div>
+    </div>
 {% endblock %}

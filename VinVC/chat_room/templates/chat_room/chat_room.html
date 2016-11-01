@@ -42,7 +42,7 @@
     });
 
     function getUserProfile(id) {
-        var user_profile_url = "{% url 'chat_room:api' 0 %}";
+        var user_profile_url = "{% url 'user:profile' 0 %}";
         return user_profile_url.replace(/0/, id.toString());
     }
 
@@ -122,4 +122,12 @@
 
         $("#chat-input").val('');
     }
+
+    $('#chat-input').keydown(function (event) {
+        var keypressed = event.keyCode || event.which;
+        if (keypressed == 13) {
+            if ($(this).val().replace(/\s/g, "") .length !== 0)
+                sendMessage();
+    }
+});
 </script>

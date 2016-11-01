@@ -46,12 +46,12 @@ def delete(request):
     except(KeyError, Video.DoesNotExist):
         return redirect('video:my_videos')
     return redirect('video:my_videos')
-    
-    
+
+
 @login_required
 def uploaded(request):
     videos = Video.objects.filter(author=request.user)
-    context = {'videos': videos}
+    context = {'profile': request.user, 'videos': videos}
     return render(request, "video/uploaded.html", context)
 
 
@@ -61,13 +61,6 @@ def friends_videos(request):
     videos = Video.objects.filter(author__friendship__in=friendship_list)
     context = {'videos': videos}
     return render(request, "video/friends_videos.html", context)
-
-
-@login_required
-def add_player(request, video_id):
-    user = request.user
-    video = Video.objects.all()[video_id]
-    WatchingVideo.objects.create(user=user, video=video)
 
 
 @login_required
@@ -82,6 +75,7 @@ def feed(request):
 @login_required
 def player(request, video_id):
     video = get_object_or_404(Video, id=video_id)
+    WatchingVideo.objects.create(user=request.user, video=video)
     context = {'video': video}
     return render(request, "video/player.html", context)
 
@@ -96,4 +90,8 @@ def most_viewed_videos(request):
 
 @login_required
 def watched(request):
-    pass
+    watched_videos = WatchingVideo.objects.filter(user=request.user).values('video')
+    videos = Video.objects.filter(pk__in=watched_videos)
+    context = {'videos': videos}
+    print(videos)
+    return render(request, "video/watched.html", context)

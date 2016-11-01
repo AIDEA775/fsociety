@@ -40,7 +40,7 @@ def api(request, video_id):
 
     if last_seen_id:
         last_id_in_db = Comment.objects.latest('pk').pk
-        last_seen_id = max(last_seen_id, last_id_in_db - 20)
+        last_seen_id = max(int(last_seen_id), last_id_in_db - 20)
         query_result = Comment.objects.filter(pk__gt=last_seen_id).order_by('-date_published')
     else:
         query_result = Comment.objects.order_by('-date_published')[:20]

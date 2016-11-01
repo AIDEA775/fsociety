@@ -47,22 +47,37 @@
 
     <nav id="menu">
         <ul class="menu menu-main">
-            <li class="level1" item1></li>
-                <a class="level1" href="{% url 'video:watched' %}">
+            {% if status == 'same_user' %}
+                <li><a href="{% url 'video:watched' %}">
                     <span>Watched Videos</span>
-                </a>
-            <li class="level1"></li>
-                <a class="level1" href="{% url 'video:uploaded' %}">
+                </a></li>
+                <li><a href="{% url 'video:uploaded' %}">
                     <span>Uploaded Videos</span>
-                </a>
-            <li class="level1" item3></li>
-                <a class="level1" href="{% url 'user:requests'%}">
+                </a></li>
+                <li><a href="{% url 'user:requests'%}">
                     <span>Friendship Request</span>
-                </a>
-            <li class="level1" item4></li>
-                <a class="level1" href="{% url 'user:friends'%}">
+                </a></li>
+                <li><a href="{% url 'user:friends'%}">
                     <span>Friends</span>
-                </a>
+                </a></li>
+            {% elif status == 'friends' %}
+                <li><a href="{% url 'video:watched' %}">
+                    <span>Watched Videos</span>
+                </a></li>
+                <li><a href="{% url 'video:uploaded' %}">
+                    <span>Uploaded Videos</span>
+                </a></li>
+                <li><a href="{% url 'user:friends'%}">
+                    <span>Friends</span>
+                </a></li>
+            {% else %}
+                <li><a href="{% url 'video:uploaded' %}">
+                    <span>Uploaded Videos</span>
+                </a></li>
+                <li><a href="{% url 'user:friends'%}">
+                    <span>Friends</span>
+                </a></li>
+            {% endif %}
         </ul>
     </nav>
 

@@ -36,23 +36,23 @@ class VideoUploadDeleteTest(VideoTestsBase):
     def test_upload_video(self):
         response = upload_a_video(self.client_u)
         self.assertNotContains(response, 'Video not supported')
-        self.assertEqual(self.user.video_set.all().count(), 1)
+        self.assertEqual(self.user.author.all().count(), 1)
 
     def test_delete_video(self):
         upload_a_video(self.client_u)
-        video = self.user.video_set.all().get()
+        video = self.user.author.all()[0]
         self.client_u.get(reverse('video:delete'), {'id': video.id})
-        self.assertEqual(self.user.video_set.all().count(), 0)
+        self.assertEqual(self.user.author.all().count(), 0)
 
     def test_delete_video_of_other_user(self):
         upload_a_video(self.client_a)
-        video = self.alice.video_set.all().get()
+        video = self.alice.author.all()[0]
         self.client_b.get(reverse('video:delete'), {'id': video.id})
-        self.assertEqual(self.alice.video_set.all().count(), 1)
+        self.assertEqual(self.alice.author.all().count(), 1)
 
     def test_upload_video_without_title(self):
         upload_a_video(self.client_u, title='')
-        self.assertEqual(self.user.video_set.all().count(), 0)
+        self.assertEqual(self.user.author.all().count(), 0)
 
 
 class VideoViewTest(VideoTestsBase):
@@ -64,11 +64,11 @@ class VideoViewTest(VideoTestsBase):
         upload_a_video(self.client_a)
 
     def test_view_uploaded(self):
-        response = self.client_a.get(reverse('video:uploaded'))
+        response = self.client_a.get(reverse('video:uploaded', kwargs={'user_id': self.alice.id}))
         self.assertEqual(response.context['videos'].count(), 1)
 
     def test_view_uploaded_without_videos(self):
-        response = self.client_u.get(reverse('video:uploaded'))
+        response = self.client_u.get(reverse('video:uploaded', kwargs={'user_id': self.user.id}))
         self.assertEqual(response.context['videos'].count(), 0)
 
     def test_count_friends_videos(self):

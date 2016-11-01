@@ -11,7 +11,7 @@
     <table class="uk-table">
         <tr><td><strong>Friends Videos</strong></td></tr>
         {% for video in videos %}
-            <tr><td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td></tr>
+            <tr><td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td></tr>
         {% endfor %}
     {% else %}
         <p>Don't exist any videos.</p>

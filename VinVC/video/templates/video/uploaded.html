@@ -10,7 +10,7 @@
     <table class="uk-table">
         <tr><td><strong>Uploaded Videos</strong></td></tr>
         {% for video in videos %}
-            <tr><td><a href="{{ video.video_file.url }}">{{ video.title }}</a></td>
+            <tr><td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
             <td><a href="{% url 'video:delete' %}?id={{ video.id }}">Delete video</a></td></tr>
         {% endfor %}
     {% else %}

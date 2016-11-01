@@ -41,11 +41,6 @@
         }
     });
 
-    function getUserProfile(id) {
-        var user_profile_url = "{% url 'user:profile' 0 %}";
-        return user_profile_url.replace(/0/, id.toString());
-    }
-
     function updateChat( data ) {
         for (var i in data) {
             var date = new Date(data[i].date);

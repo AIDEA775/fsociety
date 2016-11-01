@@ -66,6 +66,11 @@
 
             var notification_count = $(".notification-count");
 
+            function getUserProfile(id) {
+                var user_profile_url = "{% url 'user:profile' 0 %}";
+                return user_profile_url.replace(/0/, id.toString());
+            }
+
             function updateRequestNotifications( data ) {
                 if (data.length > 0) {
                     if (!$("#header-notification-bell").hasClass('active')) {
@@ -78,7 +83,7 @@
                     for (var i in data) {
                         $("#notification-list").prepend(
                                 "<li class='notification'>"
-                                    + "<a href='/user/" + data[i].user_id + "'>" + data[i].user+ "</a>"
+                                    + "<a href='"+ getUserProfile(data[i].user_id) +"'>" + data[i].user+ "</a>"
                                     + "<button onclick='remove(this);acceptRequest(" + data[i].id +")'>Accept</button>"
                                     + "<button onclick='remove(this);rejectRequest(" + data[i].id +")'>Reject</button>"
                                 + "</li>"

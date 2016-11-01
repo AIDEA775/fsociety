@@ -127,7 +127,7 @@ def requests_api(request):
         except (KeyError, FriendshipRequest.DoesNotExist):
             raise Http404("Friendship Request does not exist")
 
-        if api_method is "accept":
+        if api_method == "accept":
             friendship_request.accept()
         else:
             friendship_request.reject()

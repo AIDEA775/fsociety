@@ -82,44 +82,53 @@
     </nav>
 
     <script>
-        function toggleContent(html) {
-            $("#profile-content").fadeOut(300, function() {
-                $("#profile-content").empty().append(html);
-                $("#profile-content").fadeIn(300);
-            });
-        }
         $(document).ready(function(){
-          $('#friends').click(function() {
-              addActive(this);
-            $.get("{% url 'user:friends' profile.id %}", toggleContent);
-            return false;
-          });
-          $('#uploaded').click(function() {
-              addActive(this);
-            $.get("{% url 'video:uploaded' profile.id %}", toggleContent);
-            return false;
-        });
-          $('#watched').click(function() {
-              addActive(this);
-            $.get("{% url 'video:watched' profile.id %}", toggleContent);
-            return false;
-          });
-          $('#requests').click(function() {
-              addActive(this);
-            $.get("{% url 'user:requests' %}", toggleContent);
-            return false;
-          });
+            $('#friends').click(function() {
+                addActive(this);
+                $.get("{% url 'user:friends' profile.id %}?full=false", toggleContent);
+                return false;
+            });
+            $('#uploaded').click(function() {
+                addActive(this);
+                $.get("{% url 'video:uploaded' profile.id %}?full=false", toggleContent);
+                return false;
+            });
+            $('#watched').click(function() {
+                addActive(this);
+                $.get("{% url 'video:watched' profile.id %}?full=false", toggleContent);
+                return false;
+            });
+            $('#requests').click(function() {
+                addActive(this);
+                $.get("{% url 'user:requests' %}?full=false", toggleContent);
+                return false;
+            });
+
+            function toggleContent(html) {
+                $("#profile-content").fadeOut(300, function() {
+                    $("#profile-content").empty().append(html);
+                    $("#profile-content").fadeIn(300);
+                });
+            }
 
             function addActive(elem) {
                 $(elem).parent().parent().children().each(function() {
-                  $(this).removeClass('active');
-              });
-              $(elem).parent().addClass('active');
+                    $(this).removeClass('active');
+                });
+                $(elem).parent().addClass('active');
+            }
+
+            if (window.location.hash) {
+                $(window.location.hash).click();
+            } else {
+                $("#uploaded").click();
             }
       });
+
     </script>
 
-    <div id="profile-content"></div>
+    <div id="profile-content">
+    </div>
 
     <script>
     function updateStatus(elem) {

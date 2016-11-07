@@ -56,10 +56,29 @@ def delete(request):
 
 @login_required
 def uploaded(request, user_id):
+    full = request.GET.get('full', "true")
     user = get_object_or_404(get_user_model(), id=user_id)
-    videos = Video.objects.filter(author=user)
-    context = {'profile': request.user, 'videos': videos}
-    return render(request, "video/uploaded.html", context)
+    if full == 'false':
+        videos = Video.objects.filter(author=user)
+        context = {'profile': request.user, 'videos': videos}
+        return render(request, "video/uploaded.html", context)
+    else:
+        return redirect('{}#uploaded'.format(reverse('user:profile',
+                        kwargs={'user_id': user.id})))
+
+
+@login_required
+def watched(request, user_id):
+    full = request.GET.get('full', "true")
+    user = get_object_or_404(get_user_model(), id=user_id)
+    if full == 'false':
+        watched_videos = WatchingVideo.objects.filter(user=user).values('video')
+        videos = Video.objects.filter(pk__in=watched_videos)
+        context = {'videos': videos, 'profile': user}
+        return render(request, "video/watched.html", context)
+    else:
+        return redirect('{}#uploaded'.format(reverse('user:profile',
+                        kwargs={'user_id': user.id})))
 
 
 @login_required
@@ -89,12 +108,3 @@ def player(request, video_id):
     WatchingVideo.objects.create(user=request.user, video=video)
     context = {'video': video}
     return render(request, "video/player.html", context)
-
-
-@login_required
-def watched(request, user_id):
-    user = get_object_or_404(get_user_model(), id=user_id)
-    watched_videos = WatchingVideo.objects.filter(user=user).values('video')
-    videos = Video.objects.filter(pk__in=watched_videos)
-    context = {'videos': videos, 'profile': user}
-    return render(request, "video/watched.html", context)

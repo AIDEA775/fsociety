@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.utils.html import conditional_escape
 
 from .models import FriendshipRequest
-
+from video.models import Video, WatchingVideo
 
 @login_required
 def profile(request, user_id):
@@ -51,6 +51,33 @@ def friends(request, user_id):
         return render(request, 'user/friends.html', context)
     else:
         return redirect('{}#friends'.format(reverse('user:profile',
+                        kwargs={'user_id': user.id})))
+
+
+@login_required
+def uploaded(request, user_id):
+    full = request.GET.get('full', "true")
+    user = get_object_or_404(get_user_model(), id=user_id)
+    if full == 'false':
+        videos = Video.objects.filter(author=user)
+        context = {'profile': request.user, 'videos': videos}
+        return render(request, "user/uploaded.html", context)
+    else:
+        return redirect('{}#uploaded'.format(reverse('user:profile',
+                        kwargs={'user_id': user.id})))
+
+
+@login_required
+def watched(request, user_id):
+    full = request.GET.get('full', "true")
+    user = get_object_or_404(get_user_model(), id=user_id)
+    if full == 'false':
+        watched_videos = WatchingVideo.objects.filter(user=user).values('video')
+        videos = Video.objects.filter(pk__in=watched_videos)
+        context = {'videos': videos, 'profile': user}
+        return render(request, "user/watched.html", context)
+    else:
+        return redirect('{}#uploaded'.format(reverse('user:profile',
                         kwargs={'user_id': user.id})))
 
 

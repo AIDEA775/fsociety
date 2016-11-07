@@ -90,12 +90,12 @@
             });
             $('#uploaded').click(function() {
                 addActive(this);
-                $.get("{% url 'video:uploaded' profile.id %}?full=false", toggleContent);
+                $.get("{% url 'user:uploaded' profile.id %}?full=false", toggleContent);
                 return false;
             });
             $('#watched').click(function() {
                 addActive(this);
-                $.get("{% url 'video:watched' profile.id %}?full=false", toggleContent);
+                $.get("{% url 'user:watched' profile.id %}?full=false", toggleContent);
                 return false;
             });
             $('#requests').click(function() {
@@ -107,7 +107,7 @@
             function toggleContent(html) {
                 $("#profile-content").fadeOut(300, function() {
                     $("#profile-content").empty().append(html);
-                    $("#profile-content").fadeIn(300);
+                    $("#profile-content").fadeIn(200);
                 });
             }
 

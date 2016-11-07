@@ -45,40 +45,13 @@ def delete(request):
     try:
         video = Video.objects.get(id=request.GET['id'])
     except(KeyError, Video.DoesNotExist):
-        return redirect('video:uploaded', user_id=request.user.id)
+        return redirect('user:uploaded', user_id=request.user.id)
 
     if video.author == request.user:
         video.delete()
-        return redirect('video:uploaded', user_id=request.user.id)
+        return redirect('user:uploaded', user_id=request.user.id)
     else:
         return HttpResponseForbidden("Don't you have permission to delete")
-
-
-@login_required
-def uploaded(request, user_id):
-    full = request.GET.get('full', "true")
-    user = get_object_or_404(get_user_model(), id=user_id)
-    if full == 'false':
-        videos = Video.objects.filter(author=user)
-        context = {'profile': request.user, 'videos': videos}
-        return render(request, "video/uploaded.html", context)
-    else:
-        return redirect('{}#uploaded'.format(reverse('user:profile',
-                        kwargs={'user_id': user.id})))
-
-
-@login_required
-def watched(request, user_id):
-    full = request.GET.get('full', "true")
-    user = get_object_or_404(get_user_model(), id=user_id)
-    if full == 'false':
-        watched_videos = WatchingVideo.objects.filter(user=user).values('video')
-        videos = Video.objects.filter(pk__in=watched_videos)
-        context = {'videos': videos, 'profile': user}
-        return render(request, "video/watched.html", context)
-    else:
-        return redirect('{}#uploaded'.format(reverse('user:profile',
-                        kwargs={'user_id': user.id})))
 
 
 @login_required

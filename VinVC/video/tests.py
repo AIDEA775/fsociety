@@ -64,11 +64,11 @@ class VideoViewTest(VideoTestsBase):
         upload_a_video(self.client_a)
 
     def test_view_uploaded(self):
-        response = self.client_a.get(reverse('video:uploaded', kwargs={'user_id': self.alice.id}))
+        response = self.client_a.get(reverse('user:uploaded', kwargs={'user_id': self.alice.id}))
         self.assertEqual(response.context['videos'].count(), 1)
 
     def test_view_uploaded_without_videos(self):
-        response = self.client_u.get(reverse('video:uploaded', kwargs={'user_id': self.user.id}))
+        response = self.client_u.get(reverse('user:uploaded', kwargs={'user_id': self.user.id}))
         self.assertEqual(response.context['videos'].count(), 0)
 
     def test_count_friends_videos(self):

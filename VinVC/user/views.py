@@ -37,7 +37,7 @@ def requests(request):
                    'friendship_requests_list': friendship_requests_list}
         return render(request, 'user/requests.html', context)
     else:
-        return redirect('{}#request'.format(reverse('user:profile',
+        return redirect('{}#requests'.format(reverse('user:profile',
                         kwargs={'user_id': request.user.id})))
 
 
@@ -77,7 +77,7 @@ def watched(request, user_id):
         context = {'videos': videos, 'profile': user}
         return render(request, "user/watched.html", context)
     else:
-        return redirect('{}#uploaded'.format(reverse('user:profile',
+        return redirect('{}#watched'.format(reverse('user:profile',
                         kwargs={'user_id': user.id})))
 
 

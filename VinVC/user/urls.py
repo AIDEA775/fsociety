@@ -9,9 +9,5 @@ urlpatterns = [
     url(r'^(?P<user_id>[0-9]+)/uploaded/$', views.uploaded, name='uploaded'),
     url(r'^(?P<user_id>[0-9]+)/watched/$', views.watched, name='watched'),
     url(r'^requests/$', views.requests, name='requests'),
-    url(r'^requests/accept$', views.request_accept, name='request_accept'),
-    url(r'^requests/reject$', views.request_reject, name='request_reject'),
-    url(r'^requests/send$', views.request_send, name='request_send'),
     url(r'^requests/api$', views.requests_api, name='requests_api'),
-    url(r'^list/$', views.list, name='list'),
 ]

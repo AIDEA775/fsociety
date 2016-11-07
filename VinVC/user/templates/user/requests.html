@@ -11,8 +11,8 @@
         <tr>
             <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a></td>
             <td>{{ request.sent_date|date:"M d, Y f" }}</td>
-            <td><a href="{% url 'user:request_accept' %}?id={{ request.id }}">Accept</a></td>
-            <td><a href="{% url 'user:request_reject' %}?id={{ request.id }}">Reject</a></td>
+            <td><a href=# onclick='acceptRequest({{request.id}})'>Accept</a></td>
+            <td><a href=# onclick='rejectRequest({{request.id}})'>Reject</a></td>
         </tr>
     {% endfor %}
 </table>

@@ -82,55 +82,6 @@ def watched(request, user_id):
 
 
 @login_required
-def request_accept(request):
-    try:
-        user_friendship = request.user.friendship
-        friendship_request = \
-            user_friendship.get_pending_requests().get(id=request.GET['id'])
-    except (KeyError, FriendshipRequest.DoesNotExist):
-        return redirect('user:profile')
-
-    friendship_request.accept()
-    return redirect('user:profile')
-
-
-@login_required
-def request_reject(request):
-    try:
-        user_friendship = request.user.friendship
-        friendship_request = \
-            user_friendship.get_pending_requests().get(id=request.GET['id'])
-    except (KeyError, FriendshipRequest.DoesNotExist):
-        return redirect('user:profile')
-
-    friendship_request.reject()
-    return redirect('user:profile')
-
-
-@login_required
-def list(request):
-    my_friendship = request.user.friendship
-    users_list = get_user_model().objects.exclude(pk=request.user.pk)
-
-    user_status = []
-    for user in users_list:
-        user_status.append((user, my_friendship.get_friendship_status(user)))
-
-    context = {'user_status': user_status}
-    return render(request, 'user/list.html', context)
-
-
-@login_required
-def request_send(request):
-    try:
-        user = get_user_model().objects.get(id=request.GET['id'])
-        request.user.friendship.send_request(user.friendship)
-    except (KeyError, FriendshipRequest.DoesNotExist):
-        return redirect('user:list')
-    return redirect('user:list')
-
-
-@login_required
 def requests_api(request):
     if request.method != 'POST':
         return HttpResponseBadRequest("Invalid request")

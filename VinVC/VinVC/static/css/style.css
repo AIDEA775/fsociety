@@ -10,6 +10,7 @@ body {
     position:fixed;
     top:0;
     background: white;
+    z-index: 99 !important;
 }
 
 #header {
@@ -174,6 +175,7 @@ li.notification button {
 #user-profile-list-container {
     box-sizing: border-box;
     width: auto;
+    text-align: center;
     padding-right: 100px;
     padding-left: 100px;
     margin-right: auto;
@@ -187,15 +189,17 @@ li.notification button {
 }
 
 [class*="col-"] {
-    float: left;
-    margin: 0px;
+    float: none;
 }
 
 .user-profile-mini {
     text-align: center;
     box-shadow: 2px 2px 2px 2px #f0f0f0;
     padding: 10px;
-    min-width: 120px;
+    min-width: 150px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 1%;
 }
 
 .user-profile-image {

@@ -25,7 +25,7 @@ SECRET_KEY = 'u!7pvmz-t)aee1coxp#&l$^*5id(1jyxsm^yslwe@v&8fjtyqe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.vinvc.com']
 
 
 # Application definition

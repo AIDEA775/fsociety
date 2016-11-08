@@ -6,14 +6,43 @@
 {% endblock %}
 
 {% block content %}
-    {% if watching %}
-    <table class="uk-table">
-        <tr><td><strong>Feed</strong></td></tr>
-        {% for video in watching %}
-            <td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td></tr>
-        {% endfor %}
-    {% else %}
-        <p>Don't exist any videos.</p>
-    </table>
-    {% endif %}
+
+    <p> Most viewed. </p>
+    {% for video in most_watching %}
+        <div class="col-sm-2 grid-item-container">
+            <a href="{% url 'video:player' video.pk %}">
+                <div class="video-thumbnail">
+                    <!-- Video Thumbnail Here -->
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+            </a>
+            <div class="grid-holder">
+                <span class="video-name">
+                    {{ video.title }}
+                </span>
+            </div>
+        </div>
+    {% empty %}
+        <p>Nothing here.</p>
+    {% endfor %}
+
+    <p> Friends are watching.</p>
+    {% for video in friend_watching %}
+        <div class="col-sm-2 grid-item-container">
+            <a href="{% url 'video:player' video.pk %}">
+                <div class="video-thumbnail">
+                    <!-- Video Thumbnail Here -->
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+            </a>
+            <div class="grid-holder">
+                <span class="video-name">
+                    {{ video.title }}
+                </span>
+            </div>
+        </div>
+    {% empty %}
+        <p>You don't have friends</p>
+    {% endfor %}
+
 {% endblock %}

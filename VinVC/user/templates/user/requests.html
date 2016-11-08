@@ -1,13 +1,13 @@
 {% load static %}
-<div id="user-profile-list-container">
+<div id="grid-container">
 
     <div class="row">
         {% for request in friendship_requests_list %}
-            <div class="col-sm-2 user-profile-mini">
+            <div class="col-sm-2 grid-item-container">
                 <div class="user-profile-image">
                     <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
                 </div>
-                <div class="user-profile-holder">
+                <div class="grid-holder">
                     <span class="user-profile-name">
                         <a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a>
                     </span>

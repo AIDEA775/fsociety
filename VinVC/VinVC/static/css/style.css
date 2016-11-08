@@ -172,7 +172,7 @@ button.notification {
     text-decoration: none !important;
 }
 
-#user-profile-list-container {
+#grid-container {
     box-sizing: border-box;
     width: auto;
     text-align: center;
@@ -182,7 +182,7 @@ button.notification {
     margin-left: auto;
 }
 
-.row::after {
+#grid-container::after {
     content: "";
     clear: both;
     display: block;
@@ -192,10 +192,9 @@ button.notification {
     float: none;
 }
 
-.user-profile-mini {
+.grid-item-container {
     text-align: center;
     box-shadow: 2px 2px 2px 2px #f0f0f0;
-    padding: 10px;
     min-width: 150px;
     display: inline-block;
     vertical-align: top;
@@ -210,16 +209,16 @@ button.notification {
     left: 50%;
     transform: translateX(-50%);
     overflow: hidden;
-    min-width: 100px;
+    min-width: 150px;
     max-width: 200px;
 }
 
-.user-profile-holder {
+.grid-holder {
     padding-top: 7px;
     padding-bottom: 7px;
 }
 
-.user-profile-holder > span {
+.grid-holder > span {
     display: block;
     margin-top: 1%;
 }
@@ -231,4 +230,19 @@ button.notification {
 .user-profile-date {
     font-style: italic;
     font-size: 12px;
+}
+
+.video-thumbnail {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px;
+    max-width: 200px;
+}
+
+span.video-name {
+    text-align: start;
+    font-weight: bold;
 }

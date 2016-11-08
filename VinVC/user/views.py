@@ -60,7 +60,7 @@ def uploaded(request, user_id):
     user = get_object_or_404(get_user_model(), id=user_id)
     if full == 'false':
         videos = Video.objects.filter(author=user)
-        context = {'profile': request.user, 'videos': videos}
+        context = {'profile': request.user, 'video_list': videos}
         return render(request, "user/uploaded.html", context)
     else:
         return redirect('{}#uploaded'.format(reverse('user:profile',
@@ -74,7 +74,7 @@ def watched(request, user_id):
     if full == 'false':
         watched_videos = WatchingVideo.objects.filter(user=user).values('video')
         videos = Video.objects.filter(pk__in=watched_videos)
-        context = {'videos': videos, 'profile': user}
+        context = {'profile': user, 'video_list': videos}
         return render(request, "user/watched.html", context)
     else:
         return redirect('{}#watched'.format(reverse('user:profile',

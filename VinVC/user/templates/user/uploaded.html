@@ -1,11 +1,23 @@
-{% if videos %}
-<table class="uk-table">
-    <tr><td><strong>Uploaded Videos</strong></td></tr>
-    {% for video in videos %}
-        <tr><td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
-        <td><a href="{% url 'video:delete' %}?id={{ video.id }}">Delete video</a></td></tr>
+{% load static %}
+<div id="grid-container">
+
+    {% for video in video_list %}
+        <div class="col-sm-2 grid-item-container">
+            <a href="{% url 'video:player' video.pk %}">
+                <div class="video-thumbnail">
+                    <!-- Video Thumbnail Here -->
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+            </a>
+            <div class="grid-holder">
+                <span class="video-name">
+                    {{ video.title }}
+                </span>
+                <a class="badge btn-danger" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
+            </div>
+        </div>
+    {% empty %}
+        <p>You don't have any videos.</p>
     {% endfor %}
-{% else %}
-    <p>You don't have any videos.</p>
-</table>
-{% endif %}
+
+</div>

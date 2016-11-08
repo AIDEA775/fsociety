@@ -1,23 +1,28 @@
-{% if friendship_requests_list %}
-<h1>Friendship Requests</h1>
-<table class="uk-table">
-    <tr>
-        <td><strong>User</strong></td>
-        <td><strong>Friendship request sent date</strong></td>
-        <td><strong>Accept request</strong></td>
-        <td><strong>Reject request</strong></td>
-    </tr>
-    {% for request in friendship_requests_list %}
-        <tr>
-            <td><a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a></td>
-            <td>{{ request.sent_date|date:"M d, Y f" }}</td>
-            <td><a href=# onclick='acceptRequest({{request.id}})'>Accept</a></td>
-            <td><a href=# onclick='rejectRequest({{request.id}})'>Reject</a></td>
-        </tr>
-    {% endfor %}
-</table>
-{% else %}
-    <p>You don't have any Friendship Request. <a href="/user/list/">¿Would you like to send one now?</a></p>
-{% endif %}
-<br/>
-<p><a href="{% url 'user:friends' user.id %}">See relationships</a></p>
+{% load static %}
+<div id="user-profile-list-container">
+
+    <div class="row">
+        {% for request in friendship_requests_list %}
+            <div class="col-sm-2 user-profile-mini">
+                <div class="user-profile-image">
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+                <div class="user-profile-holder">
+                    <span class="user-profile-name">
+                        <a href="/user/{{ request.sender.user.id }}/">{{ request.sender.user.get_full_name }}</a>
+                    </span>
+                    <span class="user-profile-date">
+                        {{ request.sent_date|date:"M d, Y f" }}
+                    </span>
+                    <span>
+                        <button class="notification" href=# onclick='acceptRequest({{request.id}})'>Accept</a>
+                        <button class="notification" href=# onclick='rejectRequest({{request.id}})'>Reject</a>
+                    </span>
+                </div>
+            </div>
+        {% empty %}
+            <p>You don't have any Friendship Request.</p>
+        {% endfor %}
+    </div>
+
+</div>

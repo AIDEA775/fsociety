@@ -84,8 +84,8 @@
                         $("#notification-list").prepend(
                                 "<li class='notification'>"
                                     + "<a href='"+ getUserProfile(data[i].user_id) +"'>" + data[i].user+ "</a>"
-                                    + "<button onclick='remove(this);acceptRequest(" + data[i].id +")'>Accept</button>"
-                                    + "<button onclick='remove(this);rejectRequest(" + data[i].id +")'>Reject</button>"
+                                    + "<button class='notification' click='remove(this);acceptRequest(" + data[i].id +")'>Accept</button>"
+                                    + "<button class='notification' onclick='remove(this);rejectRequest(" + data[i].id +")'>Reject</button>"
                                 + "</li>"
                         );
 

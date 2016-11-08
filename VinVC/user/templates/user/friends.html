@@ -7,7 +7,7 @@
                 <div class="user-profile-image">
                     <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
                 </div>
-                <div class="user-profile-name">
+                <div class="user-profile-holder user-profile-name">
                     <a href="{% url 'user:profile' friend.user.id %}">{{ friend.user.get_full_name }}</a></td></tr>
                 </div>
             </div>

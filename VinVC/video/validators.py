@@ -1,9 +1,16 @@
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
+from django.conf import settings
 import os
+import magic
 
 
-def validate_file_extension(value):
-    ext = os.path.splitext(value.name)[1]
-    valid_extensions = ['.web', '.webm', '.mp4', '.egg']
-    if not ext.lower() in valid_extensions:
-        raise ValidationError(u'Unsupported file extension.')
+def validate_file_extension(upload):
+    tmp_path = 'tmp/ %s ' % upload.name[2:]
+    default_storage.save(tmp_path, ContentFile(upload.file.read()))
+    full_tmp_path = os.path.join(settings.MEDIA_ROOT, tmp_path)
+    file_type = magic.from_file(full_tmp_path, mime=True)
+    default_storage.delete(tmp_path)
+    if file_type not in settings.VIDEO_TYPES:
+        raise ValidationError('File type not supported.')

@@ -1,19 +1,19 @@
 {% load static %}
-<div id="user-profile-list-container">
+<div id="grid-container">
 
-    <div class="row">
-        {% for friend in friendship_list %}
-            <div class="col-sm-2 user-profile-mini">
+    {% for friend in friendship_list %}
+        <div class="col-sm-2 grid-item-container">
+            <a href="{% url 'user:profile' friend.user.id %}">
                 <div class="user-profile-image">
                     <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
                 </div>
-                <div class="user-profile-name">
-                    <a href="{% url 'user:profile' friend.user.id %}">{{ friend.user.get_full_name }}</a></td></tr>
+                <div class="grid-holder user-profile-name">
+                    {{ friend.user.get_full_name }}
                 </div>
-            </div>
-        {% empty %}
-            <p>You don't have any relationships.</p>
-        {% endfor %}
-    </div>
+            </a>
+        </div>
+    {% empty %}
+        <p>You don't have any relationships.</p>
+    {% endfor %}
 
 </div>

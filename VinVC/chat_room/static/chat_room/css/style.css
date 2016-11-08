@@ -47,6 +47,7 @@
     max-width: 70%;
     min-width: 100px;
     box-shadow: 0 2px #f0f0f0;
+    word-wrap: break-word;
 }
 
 .bubble .user {

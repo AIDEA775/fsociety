@@ -3,43 +3,49 @@
 
 {% block head %}
     <title>Results for {{key}}</title>
-    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" />
 {% endblock %}
 
 {% block content %}
-    {% if key %}
-        {% if users_results %}
-            <h1>Users</h1>
-            <table class="uk-table">
-            <tr>
-                <td><strong>User</strong></td>
-            </tr>
-            {% for user in users_results %}
-                <tr>
-                    <td><a href="{% url 'user:profile' user.id %}">{{ user.get_full_name }}</a></td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% else %}
-            <p>No users found.</p>
-        {% endif %}
 
-        {% if videos_results %}
-            <h1>Videos</h1>
-            <table class="uk-table">
-            <tr>
-                <td><strong>Video</strong></td>
-            </tr>
-            {% for video in videos_results %}
-                <tr>
-                    <td><a href="{% url 'video:player' video.pk %}">{{ video.title }}</a></td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% else %}
+    {% if key %}
+
+        <p>Users</p>
+        {% for user in user_list %}
+            <div class="col-sm-2 grid-item-container">
+                <a href="{% url 'user:profile' user.id %}">
+                    <div class="user-profile-image">
+                        <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    </div>
+                    <div class="grid-holder user-profile-name">
+                        {{ user.get_full_name }}
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            <p>No users found.</p>
+        {% endfor %}
+
+        <p>Videos</p>
+        {% for video in video_list %}
+            <div class="col-sm-2 grid-item-container">
+                <a href="{% url 'video:player' video.pk %}">
+                    <div class="video-thumbnail">
+                        <!-- Video Thumbnail Here -->
+                        <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    </div>
+                </a>
+                <div class="grid-holder">
+                    <span class="video-name">
+                        {{ video.title }}
+                    </span>
+                </div>
+            </div>
+        {% empty %}
             <p>No videos found.</p>
-        {% endif %}
+        {% endfor %}
+
     {% else %}
-        <p>Please, write a word in the search box</p>
+        <p>Please, write a word in the search box.</p>
     {% endif %}
+
 {% endblock %}

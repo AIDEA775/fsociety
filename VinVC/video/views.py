@@ -13,10 +13,10 @@ def feed(request):
     watched_videos = WatchingVideo.objects.filter(user__friendship__in=
                                                   friendship_list).\
         values('video')
-    videos = Video.objects.filter(pk__in=watched_videos)
-    must_viewed = Video.objects.order_by('views')[:10]
-    watching = videos | must_viewed
-    context = {'watching': watching}
+    watching = Video.objects.filter(pk__in=watched_videos)
+    most_viewed = Video.objects.order_by('views')[:10]
+    context = {'friend_watching': watching,
+               'most_viewed': most_viewed}
     return render(request, "video/feed.html", context)
 
 

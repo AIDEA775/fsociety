@@ -22,6 +22,6 @@ def search(request):
                 Q(title__icontains=key) |
                 Q(description__icontains=key))
         context = {'key': key,
-                   'users_results': users,
-                   'videos_results': videos}
+                   'user_list': users,
+                   'video_list': videos}
         return render(request, 'search/result.html', context)

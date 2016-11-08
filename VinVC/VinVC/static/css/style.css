@@ -170,3 +170,46 @@ li.notification button {
     color: white !important;
     text-decoration: none !important;
 }
+
+#user-profile-list-container {
+    box-sizing: border-box;
+    width: auto;
+    padding-right: 100px;
+    padding-left: 100px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+[class*="col-"] {
+    float: left;
+    margin: 0px;
+}
+
+.user-profile-mini {
+    text-align: center;
+    box-shadow: 2px 2px 2px 2px #f0f0f0;
+    padding: 10px;
+    min-width: 120px;
+}
+
+.user-profile-image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    min-width: 100px;
+    max-width: 200px;
+}
+
+.user-profile-name {
+    padding: 20px
+}

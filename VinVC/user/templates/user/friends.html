@@ -1,11 +1,19 @@
-{% if friendship_list %}
-  <h1>Relationships</h1>
-  <table class="uk-table">
-  <tr><td><strong>User</strong></td></tr>
-  {% for friend in friendship_list %}
-      <tr><td><a href="/user/{{ friend.user.id }}/">{{ friend.user.get_full_name }}</a></td></tr>
-  {% endfor %}
-  </table>
-{% else %}
-  <p>You don't have any relationships. <a href="/user/list/">¿Would you like to send one now?</a></p>
-{% endif %}
+{% load static %}
+<div id="user-profile-list-container">
+
+    <div class="row">
+        {% for friend in friendship_list %}
+            <div class="col-sm-2 user-profile-mini">
+                <div class="user-profile-image">
+                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                </div>
+                <div class="user-profile-name">
+                    <a href="{% url 'user:profile' friend.user.id %}">{{ friend.user.get_full_name }}</a></td></tr>
+                </div>
+            </div>
+        {% empty %}
+            <p>You don't have any relationships.</p>
+        {% endfor %}
+    </div>
+
+</div>

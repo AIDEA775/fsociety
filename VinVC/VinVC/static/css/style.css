@@ -188,10 +188,6 @@ button.notification {
     display: block;
 }
 
-[class*="col-"] {
-    float: none;
-}
-
 .grid-item-container {
     text-align: center;
     box-shadow: 2px 2px 2px 2px #f0f0f0;
@@ -199,6 +195,7 @@ button.notification {
     display: inline-block;
     vertical-align: top;
     margin: 1%;
+    float: none;
 }
 
 .user-profile-image {

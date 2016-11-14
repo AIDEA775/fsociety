@@ -82,6 +82,12 @@ def watched(request, user_id):
 
 
 @login_required
+def edit(request):
+    user = get_object_or_404(get_user_model(), id=request.user.id)
+    pass
+
+
+@login_required
 def requests_api(request):
     if request.method != 'POST':
         return HttpResponseBadRequest("Invalid request")

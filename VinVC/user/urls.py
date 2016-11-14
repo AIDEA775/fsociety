@@ -10,5 +10,4 @@ urlpatterns = [
     url(r'^(?P<user_id>[0-9]+)/watched/$', views.watched, name='watched'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^requests/$', views.requests, name='requests'),
-    url(r'^requests/api$', views.requests_api, name='requests_api'),
 ]

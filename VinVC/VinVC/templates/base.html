@@ -99,7 +99,7 @@
                 function getNewNotifications() {
                     $.ajax({
                         type: "POST",
-                        url: "{% url 'user:requests_api' %}",
+                        url: "{% url 'friendship:requests_api' %}",
                         data: {
                             method: 'get',
                             last_request_seen: last_request_seen
@@ -134,7 +134,7 @@
             function acceptRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'accept',
                         id: id
@@ -148,7 +148,7 @@
             function rejectRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'reject',
                         id: id
@@ -162,7 +162,7 @@
             function sendRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'send',
                         id: id

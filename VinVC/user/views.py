@@ -7,6 +7,7 @@ from django.utils.html import conditional_escape
 
 from .models import FriendshipRequest
 from video.models import Video, WatchingVideo
+from .forms import EditUserForm
 
 @login_required
 def profile(request, user_id):
@@ -83,8 +84,11 @@ def watched(request, user_id):
 
 @login_required
 def edit(request):
-    user = get_object_or_404(get_user_model(), id=request.user.id)
-    pass
+    if request.method == 'POST':
+        pass
+    else:
+        form = EditUserForm()
+    return render(request, 'user/edit.html', {'form': form})
 
 
 @login_required

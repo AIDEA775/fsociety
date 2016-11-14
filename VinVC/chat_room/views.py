@@ -35,7 +35,7 @@ def api(request, video_id):
     if Comment.objects.all():
         last_seen_id = request.POST.get('last_seen_id', None)
 
-    if msg and msg.replace(' ', '') is not "":
+    if msg and msg.strip():
         Comment.objects.create(author=request.user, topic=video, msg=msg)
 
     if last_seen_id:

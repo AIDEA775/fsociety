@@ -4,8 +4,10 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponseForbidden
 from django.utils import timezone
 from django.conf import settings
-from .models import Video, WatchingVideo
 import subprocess
+
+from .models import Video, WatchingVideo
+from .forms import VideoUploadForm
 
 
 @login_required
@@ -23,41 +25,29 @@ def feed(request):
 
 @login_required
 def upload(request):
-    title = request.POST.get('title')
-    video_file = request.FILES.get('video_file')
-    description = request.POST.get('description')
-    author = request.user
+    if request.method == 'POST':
+        form = VideoUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_video = form.save(commit=False)
+            new_video.author = request.user
 
-    if all([title, video_file]):
-        new_video = Video(title=title,
-                          video_file=video_file,
-                          description=description,
-                          author=author)
+            new_thumbnail = "videos/{}/{}/{}/".format(timezone.now().year,
+                                                      timezone.now().month,
+                                                      timezone.now().day) + \
+                            str(new_video.title) + '_' + str(new_video.id) + str('.jpg')
+            new_video.thumbnail = new_thumbnail
+            new_video.save()
 
-        try:
-            Video.clean_fields(new_video)
-        except ValidationError:
-            return render(request, 'video/upload.html',
-                          {'error': 'Video not supported'})
+            subprocess.call('ffmpeg -hide_banner -y -i {} -vf '
+                            'thumbnail,scale=640:360 -vframes 1 media/{}'
+                            .format(new_video.video_file.path, new_thumbnail),
+                            shell=True)
+            return redirect('video:feed')
 
-        new_video.save()
-        thumbnail_id = new_video.id
-        new_thumbnail = "{}/videos/{}/{}/{}/".format(settings.MEDIA_URL,
-                                                     timezone.now().year,
-                                                     timezone.now().month,
-                                                     timezone.now().day) + \
-                        str(title) + '_' + str(thumbnail_id) + str('.jpg')
+    else:
+        form = VideoUploadForm()
 
-        subprocess.call(['ffmpeg', '-y', '-i', '{}'.format(new_video.
-                                                           video_file.path),
-                         '-vf', 'thumbnail,scale=640:360', '-frames:v', '1',
-                         '{}'.format(new_thumbnail)])
-        new_video.thumbnail = new_thumbnail
-        new_video.save()
-
-    videos = Video.objects.all()
-    context = {'videos': videos}
-    return render(request, "video/upload.html", context)
+    return render(request, 'video/upload.html', {'form': form})
 
 
 @login_required

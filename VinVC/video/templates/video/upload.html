@@ -8,17 +8,9 @@
 {% block content %}
     <fieldset>
         <legend>Upload a Video</legend>
-    <form action="/video/upload/" method="post" enctype="multipart/form-data">
+    <form action="{% url 'video:upload' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>Video Name</p>
-        <input name="title" type="text" required autocomplete="off"/>
-        <br>
-        <p>Description</p>
-        <input name="description" type="text" autocomplete="off"/>
-        <br>
-        <p>DocumentFile</p>
-        <input name="video_file" type="file" required autocomplete="off"/>
-        <br>
+        {{ form.as_p }}
         {% if error %}
             <p class="error-message">{{ error }}</p>
         {% endif %}

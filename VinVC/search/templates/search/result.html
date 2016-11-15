@@ -31,7 +31,7 @@
                 <a href="{% url 'video:player' video.pk %}">
                     <div class="video-thumbnail">
                         <!-- Video Thumbnail Here -->
-                        <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                        <img src="{{ video.thumbnail.url }}" />
                     </div>
                 </a>
                 <div class="grid-holder">

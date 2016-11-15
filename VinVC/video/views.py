@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.http import HttpResponseForbidden
 from django.utils import timezone
-from django.conf import settings
 import subprocess
 
 from .models import Video, WatchingVideo

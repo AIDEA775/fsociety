@@ -8,12 +8,11 @@
 {% block content %}
 
     <p> Most viewed. </p>
-    {% for video in most_watching %}
+    {% for video in most_viewed %}
         <div class="col-sm-2 grid-item-container">
             <a href="{% url 'video:player' video.pk %}">
                 <div class="video-thumbnail">
-                    <!-- Video Thumbnail Here -->
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    <img src="{{ video.thumbnail.url }}" />
                 </div>
             </a>
             <div class="grid-holder">
@@ -27,12 +26,11 @@
     {% endfor %}
 
     <p> Friends are watching.</p>
-    {% for video in friend_watching %}
+    {% for video in watching %}
         <div class="col-sm-2 grid-item-container">
             <a href="{% url 'video:player' video.pk %}">
                 <div class="video-thumbnail">
-                    <!-- Video Thumbnail Here -->
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    <img src="{{ video.thumbnail.url }}" />
                 </div>
             </a>
             <div class="grid-holder">

@@ -105,10 +105,3 @@ db.*
 
 # PyCharm extension
 *.idea
-
-# Migrations
-VinVC/user/migrations/*
-VinVC/login/migrations/*
-VinVC/chat_room/migrations/*
-VinVC/video/migrations/*
-VinVC/search/migrations/*

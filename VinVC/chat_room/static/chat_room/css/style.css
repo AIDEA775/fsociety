@@ -9,15 +9,6 @@
     padding: 0;
 }
 
-.chat {
-    list-style: none;
-    background: none;
-    margin: 0;
-    padding: 0 0 50px 0;
-    margin-top: 60px;
-    margin-bottom: 10px;
-}
-
 #chat-footer {
     position: absolute;
     bottom: 0;
@@ -40,7 +31,6 @@
 }
 
 .bubble {
-    padding: 5px;
     background: white;
     border-radius: 10px;
     padding: 5px 10px;

@@ -31,13 +31,7 @@ ALLOWED_HOSTS = ['www.vinvc.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'login.apps.LoginConfig',
-    'user.apps.UserConfig',
-    'search.apps.SearchConfig',
-    'video.apps.VideoConfig',
-
-    'chat_room.apps.ChatRoomConfig',
-
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +41,15 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'social.apps.django_app.default',
+    'channels',
+
+    # Project apps
+    'login.apps.LoginConfig',
+    'user.apps.UserConfig',
+    'search.apps.SearchConfig',
+    'video.apps.VideoConfig',
+
+    'chat_room.apps.ChatRoomConfig',
 ]
 
 MIDDLEWARE = [
@@ -206,3 +209,14 @@ VIDEO_TYPES = ['video/web', 'video/webm', 'video/mp4', 'video/egg']
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "VinVC/static")]
+
+# Channel settings
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+        "ROUTING": "VinVC.routing.channel_routing",
+    },
+}

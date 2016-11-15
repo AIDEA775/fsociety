@@ -1,9 +1,26 @@
-<ol id="messages-content"></ol>
+<ol id="messages-content">
+    {% for message in messages %}
+        {% if message.author.id == user_id %}
+          <li class='self'>
+        {% else %}
+          <li class='other'>
+        {% endif %}
+            <div class='bubble'>
+                <div class='user'>
+                    <a href='{% url 'user:profile' message.author.id %}'>{{ message.author.get_full_name }}</a>
+                </div>
+                <hr/>
+                <div class='message-text'>{{ message.msg }}</div>
+                <div class='message-date'>{{ message.date_published.isoformat }}</div>
+            </div>
+        </li>
+    {% endfor %}
+</ol>
 
 <div id="chat-footer">
     <button id="msg_submit" onclick='sendMessage()'>Send</button>
     <div id="chat-input-container">
-        <input id="chat-input" />
+        <input title="Type a message..." id="chat-input" />
     </div>
 </div>
 
@@ -11,118 +28,82 @@
     var chat_room_id = {{ chat_room_id }};
     var user_id = {{ user_id }};
 
-    var last_seen_id = null;
+    // When we're using HTTPS, use WSS too.
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    //noinspection JSUnusedAssignment
+    var web_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat_room/" + chat_room_id);
 
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
-    if (typeof csrftoken  === 'undefined' || csrftoken  === null) {
-        var csrftoken = getCookie('csrftoken');
-    }
+    $(document).ready(function() {
+        $('.message-date').each(function() {
+            var date = new Date($(this).text());
+            $(this).text(date.toLocaleTimeString());
+        });
 
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (settings.type === "POST" && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
+        var messages_content = $("#messages-content");
+        messages_content.stop( true, true ).animate({scrollTop: messages_content[0].scrollHeight}, 500);
     });
 
-    function updateChat( data ) {
-        for (var i in data) {
-            var date = new Date(data[i].date);
+    web_socket.onmessage = function(message) {
+        var data = JSON.parse(message.data);
 
-            var li_class;
+        var date = new Date(data.date);
 
-            if (data[i].user_id === user_id)
-                li_class = "self";
-            else
-                li_class = "other";
+        var li_class;
 
-            $("#messages-content").append(
-                "<li class='"+ li_class +"'>"
-                    +"<div class='bubble'>"
-                        + "<div class='user'><a href='" + getUserProfile(data[i].user_id) + "'>" + data[i].user + "</a></div>"
-                        + "<hr/>"
-                        + "<div class='message-text'>" + data[i].msg + "</div>"
-                        + "<div class='message-date'>" + date.toLocaleTimeString() + "</div>"
-                    + "</div>"
-                + "</li>");
+        if (data.user_id === user_id)
+            li_class = "self";
+        else
+            li_class = "other";
 
-            last_seen_id = data[i].id;
-        }
+        var messages_content = $("#messages-content");
 
-        if (data.length > 0)
-            $('#messages-content').animate({scrollTop: $('#messages-content')[0].scrollHeight}, 500);
-    }
+        messages_content.append(
+            "<li class='"+ li_class +"'>"
+                +"<div class='bubble'>"
+                    + "<div class='user'><a href='" + getUserProfile(data.user_id) + "'>" + data.user + "</a></div>"
+                    + "<hr/>"
+                    + "<div class='message-text'>" + data.msg + "</div>"
+                    + "<div class='message-date'>" + date.toLocaleTimeString() + "</div>"
+                + "</div>"
+            + "</li>");
+
+        messages_content.stop( true, true ).animate({scrollTop: messages_content[0].scrollHeight}, 500);
+    };
 
     $(function() {
-        $('#msg_submit').attr('disabled', 'disabled');
+        var msg_submit = $('#msg_submit');
+
+        msg_submit.attr('disabled', 'disabled');
         $('#chat-input').keyup(function() {
-            $('#chat-input').each(function() {
+            $(this).each(function() {
                 if ($(this).val().replace(/\s/g, "") .length == 0) {
-                    $('#msg_submit').attr('disabled', 'disabled');
+                    msg_submit.attr('disabled', 'disabled');
                 } else {
-                    $('#msg_submit').removeAttr('disabled');
+                    msg_submit.removeAttr('disabled');
                 }
             });
         });
-
-        function getNewComments() {
-            $.ajax({
-                type: "POST",
-                url: "/chat_room/" + chat_room_id + "/api/",
-                data: {
-                    last_seen_id: last_seen_id
-                },
-                success: function( data ) {
-                    updateChat( data );
-                }
-            });
-
-            setTimeout( getNewComments, 3000 );
-        }
-
-        getNewComments();
-
     });
 
     function sendMessage() {
-        var msg = $("#chat-input").val();
+        var chat_input = $("#chat-input");
+        var msg = chat_input.val();
 
-        $.ajax({
-            type: "POST",
-            url: "/chat_room/" + chat_room_id + "/api/",
-            data: {
-                msg: msg,
-                last_seen_id: last_seen_id
-            },
-            success: function( data ) {
-                updateChat(data);
-            }
-        });
+        var message = {
+            msg: msg
+        };
 
-        $("#chat-input").val('');
+        web_socket.send(JSON.stringify(message));
+        chat_input.val('').focus();
+        return false;
     }
 
     $('#chat-input').keydown(function (event) {
-        var keypressed = event.keyCode || event.which;
-        if (keypressed == 13) {
+        var key = event.keyCode || event.which;
+        if (key == 13) {
             if ($(this).val().replace(/\s/g, "") .length !== 0)
                 sendMessage();
-    }
-});
+        }
+    });
 </script>

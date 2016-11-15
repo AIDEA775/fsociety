@@ -4,7 +4,6 @@ APPS = video user login chat_room friendship
 
 all:
 	rm -f db.sqlite3
-	rm -rf video/migrations search/migrations login/migrations user/migrations chat_room/migrations
 	$(PY) $(MAN) makemigrations $(APPS)
 	$(PY) $(MAN) migrate
 	$(PY) $(MAN) runserver
@@ -32,4 +31,3 @@ test:
 
 clean:
 	  rm -f db.sqlite3
-	  rm -rf video/migrations search/migrations login/migrations user/migrations chat_room/migrations friendship/migrations

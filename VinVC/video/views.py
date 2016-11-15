@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Video, WatchingVideo
 from django.core.exceptions import ValidationError
+from django.utils import timezone
+from django.conf import settings
+from .models import Video, WatchingVideo
+import subprocess
 
 
 @login_required
@@ -32,6 +35,19 @@ def upload(request):
                           {'error': 'Video not supported'})
 
         new_video.save()
+        thumbnail_id = new_video.id
+        new_thumbnail = "{}/videos/{}/{}/{}/".format(settings.MEDIA_URL,
+                                                     timezone.now().year,
+                                                     timezone.now().month,
+                                                     timezone.now().day) + \
+                        str(title) + '_' + str(thumbnail_id) + str('.jpg')
+
+        subprocess.call(['ffmpeg', '-y', '-i', '{}'.format(new_video.
+                                                           video_file.path),
+                         '-vf', 'thumbnail,scale=640:360', '-frames:v', '1',
+                         '{}'.format(new_thumbnail)])
+        new_video.thumbnail = new_thumbnail
+        new_video.save()
 
     videos = Video.objects.all()
     context = {'videos': videos}
@@ -46,8 +62,8 @@ def delete(request):
     except(KeyError, Video.DoesNotExist):
         return redirect('video:my_videos')
     return redirect('video:my_videos')
-    
-    
+
+
 @login_required
 def my_videos(request):
     videos = Video.objects.filter(author=request.user)
@@ -66,8 +82,7 @@ def friends_videos(request):
 @login_required
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
-    watching = WatchingVideo.objects.filter(user__friendship__in=
-                                            friendship_list)
+    watching = WatchingVideo.objects.filter(user__friendship__in=friendship_list)
     context = {'watching': watching}
     return render(request, "video/feed.html", context)
 
@@ -83,4 +98,3 @@ def player(request, video_id):
 @login_required
 def most_viewed_videos():
     pass
-

@@ -27,6 +27,7 @@
                     <span class="value">{{ profile.video_set.all.count }}</span>
                     <span class="text">Videos</span>
                 </span>
+                <span>
                 <p id="user-status">
                     {% if status == 'friends' %}
                         You are already friends
@@ -37,6 +38,8 @@
                     {% elif status == 'need_response' %}
                         <a id="accept-button" class="site-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
                         <a id="reject-button" class="site-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                    {% elif status == 'same_user' %}
+                        <a id="edit" class="site-button" href="{% url 'user:edit' %}">Edit</a>
                     {% endif %}
                 </p>
             </div>

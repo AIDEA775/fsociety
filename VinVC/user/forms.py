@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 from .models import CustomUser
 
@@ -8,8 +10,9 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'username']
 
     def clean_old_password(self):
-        # Here ¿?
-        pass
+        password = self.cleaned_data.get('old_password', None)
+        if not self.instance.check_password(password):
+            raise ValidationError('Invalid password')

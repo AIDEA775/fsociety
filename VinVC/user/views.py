@@ -84,8 +84,14 @@ def edit(request):
     if request.method == 'POST':
         form = UpdateUserForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('user:profile')
+            new_user = form.save(commit=False)
+
+            if form.cleaned_data['new_password']:
+                new_user.set_password(form.cleaned_data['new_password'])
+
+            new_user.save()
+            form.save_m2m()
+            return render(request, 'user/edit.html', {'form': form})
     else:
         form = UpdateUserForm(initial={'password' : ''}, instance=request.user)
     return render(request, 'user/edit.html', {'form': form})

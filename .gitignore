@@ -100,6 +100,9 @@ db.*
 *.ogg
 *.mov
 
+# Thumbnails
+*.jpg
+
 # PyCharm extension
 *.idea
 

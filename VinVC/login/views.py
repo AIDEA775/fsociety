@@ -4,7 +4,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_protect
-from .models import CustomUser
+from django.contrib.auth import get_user_model
 
 
 def index(request):
@@ -45,7 +45,7 @@ def signup(request):
 
     if all([first_name, last_name, email, password]):
         try:
-            CustomUser.objects.create_user(email, email, password,
+            get_user_model().objects.create_user(email, email, password,
                                            first_name=first_name,
                                            last_name=last_name)
             # All okay

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'search.apps.SearchConfig',
     'video.apps.VideoConfig',
+    'friendship.apps.FriendshipConfig',
 
     'chat_room.apps.ChatRoomConfig',
 
@@ -154,7 +155,7 @@ TOPIC_MODEL = 'video.Video'
 # Auth settings
 # https://docs.djangoproject.com/en/1.10/ref/settings/#login-url
 LOGIN_URL = 'login:index'
-AUTH_USER_MODEL = 'login.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 
 # OAuth keys

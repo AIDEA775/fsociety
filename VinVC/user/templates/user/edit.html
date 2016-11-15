@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Edit profile</title>
+{% endblock %}
+
+{% block content %}
+    <legend>Edit your profile</legend>
+
+    <div class="container-fluid">
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <div class="user-profile-image">
+                <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+            </div>
+        </div>
+
+        <div class="col-sm-9 col-md-6 col-lg-8">
+            <form action="{% url 'user:edit' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

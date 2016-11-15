@@ -5,14 +5,14 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
-        <link rel='stylesheet' href="{% static 'css/style.css' %}" />
-        <link rel='stylesheet' href="{% static 'css/base.css' %}" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 
-        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-        <script src='{% static 'js/csrf_ajax.js' %}'></script>
+        <script src="{% static 'js/csrf_ajax.js' %}"></script>
         {% block head %}{% endblock %}
     </head>
     <body>
@@ -99,7 +99,7 @@
                 function getNewNotifications() {
                     $.ajax({
                         type: "POST",
-                        url: "{% url 'user:requests_api' %}",
+                        url: "{% url 'friendship:requests_api' %}",
                         data: {
                             method: 'get',
                             last_request_seen: last_request_seen
@@ -134,7 +134,7 @@
             function acceptRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'accept',
                         id: id
@@ -148,7 +148,7 @@
             function rejectRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'reject',
                         id: id
@@ -162,7 +162,7 @@
             function sendRequest(id) {
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'user:requests_api' %}",
+                    url: "{% url 'friendship:requests_api' %}",
                     data: {
                         method: 'send',
                         id: id

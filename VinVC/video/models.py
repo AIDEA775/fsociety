@@ -13,6 +13,7 @@ class Video(models.Model):
     date_upload = models.DateTimeField('date upload', default=timezone.now)
     video_file = models.FileField(upload_to="videos/%Y/%m/%d",
                                   validators=[validate_file_extension])
+    thumbnail = models.ImageField(upload_to="videos/%Y/%m/%d", blank=True)
     description = models.CharField(blank=True, max_length=200, default="")
     views = models.IntegerField(default=0)
     watchers = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -22,10 +23,11 @@ class Video(models.Model):
 
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, " \
-               "Views: {}, Watchers: {}".format(self.title, self.description,
-                                                self.author, self.date_upload,
-                                                self.video_file.name,
-                                                self.views, self.watchers.all())
+               "Views: {}, Watchers: {}, Thumbnail: {}".format(self.title, self.description,
+                                                               self.author, self.date_upload,
+                                                               self.video_file.name,
+                                                               self.views, self.watchers.all(),
+                                                               self.thumbnail)
 
 
 class WatchingVideo(models.Model):

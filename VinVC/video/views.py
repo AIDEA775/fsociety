@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseForbidden
-from django.contrib.auth import get_user_model
-
+from django.utils import timezone
+from django.conf import settings
 from .models import Video, WatchingVideo
+import subprocess
 
 
 @login_required
@@ -39,6 +40,19 @@ def upload(request):
             return render(request, 'video/upload.html',
                           {'error': 'Video not supported'})
 
+        new_video.save()
+        thumbnail_id = new_video.id
+        new_thumbnail = "{}/videos/{}/{}/{}/".format(settings.MEDIA_URL,
+                                                     timezone.now().year,
+                                                     timezone.now().month,
+                                                     timezone.now().day) + \
+                        str(title) + '_' + str(thumbnail_id) + str('.jpg')
+
+        subprocess.call(['ffmpeg', '-y', '-i', '{}'.format(new_video.
+                                                           video_file.path),
+                         '-vf', 'thumbnail,scale=640:360', '-frames:v', '1',
+                         '{}'.format(new_thumbnail)])
+        new_video.thumbnail = new_thumbnail
         new_video.save()
 
     videos = Video.objects.all()

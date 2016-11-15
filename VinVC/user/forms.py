@@ -1,8 +1,15 @@
 from django import forms
 
-class EditUserForm(forms.Form):
-    first_name = forms.CharField(max_length=20)
-    username = forms.CharField(max_length=20)
-    last_name = forms.CharField(max_length=20)
-    password = forms.CharField(max_length=50)
-    email = forms.EmailField(max_length=40)
+from .models import CustomUser
+
+class UpdateUserForm(forms.ModelForm):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    new_password = forms.CharField(widget=forms.PasswordInput(), required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name']
+
+    def clean_old_password(self):
+        # Here ¿?
+        pass

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from video.models import Video, WatchingVideo
-from .forms import EditUserForm
+from .forms import UpdateUserForm
 
 
 @login_required
@@ -81,41 +81,11 @@ def watched(request, user_id):
 
 @login_required
 def edit(request):
-    data ={'first_name': request.user.first_name,
-           'last_name' : request.user.last_name,
-           'username'  : request.user.username,
-           'email'     : request.user.email,
-           'password'  : ''
-           }
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = EditUserForm(request.POST, initial = data)
-        # check whether it's valid:
-        if form.is_valid() and form.has_changed():
-            first_name = form.cleaned_data('first_name')
-            print(first_name)
-            last_name = form.cleaned_data('last_name')
-            username = form.cleaned_data('username')
-            email = form.cleaned_data('email')
-            password = form.cleaned_data('password')
-            if first_name != request.user.first_name:
-                request.user.first_name = first_name
-            if last_name != request.user.last_name:
-                request.user.last_name = last_name
-            if username != request.user.username:
-                request.user.username = username
-            if email != request.user.email:
-                request.user.email = email
-            if password:
-                request.user.set_password(password)
-            request.user.save()
-
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-
-    # if a GET (or any other method) we'll create a blank form
+        form = UpdateUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user:profile')
     else:
-        form = EditUserForm(initial=data)
+        form = UpdateUserForm(initial={'password' : ''}, instance=request.user)
     return render(request, 'user/edit.html', {'form': form})

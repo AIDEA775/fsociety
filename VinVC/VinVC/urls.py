@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^user/', include('user.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^video/', include('video.urls')),
-    url(r'^chat_room/', include('chat_room.urls')),
     url(r'^friendship/', include('friendship.urls')),
 
     url(r'^admin/', admin.site.urls),

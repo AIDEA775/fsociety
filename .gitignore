@@ -103,5 +103,8 @@ db.*
 # Thumbnails
 *.jpg
 
+# Redis server
+*.rdb
+
 # PyCharm extension
 *.idea

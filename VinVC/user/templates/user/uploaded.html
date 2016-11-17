@@ -1,21 +1,7 @@
-{% load static %}
 <div id="grid-container">
 
     {% for video in video_list %}
-        <div class="col-sm-2 grid-item-container">
-            <a href="{% url 'video:player' video.pk %}">
-                <div class="video-thumbnail">
-                    <!-- Video Thumbnail Here -->
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
-                </div>
-            </a>
-            <div class="grid-holder">
-                <span class="video-name">
-                    {{ video.title }}
-                </span>
-                <a class="badge btn-danger" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
-            </div>
-        </div>
+        {% include "preview_video.html" with preview_video=video preview_delete="True" only %}
     {% empty %}
         <p>You don't have any videos.</p>
     {% endfor %}

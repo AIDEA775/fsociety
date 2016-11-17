@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block head %}
     <title>Results for {{key}}</title>
@@ -11,37 +10,16 @@
 
         <p>Users</p>
         {% for user in user_list %}
-            <div class="col-sm-2 grid-item-container">
-                <a href="{% url 'user:profile' user.id %}">
-                    <div class="user-profile-image">
-                        <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
-                    </div>
-                    <div class="grid-holder user-profile-name">
-                        {{ user.get_full_name }}
-                    </div>
-                </a>
-            </div>
+            {% include "preview_user.html" with preview_user=user only %}
         {% empty %}
-            <p>No users found.</p>
+            <p>Nothing here...</p>
         {% endfor %}
 
         <p>Videos</p>
         {% for video in video_list %}
-            <div class="col-sm-2 grid-item-container">
-                <a href="{% url 'video:player' video.pk %}">
-                    <div class="video-thumbnail">
-                        <!-- Video Thumbnail Here -->
-                        <img src="{{ video.thumbnail.url }}" />
-                    </div>
-                </a>
-                <div class="grid-holder">
-                    <span class="video-name">
-                        {{ video.title }}
-                    </span>
-                </div>
-            </div>
+            {% include "preview_video.html" with preview_video=video only %}
         {% empty %}
-            <p>No videos found.</p>
+            <p>Nothing here...</p>
         {% endfor %}
 
     {% else %}

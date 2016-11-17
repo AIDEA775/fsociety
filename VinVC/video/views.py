@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.utils import timezone
+from os.path import dirname, relpath, join
+
 import subprocess
 
 from .models import Video, WatchingVideo
@@ -21,6 +23,11 @@ def feed(request):
     return render(request, "video/feed.html", context)
 
 
+def get_new_thumbnail_path(new_video):
+    return join(relpath(dirname(new_video.video_file.path), 'media'),
+                str(new_video.id) + '.jpg')
+
+
 @login_required
 def upload(request):
     if request.method == 'POST':
@@ -28,23 +35,18 @@ def upload(request):
         if form.is_valid():
             new_video = form.save(commit=False)
             new_video.author = request.user
-
-            new_thumbnail = "videos/{}/{}/{}/".format(timezone.now().year,
-                                                      timezone.now().month,
-                                                      timezone.now().day) + \
-                            str(new_video.title) + '_' + str(new_video.id) + str('.jpg')
-            new_video.thumbnail = new_thumbnail
             new_video.save()
+            new_video.save_m2m()
 
+            new_video.thumbnail = get_new_thumbnail_path(new_video)
+            new_video.save()
             subprocess.call('ffmpeg -hide_banner -y -i {} -vf '
                             'thumbnail,scale=640:360 -vframes 1 media/{}'
-                            .format(new_video.video_file.path, new_thumbnail),
+                            .format(new_video.video_file.path, new_video.thumbnail),
                             shell=True)
             return redirect('video:feed')
-
     else:
         form = VideoUploadForm()
-
     return render(request, 'video/upload.html', {'form': form})
 
 

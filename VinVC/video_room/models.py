@@ -6,7 +6,7 @@ from chat_room.models import Comment
 class VideoRoom(models.Model):
     videos = models.ManyToManyField(Video,
                                     through='VRVideos',
-                                    through_fields=('room', 'video'),
+                                    through_fields=('room', 'videos'),
                                     symmetrical=True,
                                     related_name='video_room')
 
@@ -18,6 +18,6 @@ class VRVideos(models.Model):
     room = models.ForeignKey(VideoRoom,
                              on_delete=models.CASCADE,
                              related_name='room')
-    video = models.ForeignKey(Video,
-                              on_delete=models.CASCADE,
-                              related_name='video')
+    videos = models.ForeignKey(Video,
+                               on_delete=models.CASCADE,
+                               related_name='videos')

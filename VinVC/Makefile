@@ -1,6 +1,6 @@
 PY = python
 MAN = manage.py
-APPS = video user login chat_room friendship
+APPS = video user login chat_room friendship video_room
 
 all:
 	rm -f db.sqlite3

@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'video.apps.VideoConfig',
     'friendship.apps.FriendshipConfig',
-
     'chat_room.apps.ChatRoomConfig',
+    'video_room.apps.VideoRoomConfig'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,32 @@
+{% load static %}
+
+{% comment %}
+    use with
+    preview_user: a user to display preview
+    preview_request: if present, append request to user preview
+{% endcomment %}
+
+<div class="col-sm-2 grid-item-container">
+    <div class="user-profile-image">
+        <a href="{% url 'user:profile' preview_user.id %}">
+            <!-- User image here -->
+            <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+        </a>
+    </div>
+    <div class="grid-holder">
+        <span class="user-profile-name">
+            <a href="{% url 'user:profile' preview_user.id %}">
+                {{ preview_user.get_full_name }}
+            </a>
+        </span>
+        {% if preview_request %}
+            <span class="user-profile-date">
+                {{ preview_request.sent_date|date:"M d, Y f" }}
+            </span>
+            <span>
+                <button class="notification" href=# onclick='acceptRequest({{ preview_request.id }})'>Accept</a>
+                <button class="notification" href=# onclick='rejectRequest({{ preview_request.id }})'>Reject</a>
+            </span>
+        {% endif %}
+    </div>
+</div>

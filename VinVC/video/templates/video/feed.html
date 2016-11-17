@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block head %}
     <title>Videos</title>
@@ -9,38 +8,16 @@
 
     <p> Most viewed. </p>
     {% for video in most_viewed %}
-        <div class="col-sm-2 grid-item-container">
-            <a href="{% url 'video:player' video.pk %}">
-                <div class="video-thumbnail">
-                    <img src="{{ video.thumbnail.url }}" />
-                </div>
-            </a>
-            <div class="grid-holder">
-                <span class="video-name">
-                    {{ video.title }}
-                </span>
-            </div>
-        </div>
+        {% include "preview_video.html" with preview_video=video only %}
     {% empty %}
-        <p>Nothing here.</p>
+        <p>Nothing here...</p>
     {% endfor %}
 
     <p> Friends are watching.</p>
     {% for video in watching %}
-        <div class="col-sm-2 grid-item-container">
-            <a href="{% url 'video:player' video.pk %}">
-                <div class="video-thumbnail">
-                    <img src="{{ video.thumbnail.url }}" />
-                </div>
-            </a>
-            <div class="grid-holder">
-                <span class="video-name">
-                    {{ video.title }}
-                </span>
-            </div>
-        </div>
+        {% include "preview_video.html" with preview_video=video preview_user="Friend" only %}
     {% empty %}
-        <p>You don't have friends</p>
+        <p>Nothing here...</p>
     {% endfor %}
 
 {% endblock %}

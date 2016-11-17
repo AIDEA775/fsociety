@@ -1,0 +1,25 @@
+{% comment %}
+    Usage with
+    preview_video: video to display preview
+    preview_user: if present, show user on top of thumbnail
+    preview_delete: if equal to True, show delete button
+{% endcomment %}
+
+<div class="col-sm-2 grid-item-container">
+    {% if preview_user %}
+        <p> preview_user </p>
+    {% endif %}
+    <a href="{% url 'video:player' preview_video.pk %}">
+        <div class="video-thumbnail">
+            <img src="{{ preview_video.thumbnail.url }}" />
+        </div>
+    </a>
+    <div class="grid-holder">
+        <span class="video-name">
+            {{ preview_video.title }}
+        </span>
+        {% if preview_delete == "True" %}
+            <a class="badge btn-danger" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
+        {% endif %}
+    </div>
+</div>

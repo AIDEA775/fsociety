@@ -4,3 +4,4 @@ python-social-auth==0.2.19
 asgi-redis==1.0.0
 redis==2.10.5
 channels==0.17.3
+Pillow==3.4.2

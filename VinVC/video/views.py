@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.utils import timezone
 from os.path import dirname, relpath, join
-
 import subprocess
 
 from .models import Video, WatchingVideo
@@ -36,13 +34,13 @@ def upload(request):
             new_video = form.save(commit=False)
             new_video.author = request.user
             new_video.save()
-            new_video.save_m2m()
 
             new_video.thumbnail = get_new_thumbnail_path(new_video)
             new_video.save()
             subprocess.call('ffmpeg -hide_banner -y -i {} -vf '
                             'thumbnail,scale=640:360 -vframes 1 media/{}'
-                            .format(new_video.video_file.path, new_video.thumbnail),
+                            .format(new_video.video_file.path,
+                                    new_video.thumbnail),
                             shell=True)
             return redirect('video:feed')
     else:

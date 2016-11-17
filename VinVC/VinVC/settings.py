@@ -130,7 +130,6 @@ AUTHENTICATION_BACKENDS = (
     # Social OAuth
     'social.backends.google.GoogleOAuth2',
     'social.backends.facebook.FacebookOAuth2',
-    'social.backends.twitter.TwitterOAuth',
 
     # Our backend
     'login.backend.UsernameOrEmailBackend',

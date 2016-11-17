@@ -102,18 +102,6 @@ body {
     background-color: #23345a;
 }
 
-.btn-twitter {
-    background: #55acee;
-}
-
-.btn-twitter:hover, .btn-twitter:active {
-    background-color: #2795e9;
-}
-
-.btn-twitter:active:hover {
-    background-color: #1583d7;
-}
-
 .strike-message {
   display: block;
   text-align: center;

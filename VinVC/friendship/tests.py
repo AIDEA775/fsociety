@@ -1,28 +1,23 @@
 from django.test import TestCase
-from django.contrib.auth import get_user, get_user_model
+from django.contrib.auth import get_user
 
 from .models import Friendship, FriendshipRequest
-from login.tests import create_user, login_user
+from user.tests import UserTest
 
 
-def create_two_users():
-    alice = create_user(username="alice", email="alice@example")
-    bob = create_user(username="bob", email="bob@example")
-    return alice, bob
-
-
-def friends(user, other):
-    user.friendship.send_request(other.friendship)
-    other.friendship.get_pending_requests().get().accept()
-
-
-class UserFriendshipTest(TestCase):
+class UserFriendshipTest(UserTest):
+    """
+    Doc here.
+    """
     def setUp(self):
-        """
-        Create two users, Alice and Bob.
-        """
-        self.alice, self.bob = create_two_users()
+        self.alice, self.bob = self.create_two_users()
 
+    def friends(self, user, other):
+        user.friendship.send_request(other.friendship)
+        other.friendship.get_pending_requests().get().accept()
+
+
+class UserFriendshipModelsTest(UserFriendshipTest):
     def test_check_empty_friendship(self):
         self.client.login(username=self.alice.username, password="pass")
         user = get_user(self.client)

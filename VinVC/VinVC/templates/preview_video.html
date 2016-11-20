@@ -16,10 +16,15 @@
     </a>
     <div class="grid-holder">
         <span class="video-name">
-            {{ preview_video.title }}
+                <a href="{% url 'video:player' preview_video.pk %}">
+                {{ preview_video.title }}
+            </a>
+        </span>
+        <span class="video-description">
+            {{ preview_video.description }}
         </span>
         {% if preview_delete == "True" %}
-            <a class="badge btn-danger" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
+            <a class="badge btn-danger btn-delete" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
         {% endif %}
     </div>
 </div>

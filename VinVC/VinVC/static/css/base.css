@@ -196,6 +196,7 @@ button.notification {
     vertical-align: top;
     margin: 1%;
     float: none;
+    padding: 0;
 }
 
 .user-profile-image {
@@ -211,8 +212,7 @@ button.notification {
 }
 
 .grid-holder {
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding: 10px;
 }
 
 .grid-holder > span {
@@ -235,13 +235,31 @@ button.notification {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 150px;
-    max-width: 200px;
 }
 
-span.video-name {
+.video-description {
+    text-align: start;
+    font-weight: lighter;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.video-name {
     text-align: start;
     font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+a.btn-delete {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #666;
+    background: #f0f0f0;
+    border-radius: 2px;
 }
 
 audio, canvas, img, svg {

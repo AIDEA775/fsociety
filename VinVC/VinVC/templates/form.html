@@ -1,14 +1,10 @@
 {% for field in form %}
     <div class="form-field">
-        {% if field.errors %}
-            <p class="error-message">{{ field.errors }}</p>
-        {% endif %}
+        {% for error in field.errors %}
+            <p class="error-message">{{ error }}</p>
+        {% endfor %}
 
         {{ field }}
-
-        {% if field.help_text %}
-            <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
 
     </div>
 {% endfor %}

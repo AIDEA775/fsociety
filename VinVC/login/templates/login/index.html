@@ -12,7 +12,7 @@
 </video>
 
 <div id="content">
-    <div id="text">
+    <div id="login-text" class="visible-lg-block">
         <h1>
             <span id="typed-placeholder"><strong>VinVC</strong> is not</span>
             <span id="typed"></span>
@@ -59,7 +59,7 @@
 $(function() {
     $("#typed-placeholder").hide();
     $("#typed").typed({
-        strings: ["Video Chat^800", "<strong>VinVC</strong> is not<br/>&nbsp;Video Chat"],
+        strings: ["Video Chat^800", "<strong>VinVC</strong> is not<br>&nbsp;Video Chat"],
         typeSpeed: 100
     });
 });

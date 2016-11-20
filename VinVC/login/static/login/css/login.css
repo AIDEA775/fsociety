@@ -163,11 +163,11 @@ form button:active:hover {
     background-color: #391c64;
 }
 
-#text {
+#login-text {
     flex-grow: 2;
 }
 
-#text h1 {
+#login-text h1 {
     text-align: center;
     font-weight: bold;
     color: white;

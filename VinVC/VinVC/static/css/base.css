@@ -80,10 +80,6 @@ li.notification {
     padding: 3px 5px;
 }
 
-button.notification {
-    margin-left: 7px;
-}
-
 #header-account-container {
     display: inline-block;
 }
@@ -172,6 +168,20 @@ button.notification {
     text-decoration: none !important;
 }
 
+.site-clear-button {
+    margin-left: 10px;
+    color: #666;
+    border: 1px solid #e5e5e5;
+    background: white;
+}
+
+.site-clear-button:hover {
+    background: #442178;
+    color: white;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
 #grid-container {
     box-sizing: border-box;
     width: auto;
@@ -202,11 +212,9 @@ button.notification {
 .user-profile-image {
     height: 100%;
     width: 100%;
-    border-radius: 50%;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    overflow: hidden;
     min-width: 150px;
     max-width: 200px;
 }
@@ -253,7 +261,7 @@ button.notification {
     overflow: hidden;
 }
 
-a.btn-delete {
+.btn-delete {
     position: absolute;
     right: 4px;
     top: 4px;

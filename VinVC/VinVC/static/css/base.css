@@ -162,7 +162,7 @@ li.notification {
     text-transform: uppercase;
 }
 
-.site-button:hover, .site-button:active {
+.site-button:hover, .site-button:active , .site-button:focus {
     background: #442178;
     color: white !important;
     text-decoration: none !important;
@@ -175,10 +175,10 @@ li.notification {
     background: white;
 }
 
-.site-clear-button:hover {
+.site-clear-button:hover, .site-button:active, .site-button:focus {
     background: #442178;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: 0.5s;
 }
 

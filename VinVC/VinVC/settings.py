@@ -150,7 +150,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 
 # Topic model reference for Chat Room
-TOPIC_MODEL = 'video.Video'
+TOPIC_MODEL = 'video_room.VideoRoom'
 
 
 # Auth settings

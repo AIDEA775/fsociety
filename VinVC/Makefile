@@ -31,3 +31,9 @@ test:
 
 clean:
 	  rm -f db.sqlite3
+
+clean_all:
+	rm -rf video/migrations user/migrations login/migrations
+	rm -rf chat_room/migrations friendship/migrations video_room/migrations
+	rm -rf video/__pycache__ user/__pycache__ login/__pycache__
+	rm -rf chat_room/__pycache__ friendship/__pycache__ video_room/__pycache__

@@ -9,7 +9,7 @@
     {% if preview_user %}
         <p> preview_user </p>
     {% endif %}
-    <a href="{% url 'video_room:player' preview_video.pk 1 %}">
+    <a href="{% url 'video_room:player' preview_video.pk preview_video.pk %}">
         <div class="video-thumbnail">
             <img src="{{ preview_video.thumbnail.url }}" />
         </div>

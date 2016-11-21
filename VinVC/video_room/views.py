@@ -11,9 +11,7 @@ def player(request, video_id, chat_room=None):
     WatchingVideo.objects.create(user=request.user, video=video)
     video_room, created = VideoRoom.objects.get_or_create(video=video)
     videos = Video.objects.all().exclude(id=video_id)
-
     if chat_room is None:
         chat_room = video_room.pk
-
-    context = {'video_room': video_room, 'chat': chat_room, 'videos': videos}
+    context = {'video': video_room, 'chat': chat_room, 'videos': videos}
     return render(request, "video_room/player.html", context)

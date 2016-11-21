@@ -11,12 +11,9 @@ from .forms import VideoUploadForm
 @login_required
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
-    watched_videos = WatchingVideo.objects.filter(user__friendship__in=
-                                                  friendship_list).\
-        values('video')
-    watching = Video.objects.filter(pk__in=watched_videos)
+    friends = WatchingVideo.objects.filter(user__friendship__in=friendship_list)
     most_viewed = Video.objects.order_by('views')[:10]
-    context = {'friend_watching': watching,
+    context = {'friend_watching': friends,
                'most_viewed': most_viewed}
     return render(request, "video/feed.html", context)
 

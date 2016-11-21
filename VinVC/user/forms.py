@@ -10,7 +10,7 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'username']
+        fields = ['first_name', 'last_name', 'username', 'avatar']
 
     def clean_old_password(self):
         password = self.cleaned_data.get('old_password', None)

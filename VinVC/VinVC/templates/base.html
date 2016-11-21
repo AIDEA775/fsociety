@@ -34,7 +34,7 @@
                     </div>
                     <div id="header-account-container" class="dropdown">
                         <button id="header-account" title="{{ user.first_name }} {{ user.last_name }}" class="dropdown-toggle" type="button" data-toggle="dropdown">
-                            <img id="user-profile-image" src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                            <img id="user-profile-image" src="{{ user.avatar.url }}" />
                         </button>
                         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="header-account">
                             <li><a role="menuitem" tabindex="-1" href="{% url 'user:profile' user.id %}">My Profile</a></li>

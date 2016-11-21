@@ -13,7 +13,7 @@
         <div id="profile-header">
             <div id="profile-header-image-container">
                 <div id="profile-header-image">
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    <img src="{{ user.avatar.url }}" />
                 </div>
                 <span>{{ profile.get_full_name }}</span>
             </div>

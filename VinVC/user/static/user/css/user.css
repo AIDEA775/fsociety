@@ -183,3 +183,12 @@ li.active a:hover {
     color: white;
     box-shadow: none;
 }
+
+#user-edit-profile-image {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    min-width: 150px;
+    max-width: 200px;
+}

@@ -7,9 +7,10 @@
 {% endcomment %}
 
 <div class="col-sm-2 grid-item-container">
+    <div class="user-profile-header">
+    </div>
     <div class="user-profile-image">
         <a href="{% url 'user:profile' preview_user.id %}">
-            <!-- User image here -->
             <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
         </a>
     </div>

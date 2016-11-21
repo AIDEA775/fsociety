@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth import update_session_auth_hash
 
 from video.models import Video, WatchingVideo
 from .forms import UpdateUserForm
@@ -88,10 +89,12 @@ def edit(request):
 
             if form.cleaned_data['new_password']:
                 new_user.set_password(form.cleaned_data['new_password'])
+                update_session_auth_hash(request, new_user)
 
             new_user.save()
             form.save_m2m()
-            return render(request, 'user/edit.html', {'form': form})
+            return redirect(reverse('user:profile',
+                                    kwargs={'user_id': request.user.id}))
     else:
         form = UpdateUserForm(initial={'password' : ''}, instance=request.user)
     return render(request, 'user/edit.html', {'form': form})

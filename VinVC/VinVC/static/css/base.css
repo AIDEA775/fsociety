@@ -11,6 +11,10 @@ audio, canvas, img, svg {
     box-sizing: border-box;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 #header-container {
     width:100%;
     position:fixed;
@@ -269,6 +273,20 @@ li.notification {
     margin-top: 1%;
 }
 
+.grid-head {
+    padding: 10px;
+    float: left;
+}
+
+.grid-head > a > span {
+    display: inline-block;
+}
+
+.user-profile-image-mini {
+    width: 30px;
+    height: 30px;
+}
+
 .user-profile-header {
     background: url('/static/login/video/placeholder.jpg');
     background-size: cover;
@@ -290,6 +308,7 @@ li.notification {
 
 .user-profile-name {
     font-weight: bold;
+    text-decoration: none;
 }
 
 .user-profile-date {
@@ -300,9 +319,6 @@ li.notification {
 .video-thumbnail {
     height: 100%;
     width: 100%;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 .video-description {

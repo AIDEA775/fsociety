@@ -3,7 +3,7 @@
     {% for video in video_list %}
         {% include "preview_video.html" with preview_video=video preview_delete="True" only %}
     {% empty %}
-        <p>You don't have any videos.</p>
+        <p>Nothing here...</p>
     {% endfor %}
 
 </div>

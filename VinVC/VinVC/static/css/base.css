@@ -214,7 +214,7 @@ li.notification {
     background: rgba(255,255,255,0.5);
     position: absolute;
     right: 4px;
-    top: 4px;
+    top: 8px;
     border-radius: 2px;
     padding: 3px 7px;
     font-size: 12px;
@@ -230,8 +230,8 @@ li.notification {
     box-sizing: border-box;
     width: auto;
     text-align: center;
-    padding-right: 100px;
-    padding-left: 100px;
+    padding-right: 50px;
+    padding-left: 50px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -244,10 +244,11 @@ li.notification {
 
 .grid-item-container {
     text-align: center;
+    max-width: 100%;
     min-width: 200px;
     display: inline-block;
     vertical-align: top;
-    margin: 1%;
+    margin: 10px;
     float: none;
     padding: 0;
     border-radius: 4px;

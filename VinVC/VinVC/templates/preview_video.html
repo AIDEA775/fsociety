@@ -16,7 +16,7 @@
     </a>
     <div class="grid-holder">
         <span class="video-name">
-                <a href="{% url 'video:player' preview_video.pk %}">
+            <a href="{% url 'video:player' preview_video.pk %}">
                 {{ preview_video.title }}
             </a>
         </span>
@@ -24,7 +24,7 @@
             {{ preview_video.description }}
         </span>
         {% if preview_delete == "True" %}
-            <a class="btn btn-delete" href="{% url 'video:delete' %}?id={{ video.id }}">
+            <a class="btn btn-delete" href="{% url 'video:delete' %}?id={{ preview_video.id }}">
                 <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
             </a>
         {% endif %}

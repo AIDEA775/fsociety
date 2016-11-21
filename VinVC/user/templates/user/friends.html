@@ -3,7 +3,7 @@
     {% for friend in friendship_list %}
         {% include "preview_user.html" with preview_user=friend.user only %}
     {% empty %}
-        <p>You don't have any relationships.</p>
+        <p>Nothing here...</p>
     {% endfor %}
 
 </div>

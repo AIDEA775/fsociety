@@ -16,7 +16,7 @@
         <ul class="dropdown-menu" role="menu">
             {% if videos %}
                 {% for video in videos %}
-                    <li><a role="menuitem" href="{% url 'video_room:player' video.id %}">{{ video.title }}</a></li>
+                    <li><a role="menuitem" href="{% url 'video_room:player' video.id chat %}">{{ video.title }}</a></li>
                 {% endfor %}
             {% else %}
                 <li> Don't exists more videos </li>
@@ -32,7 +32,7 @@
             <blockquote> {{ video_room.video.description }} </blockquote>
         </div>
         <div id="chat-room-container">
-            {% show_chat_room video_room.pk %}
+            {% show_chat_room chat %}
         </div>
     </div>
 {% endblock %}

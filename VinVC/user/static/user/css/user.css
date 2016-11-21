@@ -122,6 +122,7 @@ ul.menu {
 ul.menu:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transition: 0.5s;
+    outline:none;
 }
 
 ul.menu > li {
@@ -148,13 +149,14 @@ ul.menu a {
     color: #666;
     border: 1px solid #e5e5e5;
     background: white;
+    outline: none;
 }
 
 ul.menu li + li a {
     margin-left: -1px;
 }
 
-ul.menu a:hover, ul.menu a:active {
+ul.menu a:hover, ul.menu a:active, ul.menu a:focus {
     color: black;
     text-decoration: none;
 }
@@ -165,8 +167,7 @@ li.active a, ul.menu a:active {
     border: 1px solid #5a2ca0;
 }
 
-li.active a:hover {
+li.active a:hover, li.active a:focus {
     color: white;
     background: #442178;
-    box-shadow: none;
 }

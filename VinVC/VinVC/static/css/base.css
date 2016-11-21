@@ -128,6 +128,7 @@ li.notification {
     background: transparent;
     border: 0;
     width: 40px;
+    outline: none;
 }
 
 #search-button:hover, #search-button:active {
@@ -224,7 +225,6 @@ li.notification {
     color: white;
     background: #e6403b;
 }
-
 
 #grid-container {
     box-sizing: border-box;

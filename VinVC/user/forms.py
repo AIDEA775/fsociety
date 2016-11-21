@@ -28,7 +28,7 @@ class UpdateUserForm(forms.ModelForm):
         if not self.instance.check_password(password):
             raise ValidationError('Invalid password')
 
-    def clean_new_password(self):
+    def clean_retry_password(self):
         new = self.cleaned_data.get('new_password', None)
         retry = self.cleaned_data.get('retry_password', None)
         if new and new != retry:

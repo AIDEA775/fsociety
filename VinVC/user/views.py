@@ -91,7 +91,8 @@ def edit(request):
 
             new_user.save()
             form.save_m2m()
-            return render(request, 'user/edit.html', {'form': form})
+            return redirect(reverse('user:profile',
+                                    kwargs={'user_id': request.user.id}))
     else:
         form = UpdateUserForm(initial={'password' : ''}, instance=request.user)
     return render(request, 'user/edit.html', {'form': form})

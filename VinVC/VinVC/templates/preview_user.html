@@ -24,8 +24,8 @@
                 {{ preview_request.sent_date|date:"M d, Y f" }}
             </span>
             <span>
-                <button class="btn site-clear-button" href=# onclick='acceptRequest({{ preview_request.id }})'>Accept</a>
-                <button class="btn site-clear-button" href=# onclick='rejectRequest({{ preview_request.id }})'>Reject</a>
+                <button class="btn site-blue-button" href=# onclick='acceptRequest({{ preview_request.id }})'>Accept</a>
+                <button class="btn site-white-button" href=# onclick='rejectRequest({{ preview_request.id }})'>Reject</a>
             </span>
         {% endif %}
     </div>

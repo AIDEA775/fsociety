@@ -24,7 +24,9 @@
             {{ preview_video.description }}
         </span>
         {% if preview_delete == "True" %}
-            <a class="badge btn-danger btn-delete" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
+            <a class="btn btn-delete" href="{% url 'video:delete' %}?id={{ video.id }}">
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+            </a>
         {% endif %}
     </div>
 </div>

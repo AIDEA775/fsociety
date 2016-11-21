@@ -11,7 +11,7 @@
         <form action="{% url 'video:upload' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% include "form.html" with form=form only %}
-            <input class="btn site-clear-button" type="submit" value="Upload"/>
+            <input class="btn site-button" type="submit" value="Upload"/>
         </form>
     </fieldset>
 {% endblock %}

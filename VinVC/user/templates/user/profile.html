@@ -33,10 +33,10 @@
                     {% elif status == 'already_sent_request' %}
                         Request pending
                     {% elif status == 'allow_send_request' %}
-                        <a id="request-button" class="site-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
+                        <a class="btn site-blue-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
                     {% elif status == 'need_response' %}
-                        <a id="accept-button" class="site-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
-                        <a id="reject-button" class="site-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                        <a class="btn site-blue-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
+                        <a class="btn site-white-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
                     {% endif %}
                 </p>
             </div>

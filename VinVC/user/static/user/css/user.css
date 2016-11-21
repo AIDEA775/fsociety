@@ -99,21 +99,6 @@
     margin-bottom: 0px;
 }
 
-#request-button {
-    background: #5392ff;
-    padding: 10px;
-}
-
-#accept-button {
-    background: #53ff92;
-    padding: 7px;
-}
-
-#reject-button {
-    background: #ff5392;
-    padding: 7px;
-}
-
 .clearfix {
     clear: both;
 }
@@ -131,6 +116,12 @@ ul.menu {
     margin: 15px 0;
     display: inline-block;
     border-radius: 10px;
+    transition: 0.5s;
+}
+
+ul.menu:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.5s;
 }
 
 ul.menu > li {
@@ -166,20 +157,16 @@ ul.menu li + li a {
 ul.menu a:hover, ul.menu a:active {
     color: black;
     text-decoration: none;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-ul.menu a:hover {
-    box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 li.active a, ul.menu a:active {
-    box-shadow: inset 0 0px 10px rgba(0, 0, 0, 0.2);
     background: #5a2ca0;
     color: white;
+    border: 1px solid #5a2ca0;
 }
 
 li.active a:hover {
     color: white;
+    background: #442178;
     box-shadow: none;
 }

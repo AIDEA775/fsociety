@@ -13,7 +13,7 @@
         <div id="profile-header">
             <div id="profile-header-image-container">
                 <div id="profile-header-image">
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    <img class="img-circle" src="{{ user.avatar.url }}" />
                 </div>
                 <span>{{ profile.get_full_name }}</span>
             </div>
@@ -33,10 +33,12 @@
                     {% elif status == 'already_sent_request' %}
                         Request pending
                     {% elif status == 'allow_send_request' %}
-                        <a id="request-button" class="site-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
+                        <a class="btn site-blue-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
                     {% elif status == 'need_response' %}
-                        <a id="accept-button" class="site-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
-                        <a id="reject-button" class="site-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                        <a class="btn site-blue-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
+                        <a class="btn site-white-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                    {% elif status == 'same_user' %}
+                        <a class="btn site-blue-button" href="{% url 'user:edit' %}">Edit</a>
                     {% endif %}
                 </p>
             </div>

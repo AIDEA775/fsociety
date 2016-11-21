@@ -5,7 +5,7 @@
     preview_delete: if equal to True, show delete button
 {% endcomment %}
 
-<div class="col-sm-2 grid-item-container">
+<div class="col-xs-11 col-sm-4 col-md-2 col-lg-1 grid-item-container">
     {% if preview_user %}
         <p> preview_user </p>
     {% endif %}
@@ -16,10 +16,17 @@
     </a>
     <div class="grid-holder">
         <span class="video-name">
-            {{ preview_video.title }}
+                <a href="{% url 'video:player' preview_video.pk %}">
+                {{ preview_video.title }}
+            </a>
+        </span>
+        <span class="video-description">
+            {{ preview_video.description }}
         </span>
         {% if preview_delete == "True" %}
-            <a class="badge btn-danger" href="{% url 'video:delete' %}?id={{ video.id }}">Delete</i></a>
+            <a class="btn btn-delete" href="{% url 'video:delete' %}?id={{ video.id }}">
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+            </a>
         {% endif %}
     </div>
 </div>

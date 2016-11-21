@@ -37,7 +37,7 @@ def upload(request):
 
             new_video.thumbnail = get_new_thumbnail_path(new_video)
             new_video.save()
-            subprocess.call('ffmpeg -hide_banner -y -i {} -vf '
+            subprocess.call('ffmpeg -v error -y -i {} -vf '
                             'thumbnail,scale=640:360 -vframes 1 media/{}'
                             .format(new_video.video_file.path,
                                     new_video.thumbnail),

@@ -171,3 +171,9 @@ li.active a:hover, li.active a:focus {
     color: white;
     background: #442178;
 }
+
+#user-edit-profile-image {
+    float: right;
+    width: 200px;
+    height: 200px;
+}

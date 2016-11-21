@@ -13,7 +13,7 @@
         <div id="profile-header">
             <div id="profile-header-image-container">
                 <div id="profile-header-image">
-                    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+                    <img class="img-circle" src="{{ user.avatar.url }}" />
                 </div>
                 <span>{{ profile.get_full_name }}</span>
             </div>
@@ -37,6 +37,8 @@
                     {% elif status == 'need_response' %}
                         <a class="btn site-blue-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
                         <a class="btn site-white-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                    {% elif status == 'same_user' %}
+                        <a class="btn site-blue-button" href="{% url 'user:edit' %}">Edit</a>
                     {% endif %}
                 </p>
             </div>

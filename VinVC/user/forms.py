@@ -16,7 +16,7 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'username']
+        fields = ['first_name', 'last_name', 'username', 'avatar']
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'First name'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Last name'}),
@@ -31,5 +31,5 @@ class UpdateUserForm(forms.ModelForm):
     def clean_new_password(self):
         new = self.cleaned_data.get('new_password', None)
         retry = self.cleaned_data.get('retry_password', None)
-        if retry != new:
+        if new and new != retry:
             raise ValidationError('Password not match')

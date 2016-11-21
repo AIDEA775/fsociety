@@ -82,7 +82,7 @@ def watched(request, user_id):
 @login_required
 def edit(request):
     if request.method == 'POST':
-        form = UpdateUserForm(request.POST, instance=request.user)
+        form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             new_user = form.save(commit=False)
 

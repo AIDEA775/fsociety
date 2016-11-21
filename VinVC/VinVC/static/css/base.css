@@ -277,17 +277,14 @@ li.notification {
 
 .user-profile-image {
     position: relative;
-    top: -50px;
+    top: -70px;
     margin-bottom: -50px;
     overflow: hidden;
 }
 
 .user-profile-image > a > img {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
-    border-radius: 50%;
+    width: 150px;
+    height: 150px;
     border: 5px solid rgba(255,255,255,0.5);
 }
 
@@ -347,4 +344,10 @@ li.notification {
 
 .dropdown-menu>li>a {
     align-self: center;
+}
+
+.img-circle {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }

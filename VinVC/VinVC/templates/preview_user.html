@@ -6,12 +6,12 @@
     preview_request: if present, append request to user preview
 {% endcomment %}
 
-<div class="col-xs-11 col-sm-4 col-md-2 col-lg-1 grid-item-container">
+<div class="col-xs-11 col-sm-4 col-md-2 col-lg-2 grid-item-container">
     <div class="user-profile-header">
     </div>
     <div class="user-profile-image">
         <a href="{% url 'user:profile' preview_user.id %}">
-            <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+            <img class="img-circle" src="{{ preview_user.avatar.url }}" />
         </a>
     </div>
     <div class="grid-holder">

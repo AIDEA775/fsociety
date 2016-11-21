@@ -3,6 +3,7 @@
 
 {% block head %}
     <title>Edit profile</title>
+    <link rel='stylesheet' href="{% static 'user/css/user.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -10,13 +11,13 @@
 
     <div class="container-fluid">
         <div class="col-sm-3 col-md-6 col-lg-4">
-            <div class="user-profile-image">
-                <img src="{% static 'images/profile_picture_placeholder.jpg' %}" />
+            <div id="user-edit-profile-image">
+                <img class="img-circle" src="{{ user.avatar.url }}" />
             </div>
         </div>
 
         <div class="col-sm-9 col-md-6 col-lg-8">
-            <form action="{% url 'user:edit' %}" method="post">
+            <form action="{% url 'user:edit' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% include "form.html" with form=form only %}
                 <input class="btn site-button" type="submit" value="Save"/>

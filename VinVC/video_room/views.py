@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from video_room.models import VideoRoom, VideoRoomUsers
 from video.models import Video
 
@@ -30,9 +30,5 @@ def join(request, video_id, room_id):
 def new(request, video_id):
     video = get_object_or_404(Video, id=video_id)
     room = VideoRoom.objects.create(video=video)
-
-    VideoRoomUsers.objects.create(user=request.user, room=room)
-    video_list = Video.objects.all().exclude(id=video_id)
-
-    context = {'video': video, 'chat': room, 'video_list': video_list}
-    return render(request, "video_room/player.html", context)
+    return redirect(reverse('video_room:join', kwargs={'video_id': video_id,
+                                                       'room_id': room.id}))

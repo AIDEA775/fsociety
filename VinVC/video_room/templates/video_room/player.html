@@ -15,7 +15,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
             {% for video_item in video_list %}
-                <li><a role="menuitem" href="{% url 'video_room:join' video_item.id chat %}">{{ video_item.title }}</a></li>
+                <li><a role="menuitem" href="{% url 'video_room:join' video_item.id chat.id %}">{{ video_item.title }}</a></li>
             {% empty %}
                 <li> Don't exists more videos </li>
             {% endfor %}

@@ -4,18 +4,8 @@ from django.http import HttpResponseForbidden
 from os.path import dirname, relpath, join
 import subprocess
 import os
-from .models import Video, WatchingVideo
+from .models import Video
 from .forms import VideoUploadForm
-
-
-@login_required
-def feed(request):
-    friendship_list = request.user.friendship.get_friends()
-    friends = WatchingVideo.objects.filter(user__friendship__in=friendship_list)
-    most_viewed = Video.objects.order_by('views')[:10]
-    context = {'friend_watching': friends,
-               'most_viewed': most_viewed}
-    return render(request, "video/feed.html", context)
 
 
 def get_new_thumbnail_path(new_video):
@@ -39,7 +29,8 @@ def upload(request):
                             .format(new_video.video_file.path,
                                     new_video.thumbnail),
                             shell=True)
-            return redirect('video:feed')
+            # TODO this is legal?
+            return redirect('/')
     else:
         form = VideoUploadForm()
     return render(request, 'video/upload.html', {'form': form})
@@ -59,11 +50,3 @@ def delete(request):
         return redirect('user:uploaded', user_id=request.user.id)
     else:
         return HttpResponseForbidden("Don't you have permission to delete")
-
-
-@login_required
-def player(request, video_id):
-    video = get_object_or_404(Video, id=video_id)
-    WatchingVideo.objects.create(user=request.user, video=video)
-    context = {'video': video}
-    return render(request, "video/player.html", context)

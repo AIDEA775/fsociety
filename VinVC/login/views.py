@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 def index(request):
     """Index view, displays login mechanism"""
     if request.user.is_authenticated:
-        return redirect('video:feed')
+        return redirect('video_room:feed')
     else:
         return render(request, "login/index.html")
 
@@ -23,7 +23,7 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         auth_login(request, user)
-        return redirect('video:feed')
+        return redirect('video_room:feed')
     else:
         return render(request, "login/index.html",
                       {'error_message': 'Wrong username or password'})
@@ -51,7 +51,7 @@ def signup(request):
             # All okay
             user = authenticate(username=email, password=password)
             auth_login(request, user)
-            return redirect('video:feed')
+            return redirect('video_room:feed')
         except IntegrityError:
             return render(request, "login/index.html",
                           {'error_message': 'Email is already in use'})

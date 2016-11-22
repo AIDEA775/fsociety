@@ -1,31 +1,39 @@
 {% comment %}
     Usage with
     preview_video: video to display preview
-    preview_user: if present, show user on top of thumbnail
+    preview_user: if present, show user on top of thumbnail and link to VideoRoom
     preview_delete: if equal to True, show delete button
 {% endcomment %}
 
 <div class="col-xs-11 col-sm-4 col-md-2 col-lg-1 grid-item-container">
     {% if preview_user %}
         <div class="grid-head">
-            <a href="{% url 'user:profile' preview_user.id %}">
+            <a href="{% url 'user:profile' preview_user.user.id %}">
                 <span class="user-profile-image-mini">
-                    <img class="img-circle" src="{{ preview_user.avatar.url }}" />
+                    <img class="img-circle" src="{{ preview_user.user.avatar.url }}" />
                 </span>
                 <span class="user-profile-name">
-                    {{ preview_user.get_full_name }}
+                    {{ preview_user.user.get_full_name }}
                 </span>
             </a>
         </div>
     {% endif %}
-    <a href="{% url 'video_room:player' preview_video.pk preview_video.pk %}">
+    {% if preview_user %}
+        <a href="{% url 'video_room:player' preview_video.pk preview_user.room %}">
+    {% else %}
+        <a href="{% url 'video_room:player' preview_video.pk %}">
+    {% endif %}
         <div class="video-thumbnail">
             <img src="{{ preview_video.thumbnail.url }}" />
         </div>
     </a>
     <div class="grid-holder">
         <span class="video-name">
-            <a href="{% url 'video_room:player' preview_video.pk preview_video.pk %}">
+            {% if preview_user %}
+                <a href="{% url 'video_room:player' preview_video.pk preview_user.room %}">
+            {% else %}
+                <a href="{% url 'video_room:player' preview_video.pk %}">
+            {% endif %}
                 {{ preview_video.title }}
             </a>
         </span>

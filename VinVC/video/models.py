@@ -15,11 +15,6 @@ class Video(models.Model):
     thumbnail = models.ImageField(upload_to="videos/%Y/%m/%d", blank=True)
     description = models.CharField(blank=True, max_length=200, default="")
     views = models.IntegerField(default=0)
-    watchers = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                      through='WatchingVideo',
-                                      through_fields=('video', 'user'),
-                                      symmetrical=True,
-                                      related_name='watched')
 
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, " \
@@ -27,17 +22,3 @@ class Video(models.Model):
             format(self.title, self.description, self.author, self.date_upload,
                    self.video_file.name, self.views, self.watchers.all(),
                    self.thumbnail)
-
-
-class WatchingVideo(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE,
-                             related_name='user')
-    video = models.ForeignKey(Video, on_delete=models.CASCADE,
-                              related_name='video')
-    date = models.DateTimeField('date view', default=timezone.now)
-
-    def __str__(self):
-        return "User: {}, Video: <<{}>>, Date: {}".format(self.user,
-                                                          self.video,
-                                                          self.date)

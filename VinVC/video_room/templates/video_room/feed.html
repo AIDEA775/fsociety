@@ -14,8 +14,8 @@
     {% endfor %}
 
     <p> Friends are watching.</p>
-    {% for watching in friend_watching %}
-        {% include "preview_video.html" with preview_video=watching.video preview_user=watching.user only %}
+    {% for friend in friend_watching %}
+        {% include "preview_video.html" with preview_video=friend.room.video preview_user=friend only %}
     {% empty %}
         <p>Nothing here...</p>
     {% endfor %}

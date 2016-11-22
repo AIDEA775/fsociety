@@ -31,7 +31,7 @@
     // When we're using HTTPS, use WSS too.
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     //noinspection JSUnusedAssignment
-    var web_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat_room/" + chat_room_id);
+    var chat_room_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat_room/" + chat_room_id);
 
 
     $(document).ready(function() {
@@ -44,7 +44,7 @@
         messages_content.stop( true, true ).animate({scrollTop: messages_content[0].scrollHeight}, 500);
     });
 
-    web_socket.onmessage = function(message) {
+    chat_room_socket.onmessage = function(message) {
         var data = JSON.parse(message.data);
 
         var date = new Date(data.date);
@@ -94,7 +94,7 @@
             msg: msg
         };
 
-        web_socket.send(JSON.stringify(message));
+        chat_room_socket.send(JSON.stringify(message));
         chat_input.val('').focus();
         return false;
     }

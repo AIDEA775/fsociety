@@ -22,7 +22,7 @@ def join(request, room_id):
     VideoRoomUsers.objects.create(user=request.user, room=room)
     video_list = Video.objects.all().exclude(id=video.id)
 
-    context = {'video': video, 'chat': room, 'video_list': video_list}
+    context = {'room': room, 'video_list': video_list}
     return render(request, "video_room/player.html", context)
 
 

@@ -13,32 +13,30 @@ from .models import Comment
 log = logging.getLogger(__name__)
 
 
-@channel_session_user_from_http
-def ws_connect(message):
-    # Extract the room from the message. This expects message.path to be of the
-    # form /chat_room/{pk}/, and finds the related Topic if the message path is
-    # applicable, and if the related Topic exists. Otherwise, bails (meaning
-    # this is a some other sort of websocket)
-
+def get_topic_from_path(path):
     app, model = settings.TOPIC_MODEL.split('.')
     topic_model = apps.get_model(app, model)
 
+    pk = path.strip('/').split('/')[-1]
     try:
-        pk = message['path'].strip('/').split('/')[-1]
-        topic_model.objects.get(pk=pk)
+        topic = topic_model.objects.get(pk=pk)
+        return topic
     except ValueError:
         log.debug('message does not contain ws path')
-        return
     except topic_model.DoesNotExist:
         log.debug('ws room does not exist pk=%s', pk)
-        return
 
-    log.debug('chat connect room=%s client=%s:%s',
-              pk, message['client'][0], message['client'][1])
 
-    Group('chat-' + pk, channel_layer=message.channel_layer).add(message.reply_channel)
+def add_user_to_room(user_message, room_number):
+    Group('chat-' + str(room_number), channel_layer=user_message.channel_layer).add(user_message.reply_channel)
+    user_message.channel_session['room'] = room_number
 
-    message.channel_session['room'] = pk
+
+@channel_session_user_from_http
+def ws_connect(message):
+    topic = get_topic_from_path(message['path'])
+    if topic is not None:
+        add_user_to_room(message, topic.pk)
 
 
 @channel_session_user
@@ -74,7 +72,7 @@ def ws_receive(message):
         msg = data['msg']
         comment = Comment.objects.create(author=message.user, topic=topic, msg=msg)
 
-        Group('chat-' + pk, channel_layer=message.channel_layer).send({'text': json.dumps(
+        Group('chat-' + str(pk), channel_layer=message.channel_layer).send({'text': json.dumps(
             {'user_id': message.user.id,
              'user': conditional_escape(comment.author.get_full_name()),
              'msg': conditional_escape(comment.msg),
@@ -92,6 +90,6 @@ def ws_disconnect(message):
     try:
         pk = message.channel_session['room']
         topic_model.objects.get(pk=pk)
-        Group('chat-' + pk, channel_layer=message.channel_layer).discard(message.reply_channel)
+        Group('chat-' + str(pk), channel_layer=message.channel_layer).discard(message.reply_channel)
     except (KeyError, topic_model.DoesNotExist):
         pass

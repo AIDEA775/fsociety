@@ -1,23 +1,18 @@
 from django.db import models
+from django.utils import timezone
 from video.models import Video
 from django.utils import timezone
 from django.conf import settings
 
 
 class VideoRoom(models.Model):
-    PAUSED = 0
-    PLAYING = 1
-
-    STATUS = (
-        (PLAYING, 'Playing'),
-        (PAUSED, 'Paused'),
-    )
-
-    status = models.IntegerField(choices=STATUS, default=PAUSED)
+    paused = models.BooleanField(default=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    started_playing = models.DateTimeField('started playing', default=timezone.now)
+    current_time = models.IntegerField(default=0)
 
     def __str__(self):
-        return "Video: {}, Status: {}".format(self.video, self.status)
+        return "Video: {}, Paused: {}".format(self.video, self.paused)
 
 
 class VideoRoomUsers(models.Model):

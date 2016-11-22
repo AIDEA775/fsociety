@@ -19,7 +19,7 @@
         </div>
     {% endif %}
     {% if preview_user %}
-        <a href="{% url 'video_room:join' preview_video.pk preview_user.room.id %}">
+        <a href="{% url 'video_room:join' preview_user.room.id %}">
     {% else %}
         <a href="{% url 'video_room:new' preview_video.pk %}">
     {% endif %}
@@ -30,7 +30,7 @@
     <div class="grid-holder">
         <span class="video-name">
             {% if preview_user %}
-                <a href="{% url 'video_room:join' preview_video.pk preview_user.room.id %}">
+                <a href="{% url 'video_room:join' preview_user.room.id %}">
             {% else %}
                 <a href="{% url 'video_room:new' preview_video.pk %}">
             {% endif %}

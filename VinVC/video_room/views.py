@@ -15,12 +15,12 @@ def feed(request):
 
 
 @login_required
-def join(request, video_id, room_id):
-    video = get_object_or_404(Video, id=video_id)
+def join(request, room_id):
     room, _ = VideoRoom.objects.get_or_create(id=room_id)
+    video = room.video
 
     VideoRoomUsers.objects.create(user=request.user, room=room)
-    video_list = Video.objects.all().exclude(id=video_id)
+    video_list = Video.objects.all().exclude(id=video.id)
 
     context = {'video': video, 'chat': room, 'video_list': video_list}
     return render(request, "video_room/player.html", context)
@@ -30,5 +30,4 @@ def join(request, video_id, room_id):
 def new(request, video_id):
     video = get_object_or_404(Video, id=video_id)
     room = VideoRoom.objects.create(video=video)
-    return redirect(reverse('video_room:join', kwargs={'video_id': video_id,
-                                                       'room_id': room.id}))
+    return redirect(reverse('video_room:join', kwargs={'room_id': room.id}))

@@ -8,31 +8,29 @@
 {% endblock %}
 
 {% block content %}
-    <h3><strong> {{ video.video.title }} </strong></h3>
+    <h3><strong> {{ video.title }} </strong></h3>
     <div id="change-video-container" class="dropdown">
         <button class="dropdown-toggle" type="button" data-toggle="dropdown">
             Change video
         </button>
         <ul class="dropdown-menu" role="menu">
-            {% if videos %}
-                {% for video_item in videos %}
-                    <li><a role="menuitem" href="{% url 'video_room:player' video_item.id chat %}">{{ video_item.title }}</a></li>
-                {% endfor %}
-            {% else %}
+            {% for video_item in video_list %}
+                <li><a role="menuitem" href="{% url 'video_room:join' video_item.id chat %}">{{ video_item.title }}</a></li>
+            {% empty %}
                 <li> Don't exists more videos </li>
-            {% endif %}
+            {% endfor %}
         </ul>
     </div>
     <div id="player-container">
         <div id="video-container">
             <video preload="auto" controls autoplay>
-                <source src="{{ video.video.video_file.url }}">
+                <source src="{{ video.video_file.url }}">
                 Your browser does not support HTML5 video.
             </video>
-            <blockquote> {{ video.video.description }} </blockquote>
+            <blockquote> {{ video.description }} </blockquote>
         </div>
         <div id="chat-room-container">
-            {% show_chat_room chat %}
+            {% show_chat_room chat.id %}
         </div>
     </div>
 {% endblock %}

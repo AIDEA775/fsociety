@@ -18,7 +18,6 @@ class Video(models.Model):
 
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, " \
-               "Views: {}, Watchers: {}, Thumbnail: {}".\
+               "Views: {}, Thumbnail: {}".\
             format(self.title, self.description, self.author, self.date_upload,
-                   self.video_file.name, self.views, self.watchers.all(),
-                   self.thumbnail)
+                   self.video_file.name, self.views, self.thumbnail)

@@ -15,15 +15,24 @@ def feed(request):
 
 
 @login_required
-def player(request, video_id, chat_id=''):
+def join(request, video_id, room_id):
     video = get_object_or_404(Video, id=video_id)
-
-    # TODO Check if with chat_room = None this return new VideoRoom
-    room, new = VideoRoom.objects.get_or_create(room=room_id)
+    room, _ = VideoRoom.objects.get_or_create(id=room_id)
 
     VideoRoomUsers.objects.create(user=request.user, room=room)
-    videos = Video.objects.all().exclude(id=video_id)
+    video_list = Video.objects.all().exclude(id=video_id)
 
-    # TODO Here? check context
-    context = {'video': video_room, 'chat': room, 'videos': videos}
+    context = {'video': video, 'chat': room, 'video_list': video_list}
+    return render(request, "video_room/player.html", context)
+
+
+@login_required
+def new(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    room = VideoRoom.objects.create(video=video)
+
+    VideoRoomUsers.objects.create(user=request.user, room=room)
+    video_list = Video.objects.all().exclude(id=video_id)
+
+    context = {'video': video, 'chat': room, 'video_list': video_list}
     return render(request, "video_room/player.html", context)

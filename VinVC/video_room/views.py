@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-
 from video_room.models import VideoRoom
 from video.models import Video, WatchingVideo
 

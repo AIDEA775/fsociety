@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from os.path import dirname, relpath, join
 import subprocess
-
+import os
 from .models import Video, WatchingVideo
 from .forms import VideoUploadForm
 
@@ -53,6 +53,8 @@ def delete(request):
         return redirect('user:uploaded', user_id=request.user.id)
 
     if video.author == request.user:
+        os.remove(video.thumbnail.path)
+        os.remove(video.video_file.path)
         video.delete()
         return redirect('user:uploaded', user_id=request.user.id)
     else:

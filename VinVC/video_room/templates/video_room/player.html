@@ -3,8 +3,10 @@
 
 {% block head %}
     <title>Videos</title>
-    <link rel='stylesheet' href="{% static 'video/css/player.css' %}" />
-{% chat_room_headers %}
+    <link rel='stylesheet' href="{% static 'video_room/css/player.css' %}" />
+    <link href="http://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/5.4.6/video.min.js"></script>
+    {% chat_room_headers %}
 {% endblock %}
 
 {% block content %}
@@ -19,20 +21,86 @@
                     <li><a role="menuitem" href="{% url 'video_room:player' video.id %}">{{ video.title }}</a></li>
                 {% endfor %}
             {% else %}
-                <li> Don't exists more videos </li>
+                <li>There are no more videos available.</li>
             {% endif %}
         </ul>
     </div>
     <div id="player-container">
         <div id="video-container">
-            <video preload="auto" controls autoplay>
+            <video id="player" class="video-js" controls preload="auto" data-setup="{}">
                 <source src="{{ video_room.video.video_file.url }}">
                 Your browser does not support HTML5 video.
             </video>
-            <blockquote> {{ video_room.video.description }} </blockquote>
+            {% if video_room.video.description %}
+                <blockquote> {{ video_room.video.description }} </blockquote>
+            {% endif %}
         </div>
         <div id="chat-room-container">
             {% show_chat_room video_room.pk %}
         </div>
     </div>
+    <script>
+        var video_room_id = {{ video_room.id }};
+
+        // When we're using HTTPS, use WSS too.
+        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+        //noinspection JSUnusedAssignment
+        var web_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
+
+        var player = videojs("player");
+        var processing = false;
+
+        web_socket.onmessage = function(message) {
+            var data = JSON.parse(message.data);
+
+            processing = true;
+
+            if (data.paused == true && !player.paused()) {
+                player.pause();
+                if (Math.abs(player.currentTime - data.current_time) > 1)
+                    player.currentTime(data.current_time);
+            } else if (data.paused == false && player.paused()) {
+                if (Math.abs(player.currentTime - data.current_time) > 1)
+                    player.currentTime(data.current_time);
+                player.play();
+            }
+
+            processing = false;
+        };
+
+        player.on('play',function(){
+            if (!processing) {
+                var message = {
+                    paused: false,
+                    current_time: player.currentTime()
+                };
+
+                web_socket.send(JSON.stringify(message));
+            }
+        });
+
+        player.on('pause',function(){
+            if (!processing) {
+                var message = {
+                    paused: true,
+                    current_time: player.currentTime()
+                };
+
+                web_socket.send(JSON.stringify(message));
+            }
+        });
+
+        player.on('ended',function(){
+            if (!processing) {
+                player.currentTime(0);
+                var message = {
+                    paused: true,
+                    current_time: 0
+                };
+
+                web_socket.send(JSON.stringify(message));
+            }
+        });
+    </script>
+    <script src="{% static 'video_room/js/player.js' %}"></script>
 {% endblock %}

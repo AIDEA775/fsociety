@@ -33,3 +33,11 @@ html, body {
     float: right;
     flex-grow: 1;
 }
+
+#player {
+    width: 100%;
+}
+
+.vjs-progress-control {
+    pointer-events: none;
+}

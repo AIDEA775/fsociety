@@ -11,7 +11,7 @@
 
 {% block content %}
     <h3><strong> {{ video.title }} </strong></h3>
-    <div id="change-video-container" class="dropdown">
+    <!--<div id="change-video-container" class="dropdown">
         <button class="dropdown-toggle" type="button" data-toggle="dropdown">
             Change video
         </button>
@@ -22,7 +22,7 @@
                 <li>There are no more videos available.</</li>
             {% endfor %}
         </ul>
-    </div>
+    </div>-->
     <div id="player-container">
         <div id="video-container">
             <video id="player" class="video-js" controls preload="auto" data-setup="{}">
@@ -50,20 +50,16 @@
 
         video_room_socket.onmessage = function(message) {
             var data = JSON.parse(message.data);
-            
-            console.log(data);
 
             processing = true;
 
-            if (data.paused == true && !player.paused()) {
+            if (Math.abs(player.currentTime() - data.current_time) > 0.9)
+                player.currentTime(data.current_time);
+
+            if (data.paused == true && !player.paused())
                 player.pause();
-                if (Math.abs(player.currentTime() - data.current_time) > 1)
-                    player.currentTime(data.current_time);
-            } else if (data.paused == false && player.paused()) {
-                if (Math.abs(player.currentTime() - data.current_time) > 1)
-                    player.currentTime(data.current_time);
+            else if (data.paused == false && player.paused())
                 player.play();
-            }
 
             processing = false;
         };

@@ -28,7 +28,7 @@ def add_user_to_room(user_message, room_number):
 
 def send_room_status_to_user(user_message, room):
     if not room.paused:
-        current_time = (timezone.now() - room.started_playing).total_seconds()
+        current_time = round((timezone.now() - room.started_playing).total_seconds())
     else:
         current_time = room.current_time
 
@@ -76,14 +76,18 @@ def ws_receive(message):
         log.debug('chat message room=%s paused=%s, current_time=%s', pk, data['paused'], data['current_time'])
 
         paused = data['paused']
+
+        if paused == room.paused:
+            return
+
         room.current_time = int(data['current_time'])
 
         if paused:
             room.paused = True
-            room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
         else:
             room.paused = False
 
+        room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
         room.save()
 
         Group('video-room-' + str(pk), channel_layer=message.channel_layer).send({'text': json.dumps(

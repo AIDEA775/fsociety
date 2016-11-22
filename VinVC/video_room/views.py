@@ -17,10 +17,8 @@ def feed(request):
 @login_required
 def join(request, room_id):
     room, _ = VideoRoom.objects.get_or_create(id=room_id)
-    video = room.video
 
-    VideoRoomUsers.objects.create(user=request.user, room=room)
-    video_list = Video.objects.all().exclude(id=video.id)
+    video_list = Video.objects.all().exclude(id=room.video.id)
 
     context = {'room': room, 'video_list': video_list}
     return render(request, "video_room/player.html", context)

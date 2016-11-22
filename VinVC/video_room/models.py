@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from video.models import Video
 from django.utils import timezone
 from django.conf import settings

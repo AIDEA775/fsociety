@@ -5,7 +5,7 @@ from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http
 from django.utils import timezone
 
-from .models import VideoRoom
+from .models import VideoRoom, VideoRoomUsers
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +22,8 @@ def get_room_from_path(path):
 
 
 def add_user_to_room(user_message, room_number):
+    room = VideoRoom.objects.get(pk=room_number)
+    VideoRoomUsers.objects.create(user=user_message.user, room=room)
     Group('video-room-' + str(room_number), channel_layer=user_message.channel_layer).add(user_message.reply_channel)
     user_message.channel_session['video-room'] = room_number
 
@@ -39,6 +41,7 @@ def send_room_status_to_user(user_message, room):
         )}
     )
 
+
 @channel_session_user_from_http
 def ws_connect(message):
     room = get_room_from_path(message['path'])
@@ -47,62 +50,69 @@ def ws_connect(message):
         send_room_status_to_user(message, room)
 
 
-@channel_session_user
-def ws_receive(message):
-    # Look up the room from the channel session, bailing if it doesn't exist
+def get_room(room_number):
     try:
-        pk = message.channel_session['video-room']
-        room = VideoRoom.objects.get(pk=pk)
+        room = VideoRoom.objects.get(pk=room_number)
+        return room
     except KeyError:
         log.debug('no room in channel_session')
         return
     except VideoRoom.DoesNotExist:
-        log.debug('received message, buy room does not exist pk=%s', pk)
+        log.debug('received message, buy room does not exist pk=%s', room_number)
         return
 
-    # Parse out a chat message from the content text, bailing if it doesn't
-    # conform to the expected message format.
+
+def get_data_from_message(message):
     try:
         data = json.loads(message['text'])
+        return data
     except ValueError:
         log.debug("ws message isn't json text")
         return
 
-    if set(data.keys()) != {'paused', 'current_time'}:
+
+def is_data_malformed(data):
+    return set(data.keys()) != {'paused', 'current_time'}
+
+
+@channel_session_user
+def ws_receive(message):
+    room = get_room(message.channel_session['video-room'])
+    if not room:
+        return
+
+    data = get_data_from_message(message)
+    if not data:
+        return
+
+    if is_data_malformed(data):
         log.debug("ws message unexpected format data=%s", data)
         return
 
-    if data:
-        log.debug('chat message room=%s paused=%s, current_time=%s', pk, data['paused'], data['current_time'])
+    log.debug('chat message room=%s paused=%s, current_time=%s', room.pk, data['paused'], data['current_time'])
 
-        paused = data['paused']
+    paused = data['paused']
+    if paused == room.paused:
+        return
 
-        if paused == room.paused:
-            return
+    room.paused = paused
+    room.current_time = int(data['current_time'])
+    room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
+    room.save()
 
-        room.current_time = int(data['current_time'])
-
-        if paused:
-            room.paused = True
-        else:
-            room.paused = False
-
-        room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
-        room.save()
-
-        Group('video-room-' + str(pk), channel_layer=message.channel_layer).send({'text': json.dumps(
-            {'paused': room.paused,
-             'current_time': room.current_time,
-             }
-        )})
+    Group('video-room-' + str(room.pk), channel_layer=message.channel_layer).send({'text': json.dumps(
+        {'paused': room.paused,
+         'current_time': room.current_time,
+         }
+    )})
 
 
 @channel_session_user
 def ws_disconnect(message):
-    # Look up the room from the channel session, bailing if it doesn't exist
     try:
         pk = message.channel_session['video-room']
         VideoRoom.objects.get(pk=pk)
+        VideoRoomUsers.objects.filter(user=message.user).delete()
         Group('video-room-' + str(pk), channel_layer=message.channel_layer).discard(message.reply_channel)
     except (KeyError, VideoRoom.DoesNotExist):
         pass

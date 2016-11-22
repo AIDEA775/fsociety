@@ -25,7 +25,7 @@
     </a>
     <div class="grid-holder">
         <span class="video-name">
-            <a href="{% url 'video:player' preview_video.pk %}">
+            <a href="{% url 'video_room:player' preview_video.pk preview_video.pk %}">
                 {{ preview_video.title }}
             </a>
         </span>

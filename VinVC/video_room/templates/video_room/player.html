@@ -45,12 +45,12 @@
         // When we're using HTTPS, use WSS too.
         var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
         //noinspection JSUnusedAssignment
-        var web_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
+        var video_room_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
 
         var player = videojs("player");
         var processing = false;
 
-        web_socket.onmessage = function(message) {
+        video_room_socket.onmessage = function(message) {
             var data = JSON.parse(message.data);
 
             processing = true;
@@ -75,7 +75,7 @@
                     current_time: player.currentTime()
                 };
 
-                web_socket.send(JSON.stringify(message));
+                video_room_socket.send(JSON.stringify(message));
             }
         });
 
@@ -86,7 +86,7 @@
                     current_time: player.currentTime()
                 };
 
-                web_socket.send(JSON.stringify(message));
+                video_room_socket.send(JSON.stringify(message));
             }
         });
 
@@ -98,7 +98,7 @@
                     current_time: 0
                 };
 
-                web_socket.send(JSON.stringify(message));
+                video_room_socket.send(JSON.stringify(message));
             }
         });
     </script>

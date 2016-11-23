@@ -4,15 +4,6 @@ from django.urls import reverse
 from friendship.tests import UserFriendshipTest
 
 
-def upload_video(client, path='login/static/login/video/bg.mp4',
-                 title='My video', description='My description'):
-    with open(path, 'rb') as video:
-        context = {'title': title,
-                   'description': description,
-                   'video_file': video}
-        return client.post(reverse('video:upload'), context)
-
-
 class VideoTests(UserFriendshipTest):
 
     def setUp(self):
@@ -22,6 +13,14 @@ class VideoTests(UserFriendshipTest):
         self.client_b = self.login_user(self.bob.username)
         self.client_u = self.login_user(self.user.username)
         self.friends(self.alice, self.bob)
+
+    def upload_video(client, path='login/static/login/video/bg.mp4',
+                     title='My video', description='My description'):
+        with open(path, 'rb') as video:
+            context = {'title': title,
+                       'description': description,
+                       'video_file': video}
+            return client.post(reverse('video:upload'), context)
 
 
 class VideoUploadDeleteTest(VideoTests):

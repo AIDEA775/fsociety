@@ -8,7 +8,6 @@ from django.contrib.auth import get_user_model
 
 
 def index(request):
-    """Index view, displays login mechanism"""
     if request.user.is_authenticated:
         return redirect('video_room:feed')
     else:
@@ -17,7 +16,6 @@ def index(request):
 
 @csrf_protect
 def login(request):
-    """Login user from POST data"""
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
@@ -25,13 +23,12 @@ def login(request):
         auth_login(request, user)
         return redirect('video_room:feed')
     else:
-        return render(request, "login/index.html",
-                      {'error_message': 'Wrong username or password'})
+        context = {'error_message': 'Wrong username or password'}
+        return render(request, "login/index.html", context)
 
 
 @csrf_protect
 def signup(request):
-    """Register a new user from POST data"""
     email = request.POST.get('email')
     password = request.POST.get('password')
     first_name = request.POST.get('first_name')
@@ -40,21 +37,20 @@ def signup(request):
     try:
         validate_email(email)
     except ValidationError:
-        return render(request, "login/index.html",
-                      {'error_message': 'The email address is not valid'})
+        context = {'error_message': 'The email address is not valid'}
+        return render(request, "login/index.html", context)
 
     if all([first_name, last_name, email, password]):
         try:
             get_user_model().objects.create_user(email, email, password,
-                                           first_name=first_name,
-                                           last_name=last_name)
-            # All okay
+                                                 first_name=first_name,
+                                                 last_name=last_name)
             user = authenticate(username=email, password=password)
             auth_login(request, user)
             return redirect('video_room:feed')
         except IntegrityError:
-            return render(request, "login/index.html",
-                          {'error_message': 'Email is already in use'})
+            context = {'error_message': 'Email is already in use'}
+            return render(request, "login/index.html", context)
     else:
-        return render(request, "login/index.html",
-                      {'error_message': 'A field is empty'})
+        context = {'error_message': 'A field is empty'}
+        return render(request, "login/index.html", context)

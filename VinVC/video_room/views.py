@@ -8,7 +8,7 @@ from video.models import Video, WatchedVideo
 def feed(request):
     friendship_list = request.user.friendship.get_friends()
     friends = VideoRoomUsers.objects.filter(user__friendship__in=friendship_list)
-    most_viewed = Video.objects.order_by('views')[:10]
+    most_viewed = Video.objects.order_by('-views')[:10]
     context = {'friend_watching': friends,
                'most_viewed': most_viewed}
     return render(request, "video_room/feed.html", context)
@@ -20,6 +20,9 @@ def join(request, room_id):
 
     _, created = WatchedVideo.objects.update_or_create(user=request.user,
                                                        video=room.video)
+
+    if created:
+        room.video.update_views()
 
     video_list = Video.objects.all().exclude(id=room.video.id)
 

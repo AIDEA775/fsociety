@@ -16,6 +16,10 @@ class Video(models.Model):
     description = models.CharField(blank=True, max_length=200, default="")
     views = models.IntegerField(default=0)
 
+    def update_views(self):
+        self.views = self.views + 1
+        self.save()
+
     def __str__(self):
         return "Title: {}, Description: {}, Author: {}, Date: {}, File: {}, " \
                "Views: {}, Thumbnail: {}".\

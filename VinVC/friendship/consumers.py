@@ -90,12 +90,12 @@ def reject_friendship_request(user, request_id):
 def send_friendship_request(message, receiver_id):
     try:
         receiver_friendship = get_user_model().objects.get(id=receiver_id).friendship
-        request_id = message.user.friendship.send_request(receiver_friendship)
+        request = message.user.friendship.send_request(receiver_friendship)
 
-        if request_id:
+        if request:
             Group('user-' + str(receiver_id), channel_layer=message.channel_layer).send({'text': json.dumps(
                 [{
-                    'id': request_id,
+                    'id': request.id,
                     'user_id': message.user.id,
                     'user': conditional_escape(message.user.get_full_name()),
                 }]

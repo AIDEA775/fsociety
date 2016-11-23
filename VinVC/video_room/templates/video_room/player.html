@@ -5,7 +5,6 @@
     <title>Videos</title>
     <link rel='stylesheet' href="{% static 'video_room/css/player.css' %}" />
     <link href="http://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
-    <script src="http://vjs.zencdn.net/5.4.6/video.min.js"></script>
     {% chat_room_headers %}
 {% endblock %}
 
@@ -109,7 +108,7 @@
                 locked = false;
                 return true;
             }
-            
+
             console.log("ENDED!!!");
 
             player.currentTime(0);

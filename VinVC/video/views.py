@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from os.path import dirname, relpath, join
 import subprocess
 import os
+from django.conf import settings
 from .models import Video
 from .forms import VideoUploadForm
 
 
 def get_new_thumbnail_path(new_video):
-    return join(relpath(dirname(new_video.video_file.path), 'media'),
+    return join(relpath(dirname(new_video.video_file.path),
+                        '{}'.format(settings.MEDIA_URL[1:-1])),
                 str(new_video.id) + '.jpg')
 
 
@@ -25,14 +27,16 @@ def upload(request):
             new_video.thumbnail = get_new_thumbnail_path(new_video)
             new_video.save()
             subprocess.call('ffmpeg -v error -y -i {} -vf '
-                            'thumbnail,scale=640:360 -vframes 1 media/{}'
-                            .format(new_video.video_file.path,
+                            'thumbnail,scale=640:360 -vframes 1 {}'
+                            .format(settings.MEDIA_URL[1:],
+                                    new_video.video_file.path,
                                     new_video.thumbnail),
                             shell=True)
             return redirect('/')
     else:
         form = VideoUploadForm()
-    return render(request, 'video/upload.html', {'form': form})
+    context = {'form': form}
+    return render(request, 'video/upload.html', context)
 
 
 @login_required

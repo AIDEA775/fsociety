@@ -1,7 +1,5 @@
 from django import forms
-
 from .models import Video
-from .validators import validate_file_extension
 
 
 class VideoUploadForm(forms.ModelForm):
@@ -10,5 +8,6 @@ class VideoUploadForm(forms.ModelForm):
         fields = ['title', 'description', 'video_file']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
-            'description': forms.TextInput(attrs={'placeholder': 'Description'}),
+            'description': forms.TextInput(attrs=
+                                           {'placeholder': 'Description'}),
         }

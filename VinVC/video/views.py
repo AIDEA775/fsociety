@@ -4,14 +4,12 @@ from django.http import HttpResponseForbidden
 from os.path import dirname, relpath, join
 import subprocess
 import os
-from django.conf import settings
 from .models import Video
 from .forms import VideoUploadForm
 
 
 def get_new_thumbnail_path(new_video):
-    return join(relpath(dirname(new_video.video_file.path),
-                        '{}'.format(settings.MEDIA_URL[1:-1])),
+    return join(relpath(dirname(new_video.video_file.path), 'media'),
                 str(new_video.id) + '.jpg')
 
 
@@ -27,9 +25,8 @@ def upload(request):
             new_video.thumbnail = get_new_thumbnail_path(new_video)
             new_video.save()
             subprocess.call('ffmpeg -v error -y -i {} -vf '
-                            'thumbnail,scale=640:360 -vframes 1 {}'
-                            .format(settings.MEDIA_URL[1:],
-                                    new_video.video_file.path,
+                            'thumbnail,scale=640:360 -vframes 1 media/{}'
+                            .format(new_video.video_file.path,
                                     new_video.thumbnail),
                             shell=True)
             return redirect('/')

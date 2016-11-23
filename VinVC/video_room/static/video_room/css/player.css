@@ -37,7 +37,3 @@ html, body {
 #player {
     width: 100%;
 }
-
-.vjs-progress-control {
-    pointer-events: none;
-}

@@ -8,7 +8,7 @@ class VideoRoom(models.Model):
     paused = models.BooleanField(default=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     started_playing = models.DateTimeField('started playing', default=timezone.now)
-    current_time = models.IntegerField(default=0)
+    current_time = models.FloatField(default=0.0)
 
     def __str__(self):
         return "Video: {}, Paused: {}".format(self.video, self.paused)

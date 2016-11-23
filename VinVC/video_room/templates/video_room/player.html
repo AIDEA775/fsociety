@@ -4,7 +4,7 @@
 {% block head %}
     <title>Videos</title>
     <link rel='stylesheet' href="{% static 'video_room/css/player.css' %}" />
-    <link href="http://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+    <link href="http://vjs.zencdn.net/5.8.8/video-js.min.css" rel="stylesheet">
     {% chat_room_headers %}
 {% endblock %}
 
@@ -36,6 +36,7 @@
             {% show_chat_room room.id %}
         </div>
     </div>
+    <script src="http://vjs.zencdn.net/5.8.8/video.min.js"></script>
     <script>
         var video_room_id = {{ room.id }};
 
@@ -44,80 +45,74 @@
         //noinspection JSUnusedAssignment
         var video_room_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
 
-        var player = videojs("player");
         var locked = false;
-        var ready = false;
-        var videoDuration;
 
-        player.on('loadedmetadata', function() {
-            ready = true;
-            videoDuration = player.duration();
-        });
+        videojs("player").ready(function () {
+            var player = document.getElementById("player_html5_api");
 
-        video_room_socket.onmessage = function(message) {
-            var data = JSON.parse(message.data);
-            console.log(data);
+            player.addEventListener('loadedmetadata', function() {
+                video_room_socket.onmessage = function(message) {
+                    var data = JSON.parse(message.data);
+                    console.log(data);
 
-            while (!ready)
-                ;
+                    locked = true;
 
-            if (data.current_time > videoDuration)
-                return;
+                    if (Math.abs(player.currentTime - data.current_time) > 0.2)
+                        player.currentTime = data.current_time;
 
-            locked = true;
+                    if (data.paused == true && !player.paused)
+                        player.pause();
+                    else if (data.paused == false && player.paused)
+                        player.play();
+                    else
+                        locked = false;
+                };
 
-            if (Math.abs(player.currentTime() - data.current_time) > 0.9)
-                player.currentTime(data.current_time);
+                player.onplay = function(){
+                    if (locked) {
+                        locked = false;
+                        return true;
+                    }
 
-            if (data.paused == true && !player.paused())
-                player.pause();
-            else if (data.paused == false && player.paused())
-                player.play();
-        };
+                    var message = {
+                        paused: false,
+                        current_time: player.currentTime
+                    };
 
-        player.on('play',function(){
-            if (locked) {
-                locked = false;
-                return true;
-            }
+                    video_room_socket.send(JSON.stringify(message));
+                    return true;
+                };
 
-            var message = {
-                paused: false,
-                current_time: player.currentTime()
-            };
+                player.onpause = function(){
+                    if (locked) {
+                        locked = false;
+                        return true;
+                    }
 
-            video_room_socket.send(JSON.stringify(message));
-        });
+                    var message = {
+                        paused: true,
+                        current_time: player.currentTime
+                    };
 
-        player.on('pause',function(){
-            if (locked) {
-                locked = false;
-                return true;
-            }
+                    video_room_socket.send(JSON.stringify(message));
+                    return true;
+                };
 
-            var message = {
-                paused: true,
-                current_time: player.currentTime()
-            };
+                player.onended = function(){
+                    if (locked) {
+                        locked = false;
+                        return true;
+                    }
 
-            video_room_socket.send(JSON.stringify(message));
-        });
+                    player.currentTime = 0;
+                    var message = {
+                        paused: true,
+                        current_time: 0
+                    };
 
-        player.on('ended',function(){
-            if (locked) {
-                locked = false;
-                return true;
-            }
-
-            console.log("ENDED!!!");
-
-            player.currentTime(0);
-            var message = {
-                paused: true,
-                current_time: 0
-            };
-
-            video_room_socket.send(JSON.stringify(message));
+                    video_room_socket.send(JSON.stringify(message));
+                };
+            }, false);
         });
     </script>
     <script src="{% static 'video_room/js/player.js' %}"></script>

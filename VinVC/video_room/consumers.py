@@ -91,7 +91,7 @@ def ws_receive(message):
         return
 
     room.paused = paused
-    room.current_time = int(data['current_time'])
+    room.current_time = float(data['current_time'])
     room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
     room.save()
 

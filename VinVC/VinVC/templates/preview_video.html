@@ -17,8 +17,6 @@
                 </span>
             </a>
         </div>
-    {% endif %}
-    {% if preview_user %}
         <a href="{% url 'video_room:join' preview_user.room.id %}">
     {% else %}
         <a href="{% url 'video_room:new' preview_video.pk %}">
@@ -40,7 +38,7 @@
         <span class="video-description">
             {{ preview_video.description }}
         </span>
-        {% if preview_delete == "True" %}
+        {% if preview_delete is True %}
             <a class="btn btn-delete" href="{% url 'video:delete' %}?id={{ preview_video.id }}">
                 <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
             </a>

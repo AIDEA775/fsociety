@@ -59,7 +59,7 @@ def uploaded(request, user_id):
     user = get_object_or_404(get_user_model(), id=user_id)
     if full == 'false':
         videos = Video.objects.filter(author=user)
-        context = {'profile': request.user, 'video_list': videos}
+        context = {'show_delete': request.user == user, 'video_list': videos}
         return render(request, "user/uploaded.html", context)
     else:
         return redirect('{}#uploaded'.format(reverse('user:profile',

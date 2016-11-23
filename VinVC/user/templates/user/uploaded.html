@@ -1,7 +1,7 @@
 <div id="grid-container">
 
     {% for video in video_list %}
-        {% include "preview_video.html" with preview_video=video preview_delete="True" only %}
+        {% include "preview_video.html" with preview_video=video preview_delete=show_delete only %}
     {% empty %}
         <p>Nothing here...</p>
     {% endfor %}

@@ -21,3 +21,17 @@ class Video(models.Model):
                "Views: {}, Thumbnail: {}".\
             format(self.title, self.description, self.author, self.date_upload,
                    self.video_file.name, self.views, self.thumbnail)
+
+
+class WatchedVideo(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             related_name='user_watch')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE,
+                              related_name='video_watch')
+    date = models.DateTimeField('date view', default=timezone.now)
+
+    def __str__(self):
+        return "User: {}, Video: <<{}>>, Date: {}".format(self.user,
+                                                          self.video,
+                                                          self.date)

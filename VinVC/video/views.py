@@ -29,7 +29,6 @@ def upload(request):
                             .format(new_video.video_file.path,
                                     new_video.thumbnail),
                             shell=True)
-            # TODO this is legal?
             return redirect('/')
     else:
         form = VideoUploadForm()

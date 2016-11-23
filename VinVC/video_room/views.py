@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from video_room.models import VideoRoom, VideoRoomUsers
-from video.models import Video
+from video.models import Video, WatchedVideo
 
 
 @login_required
@@ -17,6 +17,9 @@ def feed(request):
 @login_required
 def join(request, room_id):
     room, _ = VideoRoom.objects.get_or_create(id=room_id)
+
+    _, created = WatchedVideo.objects.update_or_create(user=request.user,
+                                                       video=room.video)
 
     video_list = Video.objects.all().exclude(id=room.video.id)
 

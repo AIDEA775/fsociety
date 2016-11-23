@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth import update_session_auth_hash
 
-from video.models import Video
+from video.models import Video, WatchedVideo
 from .forms import UpdateUserForm
 
 
@@ -66,13 +66,12 @@ def uploaded(request, user_id):
                         kwargs={'user_id': user.id})))
 
 
-# TODO remove this?
 @login_required
 def watched(request, user_id):
     full = request.GET.get('full', "true")
     user = get_object_or_404(get_user_model(), id=user_id)
     if full == 'false':
-#        watched_videos = WatchingVideo.objects.filter(user=user).values('video')
+        watched_videos = WatchedVideo.objects.filter(user=user).values('video')
         videos = Video.objects.filter(pk__in=watched_videos)
         context = {'profile': user, 'video_list': videos}
         return render(request, "user/watched.html", context)

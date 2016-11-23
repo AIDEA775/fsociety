@@ -53,7 +53,6 @@
             player.addEventListener('loadedmetadata', function() {
                 video_room_socket.onmessage = function(message) {
                     var data = JSON.parse(message.data);
-                    console.log(data);
 
                     locked = true;
 

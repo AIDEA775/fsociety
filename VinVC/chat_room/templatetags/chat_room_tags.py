@@ -11,7 +11,7 @@ register = template.Library()
 @register.simple_tag
 def chat_room_headers():
     style_url = static('chat_room/css/style.css')
-    ws_url = static('chat_room/js/reconnecting-websocket.min.js')
+    ws_url = static('/js/reconnecting-websocket.min.js')
 
     result = "<link rel='stylesheet' href='{}' />".format(style_url)
     result += "<script type='text/javascript' src='{}'></script>".format(ws_url)

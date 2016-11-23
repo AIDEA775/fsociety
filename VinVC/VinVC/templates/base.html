@@ -62,7 +62,8 @@
 
     {% if user and user.is_authenticated %}
         <script language="JavaScript">
-            var last_request_seen = null;
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var friendship_socket = new WebSocket(ws_scheme + '://' + window.location.host + "/friendship/");
 
             var notification_count = $(".notification-count");
 
@@ -71,7 +72,9 @@
                 return user_profile_url.replace(/0/, id.toString());
             }
 
-            function updateRequestNotifications( data ) {
+            friendship_socket.onmessage = function(message) {
+                var data = JSON.parse(message.data);
+
                 if (data.length > 0) {
                     if (!$("#header-notification-bell").hasClass('active')) {
                         $("#header-notification-bell").addClass('active');
@@ -88,29 +91,9 @@
                                     + "<button class='btn site-white-button' onclick='remove(this);rejectRequest(" + data[i].id +")'>Reject</button>"
                                 + "</li>"
                         );
-
-                        last_request_seen = data[i].id;
                     }
                 }
-            }
-
-            $(function() {
-                function getNewNotifications() {
-                    $.ajax({
-                        type: "POST",
-                        url: "{% url 'friendship:requests_api' %}",
-                        data: {
-                            method: 'get',
-                            last_request_seen: last_request_seen
-                        },
-                        success: function( data ) {
-                            updateRequestNotifications( data );
-                        }
-                    });
-                    setTimeout( getNewNotifications, 3000 );
-                }
-                getNewNotifications();
-            });
+            };
 
             function remove(link) {
                 link.parentNode.parentNode.removeChild(link.parentNode);
@@ -131,42 +114,29 @@
             }
 
             function acceptRequest(id) {
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'friendship:requests_api' %}",
-                    data: {
-                        method: 'accept',
-                        id: id
-                    },
-                    success: function( data ) {
-                        decrementNotificationCount();
-                    }
-                });
+                var message = {
+                    method: 'accept',
+                    id: id
+                };
+                friendship_socket.send(JSON.stringify(message));
+                decrementNotificationCount();
             }
 
             function rejectRequest(id) {
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'friendship:requests_api' %}",
-                    data: {
-                        method: 'reject',
-                        id: id
-                    },
-                    success: function( data ) {
-                        decrementNotificationCount();
-                    }
-                });
+                 var message = {
+                    method: 'reject',
+                    id: id
+                };
+                friendship_socket.send(JSON.stringify(message));
+                decrementNotificationCount();
             }
 
             function sendRequest(id) {
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'friendship:requests_api' %}",
-                    data: {
-                        method: 'send',
-                        id: id
-                    }
-                });
+                var message = {
+                    method: 'send',
+                    id: id
+                };
+                friendship_socket.send(JSON.stringify(message));
             }
         </script>
     {% endif %}

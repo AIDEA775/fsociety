@@ -35,7 +35,8 @@ class Friendship(models.Model):
     def send_request(self, user):
         if user not in self.get_friends() \
                 and not user.get_pending_requests(from_user=self):
-            FriendshipRequest.objects.create(sender=self, receiver=user)
+            result = FriendshipRequest.objects.create(sender=self, receiver=user)
+            return result.pk
 
     def add_friend(self, user):
         self.friends.add(user)

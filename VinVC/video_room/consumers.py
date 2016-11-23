@@ -8,6 +8,7 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 from django.utils import timezone
 
 from .models import VideoRoom, VideoRoomUsers
+from video.models import Video
 
 log = logging.getLogger(__name__)
 
@@ -42,9 +43,11 @@ def send_room_status_to_user(user_message, room):
         current_time = room.current_time
 
     user_message.reply_channel.send({'text': json.dumps(
-            {'paused': room.paused,
-             'current_time': current_time,
-             }
+            {
+                'method': 'update',
+                'paused': room.paused,
+                'current_time': current_time,
+            }
         )}
     )
 
@@ -67,7 +70,13 @@ def get_data_from_message(message):
 
 
 def is_data_malformed(data):
-    return set(data.keys()) != {'paused', 'current_time'}
+    try:
+        if data['method'] == 'update':
+            return set(data.keys()) != {'method', 'paused', 'current_time'}
+        elif data['method'] == 'change':
+            return set(data.keys()) != {'method', 'id'}
+    except KeyError:
+        return False
 
 
 @channel_session_user
@@ -86,20 +95,36 @@ def ws_receive(message):
 
     log.debug('chat message room=%s paused=%s, current_time=%s', room.pk, data['paused'], data['current_time'])
 
-    paused = data['paused']
-    if paused == room.paused:
-        return
+    if data['method'] == 'change':
+        try:
+            new_video = Video.objects.get(pk=int(data['id']))
+            room.video = new_video
+        except Video.DoesNotExist:
+            return
 
-    room.paused = paused
-    room.current_time = float(data['current_time'])
-    room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
-    room.save()
+        Group('video-room-' + str(room.pk), channel_layer=message.channel_layer).send({'text': json.dumps(
+            {
+                'method': 'change',
+            }
+        )})
 
-    Group('video-room-' + str(room.pk), channel_layer=message.channel_layer).send({'text': json.dumps(
-        {'paused': room.paused,
-         'current_time': room.current_time,
-         }
-    )})
+    elif data['method'] == 'update':
+        paused = data['paused']
+        if paused == room.paused:
+            return
+
+        room.paused = paused
+        room.current_time = float(data['current_time'])
+        room.started_playing = timezone.now() - timezone.timedelta(seconds=room.current_time)
+        room.save()
+
+        Group('video-room-' + str(room.pk), channel_layer=message.channel_layer).send({'text': json.dumps(
+            {
+                'method': 'update',
+                'paused': room.paused,
+                'current_time': room.current_time,
+            }
+        )})
 
 
 @channel_session_user

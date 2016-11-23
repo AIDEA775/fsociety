@@ -1,9 +1,12 @@
+from django.core.serializers import json
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 from video.models import Video
+import json
 
 
 @login_required
@@ -25,3 +28,19 @@ def search(request):
                    'user_list': users,
                    'video_list': videos}
         return render(request, 'search/result.html', context)
+
+
+def get_videos(request):
+    if request.is_ajax():
+        query = request.GET.get('term', '')
+        videos = Video.objects.filter(title__icontains=query)[:10]
+        results = []
+        for video in videos:
+            video_json = {'id': video.id,
+                          'title': video.title}
+            results.append(video_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

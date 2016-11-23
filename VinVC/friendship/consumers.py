@@ -94,12 +94,12 @@ def send_friendship_request(message, receiver_id):
 
         if request_id:
             Group('user-' + str(receiver_id), channel_layer=message.channel_layer).send({'text': json.dumps(
-                [{'id': request_id,
-                 'user_id': message.user.id,
-                 'user': conditional_escape(message.user.get_full_name()),
-                 }]
+                [{
+                    'id': request_id,
+                    'user_id': message.user.id,
+                    'user': conditional_escape(message.user.get_full_name()),
+                }]
             )})
-            print("SENT!!!")
     except (KeyError, FriendshipRequest.DoesNotExist):
         return
 

@@ -46,12 +46,26 @@
         var video_room_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
 
         var player = videojs("player");
-        var processing = false;
+        var locked = false;
+        var ready = false;
+        var videoDuration;
+
+        player.on('loadedmetadata', function() {
+            ready = true;
+            videoDuration = player.duration();
+        });
 
         video_room_socket.onmessage = function(message) {
             var data = JSON.parse(message.data);
+            console.log(data);
 
-            processing = true;
+            while (!ready)
+                ;
+
+            if (data.current_time > videoDuration)
+                return;
+
+            locked = true;
 
             if (Math.abs(player.currentTime() - data.current_time) > 0.9)
                 player.currentTime(data.current_time);
@@ -60,42 +74,51 @@
                 player.pause();
             else if (data.paused == false && player.paused())
                 player.play();
-
-            processing = false;
         };
 
         player.on('play',function(){
-            if (!processing) {
-                var message = {
-                    paused: false,
-                    current_time: player.currentTime()
-                };
-
-                video_room_socket.send(JSON.stringify(message));
+            if (locked) {
+                locked = false;
+                return true;
             }
+
+            var message = {
+                paused: false,
+                current_time: player.currentTime()
+            };
+
+            video_room_socket.send(JSON.stringify(message));
         });
 
         player.on('pause',function(){
-            if (!processing) {
-                var message = {
-                    paused: true,
-                    current_time: player.currentTime()
-                };
-
-                video_room_socket.send(JSON.stringify(message));
+            if (locked) {
+                locked = false;
+                return true;
             }
+
+            var message = {
+                paused: true,
+                current_time: player.currentTime()
+            };
+
+            video_room_socket.send(JSON.stringify(message));
         });
 
         player.on('ended',function(){
-            if (!processing) {
-                player.currentTime(0);
-                var message = {
-                    paused: true,
-                    current_time: 0
-                };
-
-                video_room_socket.send(JSON.stringify(message));
+            if (locked) {
+                locked = false;
+                return true;
             }
+            
+            console.log("ENDED!!!");
+
+            player.currentTime(0);
+            var message = {
+                paused: true,
+                current_time: 0
+            };
+
+            video_room_socket.send(JSON.stringify(message));
         });
     </script>
     <script src="{% static 'video_room/js/player.js' %}"></script>

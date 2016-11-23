@@ -1,6 +1,8 @@
 import json
 import logging
 
+from math import ceil
+
 from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http
 from django.utils import timezone
@@ -10,27 +12,32 @@ from .models import VideoRoom, VideoRoomUsers
 log = logging.getLogger(__name__)
 
 
+def get_room_from_number(room_number):
+    try:
+        room = VideoRoom.objects.get(pk=room_number)
+        return room
+    except VideoRoom.DoesNotExist:
+        log.debug('received message, buy room does not exist pk=%s', room_number)
+        return
+
+
 def get_room_from_path(path):
     pk = path.strip('/').split('/')[-1]
     try:
-        room = VideoRoom.objects.get(pk=pk)
-        return room
+        return get_room_from_number(pk)
     except ValueError:
         log.debug('message does not contain ws path')
-    except VideoRoom.DoesNotExist:
-        log.debug('ws room does not exist pk=%s', pk)
 
 
-def add_user_to_room(user_message, room_number):
-    room = VideoRoom.objects.get(pk=room_number)
+def add_user_to_room(user_message, room):
     VideoRoomUsers.objects.create(user=user_message.user, room=room)
-    Group('video-room-' + str(room_number), channel_layer=user_message.channel_layer).add(user_message.reply_channel)
-    user_message.channel_session['video-room'] = room_number
+    Group('video-room-' + str(room.pk), channel_layer=user_message.channel_layer).add(user_message.reply_channel)
+    user_message.channel_session['video-room'] = room.pk
 
 
 def send_room_status_to_user(user_message, room):
     if not room.paused:
-        current_time = round((timezone.now() - room.started_playing).total_seconds())
+        current_time = ceil((timezone.now() - room.started_playing).total_seconds())
     else:
         current_time = room.current_time
 
@@ -46,20 +53,8 @@ def send_room_status_to_user(user_message, room):
 def ws_connect(message):
     room = get_room_from_path(message['path'])
     if room is not None:
-        add_user_to_room(message, room.pk)
+        add_user_to_room(message, room)
         send_room_status_to_user(message, room)
-
-
-def get_room(room_number):
-    try:
-        room = VideoRoom.objects.get(pk=room_number)
-        return room
-    except KeyError:
-        log.debug('no room in channel_session')
-        return
-    except VideoRoom.DoesNotExist:
-        log.debug('received message, buy room does not exist pk=%s', room_number)
-        return
 
 
 def get_data_from_message(message):
@@ -77,7 +72,7 @@ def is_data_malformed(data):
 
 @channel_session_user
 def ws_receive(message):
-    room = get_room(message.channel_session['video-room'])
+    room = get_room_from_number(message.channel_session['video-room'])
     if not room:
         return
 

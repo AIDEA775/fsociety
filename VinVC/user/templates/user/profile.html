@@ -133,7 +133,7 @@
 
     <script>
     function updateStatus(elem) {
-        elem.replaceWith("Request Pending");
+        $(elem).parent().html("Request Pending");
     }
     </script>
 {% endblock %}

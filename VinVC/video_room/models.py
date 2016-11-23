@@ -5,6 +5,7 @@ from django.conf import settings
 
 
 class VideoRoom(models.Model):
+    label = models.SlugField(unique=True, null=True)
     paused = models.BooleanField(default=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     started_playing = models.DateTimeField('started playing', default=timezone.now)

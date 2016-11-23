@@ -33,10 +33,10 @@
                     {% elif status == 'already_sent_request' %}
                         Request pending
                     {% elif status == 'allow_send_request' %}
-                        <a class="btn site-blue-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this);">Send request</a>
+                        <a class="btn site-blue-button" href="#" onclick="sendRequest({{ profile.id }});updateStatus(this, 'sent');">Send request</a>
                     {% elif status == 'need_response' %}
-                        <a class="btn site-blue-button" href="#" onclick="acceptRequest({{ request_id }})">Accept</a>
-                        <a class="btn site-white-button" href="#" onclick="rejectRequest({{ request_id }})">Reject</a>
+                        <a class="btn site-blue-button" href="#" onclick="acceptRequest({{ request_id }});updateStatus(this, 'accepted');">Accept</a>
+                        <a class="btn site-white-button" href="#" onclick="rejectRequest({{ request_id }});updateStatus(this, 'rejected')">Reject</a>
                     {% elif status == 'same_user' %}
                         <a class="btn site-blue-button" href="{% url 'user:edit' %}">Edit</a>
                     {% endif %}
@@ -132,8 +132,13 @@
     </div>
 
     <script>
-    function updateStatus(elem) {
-        $(elem).parent().html("Request Pending");
+    function updateStatus(elem, status) {
+        if (status == 'sent')
+            $(elem).parent().html("Request Pending");
+        else if (status == 'accepted')
+            $(elem).parent().html("You are already friends");
+        else if (status == 'rejected')
+            $(elem).parent().html("<a class='btn site-blue-button' href='#' onclick=\"sendRequest({{ profile.id }});updateStatus(this, 'sent');\">Send request</a>");
     }
     </script>
 {% endblock %}

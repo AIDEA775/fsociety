@@ -43,9 +43,7 @@
             var video_room_socket = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/video_room/" + video_room_id);
             var player = document.getElementById("player_html5_api");
 
-
-
-            player.addEventListener('loadedmetadata', function() {
+            player.addEventListener('loadeddata', function() {
                 video_room_socket.onmessage = function(message) {
                     var data = JSON.parse(message.data);
 
@@ -61,7 +59,8 @@
                         else
                             locked = false;
                     } else if (data.method == "change") {
-                        location.reload(true);
+                        video_room_socket.close();
+                        window.location.replace(window.location.href);
                     }
 
                 };

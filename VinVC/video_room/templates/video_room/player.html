@@ -145,6 +145,11 @@
 
         });
 
+        $( document ).ready(function() {
+            $("#header-search-term").attr("placeholder", "Change video...");
+            $("#header-search-term").attr("aria-label", "Change video...");
+        });
+
     </script>
     <script src="{% static 'video_room/js/player.js' %}"></script>
 {% endblock %}

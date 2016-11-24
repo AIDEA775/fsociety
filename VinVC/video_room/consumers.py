@@ -93,12 +93,14 @@ def ws_receive(message):
         log.debug("ws message unexpected format data=%s", data)
         return
 
-    log.debug('chat message room=%s paused=%s, current_time=%s', room.pk, data['paused'], data['current_time'])
-
     if data['method'] == 'change':
         try:
             new_video = Video.objects.get(pk=int(data['id']))
             room.video = new_video
+            room.paused = False
+            room.current_time = 0
+            room.started_playing = timezone.now()
+            room.save()
         except Video.DoesNotExist:
             return
 
@@ -107,6 +109,9 @@ def ws_receive(message):
                 'method': 'change',
             }
         )})
+
+    elif data['method'] == 'force':
+        send_room_status_to_user(message, room)
 
     elif data['method'] == 'update':
         paused = data['paused']

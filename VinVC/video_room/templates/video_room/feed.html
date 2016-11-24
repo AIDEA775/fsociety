@@ -6,16 +6,16 @@
 
 {% block content %}
 
-    <p> Most viewed. </p>
-    {% for video in most_viewed %}
-        {% include "preview_video.html" with preview_video=video only %}
+    <h1> Friends are watching.</h1>
+    {% for friend in friend_watching %}
+        {% include "preview_video.html" with preview_video=friend.room.video preview_user=friend only %}
     {% empty %}
         <p>Nothing here...</p>
     {% endfor %}
 
-    <p> Friends are watching.</p>
-    {% for friend in friend_watching %}
-        {% include "preview_video.html" with preview_video=friend.room.video preview_user=friend only %}
+    <h1> Most viewed. </h1>
+    {% for video in most_viewed %}
+        {% include "preview_video.html" with preview_video=video only %}
     {% empty %}
         <p>Nothing here...</p>
     {% endfor %}
